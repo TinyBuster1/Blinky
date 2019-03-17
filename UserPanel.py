@@ -395,6 +395,69 @@ class UserPanel:
         self.ChangeList["pic4button"] = self.pic4button
         self.ChangeList["LoginFrame"] = self.LoginFrame
 
+                self.ChangePhraseButton = tk.Button(self.LoginFrame)
+        self.ChangePhraseButton.place(relx=0.85, rely=0.211, height=63
+                , width=106)
+        self.ChangePhraseButton.configure(activebackground="#ececec")
+        self.ChangePhraseButton.configure(activeforeground="#000000")
+        self.ChangePhraseButton.configure(background="#d9d9d9")
+        self.ChangePhraseButton.configure(disabledforeground="#a3a3a3")
+        self.ChangePhraseButton.configure(foreground="#000000")
+        self.ChangePhraseButton.configure(highlightbackground="#d9d9d9")
+        self.ChangePhraseButton.configure(highlightcolor="black")
+        self.ChangePhraseButton.configure(pady="0")
+        self.ChangePhraseButton.configure(text='''Change''')
+        self.ChangePhraseButton.configure(width=106)
+
+        self.box_value3 = tk.StringVar()
+        self.NewPhrasesBox = ttk.Combobox(self.LoginFrame, textvariable=self.box_value3)
+        self.NewPhrasesBox.place(relx=0.61, rely=0.2, relheight=0.029
+                , relwidth=0.187)
+        self.NewPhrasesBox.configure(textvariable=set_Tk_var)
+        self.NewPhrasesBox.configure(takefocus="")
+        self.NewPhrasesBox['values'] = BlinkyDataBaseManagment.loadAllPhrases(self.UserID)
+
+        self.NewPhraseEntry = ttk.Entry(self.LoginFrame)
+        self.NewPhraseEntry.place(relx=0.61, rely=0.278, relheight=0.029
+                , relwidth=0.166)
+        self.NewPhraseEntry.configure(takefocus="")
+        self.NewPhraseEntry.configure(cursor="ibeam")
+
+        self.picPhraseIDLabel = tk.Label(self.LoginFrame)
+        self.picPhraseIDLabel.place(relx=0.41, rely=0.089, height=34, width=49)
+        self.picPhraseIDLabel.configure(background="#d9d9d9")
+        self.picPhraseIDLabel.configure(disabledforeground="#a3a3a3")
+        self.picPhraseIDLabel.configure(font=font9)
+        self.picPhraseIDLabel.configure(foreground="#000000")
+        self.picPhraseIDLabel.configure(text='''ID:''')
+        self.picPhraseIDLabel.configure(width=49)
+
+        self.ChoosepicPhraseLabel = tk.Label(self.LoginFrame)
+        self.ChoosepicPhraseLabel.place(relx=0.61, rely=0.089, height=34
+                , width=85)
+        self.ChoosepicPhraseLabel.configure(background="#d9d9d9")
+        self.ChoosepicPhraseLabel.configure(disabledforeground="#a3a3a3")
+        self.ChoosepicPhraseLabel.configure(font=font9)
+        self.ChoosepicPhraseLabel.configure(foreground="#000000")
+        self.ChoosepicPhraseLabel.configure(text='''Choose:''')
+        self.ChoosepicPhraseLabel.configure(width=85)
+
+        self.FreeTextLabel = tk.Label(self.LoginFrame)
+        self.FreeTextLabel.place(relx=0.61, rely=0.233, height=34, width=95)
+        self.FreeTextLabel.configure(background="#d9d9d9")
+        self.FreeTextLabel.configure(disabledforeground="#a3a3a3")
+        self.FreeTextLabel.configure(font=font9)
+        self.FreeTextLabel.configure(foreground="#000000")
+        self.FreeTextLabel.configure(text='''Free text:''')
+        self.FreeTextLabel.configure(width=95)
+
+        self.ChangeList["NewPicsBox"] = self.NewPicsBox
+        self.ChangeList["picIDcomboBox"] = self.picIDcomboBox
+        self.ChangeList["pic1button"] = self.pic1button
+        self.ChangeList["pic2button"] = self.pic2button
+        self.ChangeList["pic3button"] = self.pic3button
+        self.ChangeList["pic4button"] = self.pic4button
+        self.ChangeList["LoginFrame"] = self.LoginFrame
 
 
 
