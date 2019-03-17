@@ -414,7 +414,88 @@ class UserRegister:
         self.UserPhoneLabel.configure(highlightcolor="black")
         self.UserPhoneLabel.configure(text='''Phone:''')
         
+        action_with_args = partial(GUIandDBCommunication.GUIandDB.checkUserInput, self, self.UserInput, top)
 
+        self.RegisterNewUser = tk.Button(self.PatientRegisterFrame,command = action_with_args)
+        self.RegisterNewUser.place(relx=0.375, rely=0.725, height=73, width=176)
+        self.RegisterNewUser.configure(activebackground="#ececec")
+        self.RegisterNewUser.configure(activeforeground="#000000")
+        self.RegisterNewUser.configure(background="#d9d9d9")
+        self.RegisterNewUser.configure(disabledforeground="#a3a3a3")
+        self.RegisterNewUser.configure(foreground="#000000")
+        self.RegisterNewUser.configure(highlightbackground="#d9d9d9")
+        self.RegisterNewUser.configure(highlightcolor="black")
+        self.RegisterNewUser.configure(pady="0")
+        self.RegisterNewUser.configure(text='''Register''')
+        
+        action_with_args = partial(LogicGui.LogicGui.returnToMainFromUser,self, top)
+        
+        self.NewUserRegisterBack = tk.Button(self.PatientRegisterFrame, command=action_with_args)
+        self.NewUserRegisterBack.place(relx=0.4, rely=0.875, height=63
+                , width=146)
+        self.NewUserRegisterBack.configure(activebackground="#ececec")
+        self.NewUserRegisterBack.configure(activeforeground="#000000")
+        self.NewUserRegisterBack.configure(background="#d9d9d9")
+        self.NewUserRegisterBack.configure(disabledforeground="#a3a3a3")
+        self.NewUserRegisterBack.configure(foreground="#000000")
+        self.NewUserRegisterBack.configure(highlightbackground="#d9d9d9")
+        self.NewUserRegisterBack.configure(highlightcolor="black")
+        self.NewUserRegisterBack.configure(pady="0")
+        self.NewUserRegisterBack.configure(text='''Back''')
+
+        self.UserPassword1 = tk.Entry(self.PatientRegisterFrame)
+        self.UserPassword1.place(relx=0.2, rely=0.538, height=24, relwidth=0.255)
+
+        self.UserPassword1.configure(background="white")
+        self.UserPassword1.configure(disabledforeground="#a3a3a3")
+        self.UserPassword1.configure(font="TkFixedFont")
+        self.UserPassword1.configure(foreground="#000000")
+        self.UserPassword1.configure(insertbackground="black")
+
+        self.UserPassword2 = tk.Entry(self.PatientRegisterFrame)
+        self.UserPassword2.place(relx=0.675, rely=0.538, height=24
+                , relwidth=0.255)
+        self.UserPassword2.configure(background="white")
+        self.UserPassword2.configure(disabledforeground="#a3a3a3")
+        self.UserPassword2.configure(font="TkFixedFont")
+        self.UserPassword2.configure(foreground="#000000")
+        self.UserPassword2.configure(insertbackground="black")
+
+        self.Password1Label = tk.Label(self.PatientRegisterFrame)
+        self.Password1Label.place(relx=0.038, rely=0.525, height=34, width=92)
+        self.Password1Label.configure(background="#d9d9d9")
+        self.Password1Label.configure(disabledforeground="#a3a3a3")
+        self.Password1Label.configure(font=font9)
+        self.Password1Label.configure(foreground="#000000")
+        self.Password1Label.configure(text='''Password:''')
+
+        self.UserPassword2Label = tk.Label(self.PatientRegisterFrame)
+        self.UserPassword2Label.place(relx=0.475, rely=0.525, height=34
+                , width=159)
+        self.UserPassword2Label.configure(background="#d9d9d9")
+        self.UserPassword2Label.configure(disabledforeground="#a3a3a3")
+        self.UserPassword2Label.configure(font=font9)
+        self.UserPassword2Label.configure(foreground="#000000")
+        self.UserPassword2Label.configure(text='''Repeat password:''')
+        
+        
+        self.UserInput["MentorID"] = self.MentorID
+        self.UserInput["UserID"] = self.UserID
+        self.UserInput["PatientName"] = self.PetientName
+        self.UserInput["UserLastName"] = self.UserLastName
+        self.UserInput["PatientDOB"] = self.PatientDOB
+        self.UserInput["UserAge"] = self.UserAge
+        self.UserInput["UserGender"] = self.UserGender
+        self.UserInput["UserAddress"] = self.UserAddress
+        self.UserInput["UserContact1"] = self.UserContact1
+        self.UserInput["UserContact2"] = self.UserContact2
+        self.UserInput["UserPhone"] = self.UserPhone
+        self.UserInput["UserPassword1"] = self.UserPassword1
+        self.UserInput["UserPassword2"] = self.UserPassword2
+        self.UserInput["UserMedical"] = self.UserMedical
+        self.UserInput["UserDiet"] = self.UserDiet
+        
+        
         
         
 
