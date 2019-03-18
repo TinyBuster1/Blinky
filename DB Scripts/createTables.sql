@@ -46,7 +46,8 @@ CREATE TABLE [Patients](
 /*titles table */
 CREATE TABLE [Titles](
 	[titleID] [int],
-	[action] [nvarchar](150),
+	[phrase] [nvarchar](150),
 	[uid] [nvarchar](50),
 	[mid] [nvarchar](50),
+	[role] [nvarchar](50),
 )
