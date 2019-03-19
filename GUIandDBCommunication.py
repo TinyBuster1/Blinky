@@ -11,7 +11,7 @@ import os.path
 class GUIandDB:
     @staticmethod
     def checkUserInput(self,UserList,top):
-        BlinkyDataBaseManagment.registerUser(UserList["UserID"].get(),UserList["UserPassword1"].get(),UserList["UserPassword2"].get(),
+        BlinkyDataBaseManagment.registerUser(UserList["UserID"].get(),UserList["UserPassword1"].get(),
                                              UserList["PatientName"].get(),UserList["UserLastName"].get(),
                                              UserList["MentorID"].get(),UserList["UserAge"].get(),
                                              UserList["UserGender"].get(),UserList["PatientDOB"].get(),
