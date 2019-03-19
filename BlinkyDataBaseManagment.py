@@ -282,3 +282,69 @@ def loadAllPhrases(UserID):
     for row in cursor:
         AllPhrases.append(row.phrase)
     return AllPhrases
+
+  def loadAllPic(UserID):
+    AllPicList = []
+    sql = '''SELECT * FROM BlinkyDB.dbo.Images WHERE uid=?'''
+    cursor.execute(sql, UserID)
+    for row in cursor:
+        if row.uid == UserID:
+            string = str(row.link)
+            string1 = string.replace("pics/", "")
+            string2 = string1.replace('.gif', '')
+            AllPicList.append(string2)
+            
+    sql = '''SELECT link FROM BlinkyDB.dbo.Images WHERE uid is NULL'''
+    cursor.execute(sql)
+    for row in cursor:
+        string = str(row.link)
+        string1 = string.replace("pics/","")
+        string2 = string1.replace('.gif','')
+        AllPicList.append(string2)
+    return AllPicList
+               
+def takePic(uid,role):
+    params = (uid,role)
+    sql = '''SELECT * FROM BlinkyDB.dbo.Images WHERE uid=? AND role=?'''
+    cursor.execute(sql, params)
+    for row in cursor:
+        if row.uid == uid and row.role == role:
+            return row.link
+    sql = '''SELECT * FROM BlinkyDB.dbo.Images WHERE ImagesID=? AND role=?'''
+    cursor.execute(sql,(role,role))
+    for row in cursor:
+        if row.role == role:
+            return row.link
+          
+    def allMentors():
+        MentorList = []
+        sql = '''SELECT * FROM BlinkyDB.dbo.Mentor'''
+        cursor.execute(sql)
+        for row in cursor:
+            MentorList.append(row.mid)
+        return MentorList
+    
+def deleteMentor(mid):
+    print(mid["MentorIDBox"].get())
+    sql = '''DELETE FROM BlinkyDB.dbo.Mentor WHERE mid=?'''
+    cursor.execute(sql, (mid["MentorIDBox"].get()))
+    conn.commit()
+    mid["MentorIDBox"]['values'] = allMentors()
+
+def AdminAddImage(tempdir):
+    picDir = tempdir["tempdir"].split('/')
+    picName = picDir[-1]
+    prog_call = sys.argv[0]
+    prog_location = os.path.split(prog_call)[0] + "\pics"+"\\"+picName
+    copyfile(tempdir["tempdir"], prog_location)
+    maxImg = -1
+    sql = '''SELECT MAX(imagesID) as imagesID FROM BlinkyDB.dbo.Images'''
+    cursor.execute(sql)
+    for row in cursor:
+        maxImg = row.imagesID
+    sql1= '''INSERT INTO BlinkyDB.dbo.Images (imagesID, name, role, link) VALUES (?,?,?,?)'''
+    
+    params = (maxImg+1,(picName.split('.'))[0],0,"pics/"+picName)
+    cursor.execute(sql1, params)
+    conn.commit()
+            
