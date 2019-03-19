@@ -201,7 +201,7 @@ def uploadDefaultImage(imagesID, name, link):
     else:
         print('please make sure that the user patient under the specific mentor.')
         
-  def UpdateChosenPic(UserID,ChangeList,top):
+def UpdateChosenPic(UserID,ChangeList,top):
 
     path = "pics/" + ChangeList["NewPicsBox"].get() + ".gif"
     ChangeList["path"] = path
@@ -287,7 +287,7 @@ def loadAllPhrases(UserID):
         AllPhrases.append(row.phrase)
     return AllPhrases
 
-  def loadAllPic(UserID):
+def loadAllPic(UserID):
     AllPicList = []
     sql = '''SELECT * FROM BlinkyDB.dbo.Images WHERE uid=?'''
     cursor.execute(sql, UserID)
@@ -320,7 +320,7 @@ def takePic(uid,role):
         if row.role == role:
             return row.link
           
-    def allMentors():
+def allMentors():
         MentorList = []
         sql = '''SELECT * FROM BlinkyDB.dbo.Mentor'''
         cursor.execute(sql)
