@@ -27,10 +27,10 @@ class GUIandDB:
                                                MentorList["MentorLastName"].get(),MentorList["MentorPhone"].get())
         LogicGui.LogicGui.returnToMainFromMentor(self, top)
         
-            @staticmethod
+    @staticmethod
     def Logged(self, LoginList, top):
         
-        userType = BlinkyDataBaseManagment.userChecker(LoginList)
+        userType = BlinkyDataBaseManagment.userChecker(LoginList["UserNameText"].get(),LoginList["PasswordText"].get())
         
         if userType == 1:
             # here do the transfer to admin page
@@ -78,7 +78,4 @@ class GUIandDB:
         ChangeList["LoginFrame"].update()
 
         top.mainloop()
-        
-
-    
     
