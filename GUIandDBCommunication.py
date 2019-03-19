@@ -30,7 +30,7 @@ class GUIandDB:
     @staticmethod
     def Logged(self, LoginList, top):
         
-        userType = BlinkyDataBaseManagment.userChecker(LoginList["UserNameText"].get(),LoginList["PasswordText"].get())
+        userType = BlinkyDataBaseManagment.userChecker(LoginList)
         
         if userType == 1:
             # here do the transfer to admin page
@@ -61,7 +61,7 @@ class GUIandDB:
 
 
     @staticmethod
-    def RefreshUser(ChangeList,top):
+    def RefreshUserPic(ChangeList, top):
         role = ChangeList["picIDcomboBox"].get()
 
         button = ChangeList["pic"+role+"button"]
@@ -78,4 +78,20 @@ class GUIandDB:
         ChangeList["LoginFrame"].update()
 
         top.mainloop()
+    
+    @staticmethod
+    def RefreshUserPhrase(ChangeList,top):
+        role = ChangeList["PhraseIDCombobox"].get()
+        phrase =ChangeList["NewPhrasesBox"].get()
+        button = ChangeList["Phrase"+role+"Button"]
+
+        button.configure(text=phrase)
+
+        button.update()
+
+        ChangeList["LoginFrame"].update()
+
+        top.mainloop()
+
+
     
