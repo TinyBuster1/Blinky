@@ -30,7 +30,7 @@ class GUIandDB:
     @staticmethod
     def Logged(self, LoginList, top):
         
-        userType = BlinkyDataBaseManagment.userChecker(LoginList)
+        userType = BlinkyDataBaseManagment.userChecker(LoginList["UserNameText"].get(),LoginList["PasswordText"].get())
         
         if userType == 1:
             # here do the transfer to admin page
