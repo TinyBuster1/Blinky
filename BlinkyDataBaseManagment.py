@@ -255,3 +255,30 @@ def UpdateChosenPhrase(UserID,ChangeList,top):
         conn.commit()
 
     GUIandDBCommunication.GUIandDB.RefreshUserPhrase(ChangeList, top)
+ 
+def takePhrase(uid,role):
+    params = (uid,role)
+    sql = '''SELECT * FROM BlinkyDB.dbo.Titles WHERE uid=? AND role=?'''
+    cursor.execute(sql, params)
+    for row in cursor:
+        if row.uid == uid and row.role == role:
+            return row.phrase
+    sql = '''SELECT * FROM BlinkyDB.dbo.Titles WHERE TitleID=? AND role=?'''
+    cursor.execute(sql,(role, role))
+    for row in cursor:
+        if row.role == role:
+            return row.phrase
+
+def loadAllPhrases(UserID):
+    AllPhrases = []
+    sql = '''SELECT * FROM BlinkyDB.dbo.Titles WHERE uid=?'''
+    cursor.execute(sql, UserID)
+    for row in cursor:
+        if row.uid == UserID:
+            AllPhrases.append(row.phrase)
+
+    sql = '''SELECT * FROM BlinkyDB.dbo.Titles WHERE uid is NULL'''
+    cursor.execute(sql)
+    for row in cursor:
+        AllPhrases.append(row.phrase)
+    return AllPhrases
