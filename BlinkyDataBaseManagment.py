@@ -196,3 +196,62 @@ def uploadDefaultImage(imagesID, name, link):
         print('image uploaded successfully!')
     else:
         print('please make sure that the user patient under the specific mentor.')
+        
+  def UpdateChosenPic(UserID,ChangeList,top):
+
+    path = "pics/" + ChangeList["NewPicsBox"].get() + ".gif"
+    ChangeList["path"] = path
+    params = (ChangeList["picIDcomboBox"].get(),ChangeList["NewPicsBox"].get(), path, UserID, ChangeList["picIDcomboBox"].get())
+    sql = '''UPDATE BlinkyDB.dbo.Images set role=?,name=?,link=? WHERE uid=? AND role=?'''
+    rows = cursor.execute(sql, params)
+    conn.commit()
+    if rows.rowcount == 0:
+        mid = -1
+        imagesID = -1
+        sql = '''SELECT * FROM BlinkyDB.dbo.[User] WHERE uid=?'''
+        cursor.execute(sql, UserID)
+        for row in cursor:
+            if row.uid ==UserID:
+                mid =row.mid
+
+
+        sql1 = '''SELECT * FROM BlinkyDB.dbo.Images WHERE uid is NULL AND name=?'''
+        cursor.execute(sql1, ChangeList["NewPicsBox"].get())
+        for row in cursor:
+            if row.name == ChangeList["NewPicsBox"].get():
+                imagesID =row.imagesID
+        sql2= '''INSERT INTO BlinkyDB.dbo.Images (imagesID, name, role, link, uid, mid) VALUES (?,?,?,?,?,?)'''
+        params = (imagesID, ChangeList["NewPicsBox"].get(), ChangeList["picIDcomboBox"].get(), path, UserID, mid)  # tuple containing parameter values
+        cursor.execute(sql2, params)
+        conn.commit()
+
+    GUIandDBCommunication.GUIandDB.RefreshUserPic(ChangeList, top)
+
+def UpdateChosenPhrase(UserID,ChangeList,top):
+
+    role = ChangeList["PhraseIDCombobox"].get()
+    phrase = ChangeList["NewPhrasesBox"].get()
+
+    params = (phrase,UserID,role)
+    sql = '''UPDATE BlinkyDB.dbo.Titles set phrase=? WHERE uid=? AND role=?'''
+    rows = cursor.execute(sql, params)
+    conn.commit()
+    if rows.rowcount == 0:
+        mid = -1
+        titleID = -1
+        sql = '''SELECT * FROM BlinkyDB.dbo.[User] WHERE uid=?'''
+        cursor.execute(sql, UserID)
+        for row in cursor:
+            if row.uid == UserID:
+                mid = row.mid
+        sql1 = '''SELECT * FROM BlinkyDB.dbo.Titles WHERE uid is NULL and role=?'''
+        cursor.execute(sql1,role)
+        for row in cursor:
+            if row.role == role:
+                titleID =row.titleID
+        sql2= '''INSERT INTO BlinkyDB.dbo.Titles (titleID, phrase, uid, mid,role) VALUES (?,?,?,?,?)'''
+        params = (titleID,phrase,UserID,mid,role)  # tuple containing parameter values
+        cursor.execute(sql2, params)
+        conn.commit()
+
+    GUIandDBCommunication.GUIandDB.RefreshUserPhrase(ChangeList, top)
