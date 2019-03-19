@@ -6,6 +6,11 @@
 #    Mar 09, 2019 07:45:35 PM +0200  platform: Windows NT
 
 import sys
+import BlinkyDataBaseManagment
+import tkFileDialog
+import os
+from shutil import copyfile
+
 
 try:
     import Tkinter as tk
@@ -46,6 +51,18 @@ def destroy_AdminPanel():
     global w
     w.destroy()
     w = None
+    
+global tempdir
+tempdir = ""
+AdminList = {}  
+def browse(entry):
+    tempdir = tkFileDialog.askopenfilename()
+    entry.insert(0,tempdir)
+    AdminList["tempdir"] = tempdir
+    
+    
+    
+    
 
 class AdminPanel:
     def create_AdminPanelWin(self, top=None):
@@ -70,6 +87,11 @@ class AdminPanel:
         top.configure(background="#d9d9d9")
         top.configure(highlightbackground="#d9d9d9")
         top.configure(highlightcolor="black")
+        
+        self.AdminList = {}
+        self.currdir = os.getcwd()
+        self.tempdir = -1
+
 
         self.AdminOptions = tk.Frame(top)
         self.AdminOptions.place(relx=0.155, rely=0.024, relheight=0.943
@@ -117,8 +139,10 @@ class AdminPanel:
         self.EnterUserID.configure(highlightbackground="#d9d9d9")
         self.EnterUserID.configure(highlightcolor="black")
         self.EnterUserID.configure(text='''Choose User ID:''')
-
-        self.AddNewMentorBtn = tk.Button(self.AdminOptions)
+        
+        action_with_args = partial(LogicGui.LogicGui.RegNewMenWin, self,1, top)
+        
+        self.AddNewMentorBtn = tk.Button(self.AdminOptions, command = action_with_args)
         self.AddNewMentorBtn.place(relx=0.563, rely=0.156, height=32, width=148)
         self.AddNewMentorBtn.configure(activebackground="#ececec")
         self.AddNewMentorBtn.configure(activeforeground="#000000")
@@ -132,8 +156,10 @@ class AdminPanel:
 
         self.TSeparator1 = ttk.Separator(self.AdminOptions)
         self.TSeparator1.place(relx=-0.013, rely=0.269, relwidth=1.013)
-
-        self.RmvMentorBtn = tk.Button(self.AdminOptions)
+        
+        
+        action_with_args = partial(BlinkyDataBaseManagment.deleteMentor,self.AdminList)
+        self.RmvMentorBtn = tk.Button(self.AdminOptions, command = action_with_args)
         self.RmvMentorBtn.place(relx=0.775, rely=0.156, height=32, width=148)
         self.RmvMentorBtn.configure(activebackground="#ececec")
         self.RmvMentorBtn.configure(activeforeground="#000000")
@@ -181,8 +207,13 @@ class AdminPanel:
         self.EntryForChoosenImage.configure(insertbackground="black")
         self.EntryForChoosenImage.configure(selectbackground="#c4c4c4")
         self.EntryForChoosenImage.configure(selectforeground="black")
-
-        self.SearchForImageBtn = tk.Button(self.AdminOptions)
+        self.EntryForChoosenImage.insert(0, tempdir)
+    
+        
+       
+        action_with_args = partial(browse,self.EntryForChoosenImage)
+        
+        self.SearchForImageBtn = tk.Button(self.AdminOptions, command = action_with_args)
         self.SearchForImageBtn.place(relx=0.788, rely=0.35, height=32, width=118)
 
         self.SearchForImageBtn.configure(activebackground="#ececec")
@@ -194,6 +225,10 @@ class AdminPanel:
         self.SearchForImageBtn.configure(highlightcolor="black")
         self.SearchForImageBtn.configure(pady="0")
         self.SearchForImageBtn.configure(text='''Search...''')
+        
+        
+        #self.tempdir = tkFileDialog.askdirectory(parent = self.SearchForImageBtn,initialdir = self.currdir, title = 'Please select an image')
+
 
         self.RmvImageIdLabel = tk.Label(self.AdminOptions)
         self.RmvImageIdLabel.place(relx=0.063, rely=0.45, height=31, width=240)
@@ -274,8 +309,10 @@ class AdminPanel:
         self.WriteImgID.configure(insertbackground="black")
         self.WriteImgID.configure(selectbackground="#c4c4c4")
         self.WriteImgID.configure(selectforeground="black")
+        
+        action_with_args = partial(BlinkyDataBaseManagment.AdminAddImage,AdminList)
 
-        self.AddImgBtn = tk.Button(self.AdminOptions)
+        self.AddImgBtn = tk.Button(self.AdminOptions, command = action_with_args)
         self.AddImgBtn.place(relx=0.525, rely=0.394, height=32, width=118)
         self.AddImgBtn.configure(activebackground="#ececec")
         self.AddImgBtn.configure(activeforeground="#000000")
@@ -454,12 +491,16 @@ report''')
         self.StatisticLogBtn.configure(pady="0")
         self.StatisticLogBtn.configure(text='''Statistic Log''')
         self.StatisticLogBtn.configure(width=128)
-
-        self.ChooseUserIDBox = ttk.Combobox(self.AdminOptions)
+        
+        
+        self.box_value = tk.StringVar()
+        self.ChooseUserIDBox = ttk.Combobox(self.AdminOptions, textvariable=self.box_value)
         self.ChooseUserIDBox.place(relx=0.225, rely=0.15, relheight=0.039
                 , relwidth=0.29)
         self.ChooseUserIDBox.configure(textvariable=set_Tk_var)
         self.ChooseUserIDBox.configure(takefocus="")
+        self.ChooseUserIDBox['values'] = BlinkyDataBaseManagment.allMentors()
+                
 
         self.ChangePassLabel = tk.Label(self.AdminOptions)
         self.ChangePassLabel.place(relx=0.031, rely=0.213, height=31, width=297)
@@ -510,8 +551,7 @@ report''')
         self.AdminLogOutBtn.configure(text='''LogOut''')
         self.AdminLogOutBtn.configure(width=98)
 
-
-
-
+        self.AdminList["MentorIDBox"] = self.ChooseUserIDBox
+        
 
 
