@@ -5,7 +5,7 @@ import sys
 import GUIandDBCommunication
 
 conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=DESKTOP-JQOUC01\SQLEXPRESS;'
+                      'Server=DESKTOP-U1794AT\SQLEXPRESS;'
                       'Database=BlinkyDB;'
                       'Trusted_Connection=yes;')
 cursor = conn.cursor()
@@ -329,13 +329,12 @@ def allMentors():
         return MentorList
     
 def deleteMentor(mid):
-    print(mid["MentorIDBox"].get())
     sql = '''DELETE FROM BlinkyDB.dbo.Mentor WHERE mid=?'''
     cursor.execute(sql, (mid["MentorIDBox"].get()))
     conn.commit()
     mid["MentorIDBox"]['values'] = allMentors()
 
-def AdminAddImage(tempdir):
+def AdminAddImage(tempdir,AdminList):
     picDir = tempdir["tempdir"].split('/')
     picName = picDir[-1]
     prog_call = sys.argv[0]
@@ -351,4 +350,48 @@ def AdminAddImage(tempdir):
     params = (maxImg+1,(picName.split('.'))[0],0,"pics/"+picName)
     cursor.execute(sql1, params)
     conn.commit()
+    AdminList["RemoveImage"]['values'] = allImages()
+    
+def allImages():
+    MentorList = []
+    sql = '''SELECT DISTINCT name FROM BlinkyDB.dbo.Images'''
+    cursor.execute(sql)
+    for row in cursor:
+        MentorList.append(row.name)
+    return MentorList
+
+def deleteImage(imgList):
+    sql = '''DELETE FROM BlinkyDB.dbo.Images WHERE name=?'''
+    cursor.execute(sql, (imgList["RemoveImage"].get()))
+    conn.commit()
+    imgList["RemoveImage"].delete(0,'end')
+    imgList["RemoveImage"]['values'] = allImages()
+    
+def AdminAddPhrase(AdminList):
+    maxPhraseID = -1
+    sql = '''SELECT MAX(titleID) as titleID FROM BlinkyDB.dbo.Titles'''
+    cursor.execute(sql)
+    for row in cursor:
+        maxPhraseID = row.titleID
+    sql1= '''INSERT INTO BlinkyDB.dbo.Titles (titleID, phrase, role) VALUES (?,?,?)'''
+    params = (maxPhraseID+1,AdminList["PhraseEntry"].get(),0)
+    cursor.execute(sql1,params)
+    conn.commit()
+    AdminList["RemovePhrase"]['values'] = allPhrases()
+    
+def allPhrases():
+    PhraseList = []
+    sql = '''SELECT DISTINCT phrase FROM BlinkyDB.dbo.Titles'''
+    cursor.execute(sql)
+    for row in cursor:
+        PhraseList.append(row.phrase)
+    return PhraseList
+
+def AdminRemovePhrase(AdminList):
+    sql = '''DELETE FROM BlinkyDB.dbo.Titles WHERE phrase=?'''
+    cursor.execute(sql, (AdminList["RemovePhrase"].get()))
+    conn.commit()
+    AdminList["RemovePhrase"].delete(0,'end')
+    AdminList["RemovePhrase"]['values'] = allPhrases()
+    
             
