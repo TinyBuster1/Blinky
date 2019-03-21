@@ -393,5 +393,52 @@ def AdminRemovePhrase(AdminList):
     conn.commit()
     AdminList["RemovePhrase"].delete(0,'end')
     AdminList["RemovePhrase"]['values'] = allPhrases()
+
+def loadAllUsers(ID):
+    UserList = []
+    sql = '''SELECT * FROM BlinkyDB.dbo.[User] WHERE mid=?'''
+    cursor.execute(sql,ID)
+    for row in cursor:
+        if row.mid == ID:
+            UserList.append(row.uid)
+
+    return UserList
+
+def MentorRemoveImagetoUser(MentorID,MentorList):
+
+    sql = '''DELETE FROM BlinkyDB.dbo.Images WHERE uid=? AND mid=? AND name=?'''
+    params = (MentorList["UserComboBox"].get(), MentorID, MentorList["ImageComboBox"].get())
+    cursor.execute(sql,params)
+    conn.commit()
+    MentorList["UserComboBox"].delete(0, 'end')
+    MentorList["ImageComboBox"].delete(0,'end')
+    MentorList["ImageComboBox"]['values'] = allImages(MentorID,MentorList)
+
+def MentorRemovePhrasetoUser(MentorID,MentorList):
+
+    sql = '''DELETE FROM BlinkyDB.dbo.Titles WHERE uid=? AND mid=? AND phrase=?'''
+    params = (MentorList["UserComboBox"].get(), MentorID, MentorList["titleCombobox"].get())
+    cursor.execute(sql,params)
+    conn.commit()
+    MentorList["UserComboBox"].delete(0, 'end')
+    MentorList["titleCombobox"].delete(0, 'end')
+    MentorList["titleCombobox"]['values'] = allPhrases(MentorID,MentorList)
+
+def MentorAddPhrasetoUser(MentorID,MentorList):
+    sql = '''UPDATE BlinkyDB.dbo.Titles set role=? WHERE uid=? AND role=? AND mid=?'''
+    params = (0,MentorList["UserComboBox"].get(),MentorList["rolecombobox"].get(),MentorID)
+    cursor.execute(sql, params)
+    conn.commit()
+
+    maxPhraseID = -1
+    sql1 = '''SELECT MAX(titleID) as titleID FROM BlinkyDB.dbo.Titles'''
+    cursor.execute(sql1)
+    for row in cursor:
+        maxPhraseID = row.titleID
+
+    sql2 = '''INSERT INTO BlinkyDB.dbo.Titles (titleID, phrase, uid, mid, role) VALUES (?,?,?,?,?)'''
+    params = (maxPhraseID+1,MentorList["newPhraseEntry"].get(),MentorList["UserComboBox"].get(), MentorID,MentorList["rolecombobox"].get())  # tuple containing parameter values
+    cursor.execute(sql2, params)
+    conn.commit()
     
             
