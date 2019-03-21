@@ -441,4 +441,97 @@ def MentorAddPhrasetoUser(MentorID,MentorList):
     cursor.execute(sql2, params)
     conn.commit()
     
+    
+def MentorAddImagetoUser(MentorID, tempdir ,MentorList):
+    picDir = tempdir["tempdir"].split('/')
+    picName = picDir[-1]
+    prog_call = sys.argv[0]
+    prog_location = os.path.split(prog_call)[0] + "\pics" + "\\" + picName
+    copyfile(tempdir["tempdir"], prog_location)
+    finalpicName = (picName.split('.'))[0]
+
+    sql = '''UPDATE BlinkyDB.dbo.Images set role=? WHERE uid=? AND role=? AND mid=?'''
+    params = ("0", MentorList["UserComboBox"].get(), MentorList["rolecombobox"].get(), MentorID)
+    cursor.execute(sql, params)
+    conn.commit()
+
+    ###
+
+    sql1 = '''UPDATE BlinkyDB.dbo.Images set role=? WHERE uid=? AND mid=? AND name=?'''
+    params = (MentorList["rolecombobox"].get(), MentorList["UserComboBox"].get(), MentorID, finalpicName)
+    rows = cursor.execute(sql1, params)
+    conn.commit()
+
+    if rows.rowcount == 0:
+        maxImg = -1
+        sql = '''SELECT MAX(imagesID) as imagesID FROM BlinkyDB.dbo.Images'''
+        cursor.execute(sql)
+        for row in cursor:
+            maxImg = row.imagesID
+
+        sql1 = '''INSERT INTO BlinkyDB.dbo.Images (imagesID, name, role, link, uid, mid) VALUES (?,?,?,?,?,?)'''
+
+        params = (maxImg + 1,finalpicName, MentorList["rolecombobox"].get(), "pics/" + picName,
+                  MentorList["UserComboBox"].get(),MentorID)
+        cursor.execute(sql1, params)
+        conn.commit()
+        MentorList["ImageComboBox"]['values'] = allImages(MentorID, MentorList)
+
+def MentorRemoveUser(MentorID,MentorList):
+    sql = '''UPDATE BlinkyDB.dbo.Titles set mid=? WHERE uid=? AND mid=?'''
+    params = ("-1",MentorList["UserComboBox"].get(),MentorID)
+    cursor.execute(sql, params)
+    conn.commit()
+
+    sql = '''UPDATE BlinkyDB.dbo.Images set mid=? WHERE uid=? AND mid=?'''
+    params = ("-1",MentorList["UserComboBox"].get(),MentorID)
+    cursor.execute(sql, params)
+    conn.commit()
+
+    sql = '''UPDATE BlinkyDB.dbo.[User] set mid=? WHERE uid=? AND mid=?'''
+    params = ("-1",MentorList["UserComboBox"].get(),MentorID)
+    cursor.execute(sql, params)
+    conn.commit()
+
+    sql = '''UPDATE BlinkyDB.dbo.Patients set mid=? WHERE uid=? AND mid=?'''
+    params = ("-1",MentorList["UserComboBox"].get(),MentorID)
+    cursor.execute(sql, params)
+    conn.commit()
+
+    MentorList["UserComboBox"]['values'] = loadAllUsers(MentorID)
+
+def MentorAddUser(MentorID,MentorList):
+    sql = '''SELECT * FROM BlinkyDB.dbo.[User] WHERE uid=?'''
+    rows = cursor.execute(sql, MentorList["NewUserID"].get())
+
+    if rows.rowcount != 0:
+        sql = '''UPDATE BlinkyDB.dbo.Titles set mid=? WHERE uid=?'''
+        params = (MentorID,MentorList["NewUserID"].get())
+        cursor.execute(sql, params)
+        conn.commit()
+
+        sql = '''UPDATE BlinkyDB.dbo.Images set mid=? WHERE uid=?'''
+        params = (MentorID,MentorList["NewUserID"].get())
+        cursor.execute(sql, params)
+        conn.commit()
+
+        sql = '''UPDATE BlinkyDB.dbo.[User] set mid=? WHERE uid=?'''
+        params = (MentorID,MentorList["NewUserID"].get())
+        cursor.execute(sql, params)
+        conn.commit()
+
+        sql = '''UPDATE BlinkyDB.dbo.Patients set mid=? WHERE uid=?'''
+        params = (MentorID,MentorList["NewUserID"].get())
+        cursor.execute(sql, params)
+        conn.commit()
+
+        MentorList["UserComboBox"]['values'] = loadAllUsers(MentorID)
+    else:
+        print("error")
+
+def closeSQLconnection():
+    cursor.close()
+    del cursor
+    conn.close()
+    
             
