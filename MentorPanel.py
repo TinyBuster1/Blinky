@@ -7,6 +7,8 @@
 
 import sys
 
+import BlinkyDataBaseManagment
+
 try:
     import Tkinter as tk
 except ImportError:
@@ -20,8 +22,16 @@ except ImportError:
     py3 = True
 import LogicGui
 from functools import partial
+import tkFileDialog
 
+global tempdir
 
+tempdir = ""
+tempdirList = {}
+def browse(entry):
+    tempdir = tkFileDialog.askopenfilename()
+    entry.insert(0,tempdir)
+    tempdirList["tempdir"] = tempdir
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
@@ -45,12 +55,21 @@ def destroy_MentorPanel():
     w.destroy()
     w = None
 
+global MentorList
+MentorList = {}
+
+def callback(obj):
+    uid = MentorList["UserComboBox"].get()
+    BlinkyDataBaseManagment.allImages(uid,MentorList)
+    BlinkyDataBaseManagment.allPhrases(uid,MentorList)
+
+
 def set_Tk_var():
     global combobox
     combobox = tk.StringVar()
 
 class MentorPanel:
-    def create_MentorPanelWin(self, top=None):
+    def create_MentorPanelWin(self,MentorID, top=None):
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -74,7 +93,7 @@ class MentorPanel:
         top.configure(highlightcolor="black")
 
         self.MentorCntPnl = tk.Frame(top)
-        self.MentorCntPnl.place(relx=0.19, rely=0.035, relheight=0.921
+        self.MentorCntPnl.place(relx=0.182, rely=0.035, relheight=0.921
                 , relwidth=0.633)
         self.MentorCntPnl.configure(relief='groove')
         self.MentorCntPnl.configure(borderwidth="2")
@@ -96,20 +115,8 @@ class MentorPanel:
         self.MentorLabel.configure(highlightcolor="black")
         self.MentorLabel.configure(text='''Mentor Control Panel''')
 
-        self.AddRmvImage = tk.Label(self.MentorCntPnl)
-        self.AddRmvImage.place(relx=0.025, rely=0.125, height=34, width=307)
-        self.AddRmvImage.configure(activebackground="#f9f9f9")
-        self.AddRmvImage.configure(activeforeground="black")
-        self.AddRmvImage.configure(background="#d9d9d9")
-        self.AddRmvImage.configure(disabledforeground="#a3a3a3")
-        self.AddRmvImage.configure(font="-family {Segoe UI} -size 10")
-        self.AddRmvImage.configure(foreground="#000000")
-        self.AddRmvImage.configure(highlightbackground="#d9d9d9")
-        self.AddRmvImage.configure(highlightcolor="black")
-        self.AddRmvImage.configure(text='''Add And Remove Images\Phrases:''')
-
         self.ChooseUserLabel = tk.Label(self.MentorCntPnl)
-        self.ChooseUserLabel.place(relx=0.025, rely=0.188, height=31, width=106)
+        self.ChooseUserLabel.place(relx=0.025, rely=0.088, height=31, width=106)
         self.ChooseUserLabel.configure(activebackground="#f9f9f9")
         self.ChooseUserLabel.configure(activeforeground="black")
         self.ChooseUserLabel.configure(background="#d9d9d9")
@@ -119,14 +126,18 @@ class MentorPanel:
         self.ChooseUserLabel.configure(highlightcolor="black")
         self.ChooseUserLabel.configure(text='''Choose User:''')
 
-        self.UserComboBox = ttk.Combobox(self.MentorCntPnl)
-        self.UserComboBox.place(relx=0.163, rely=0.188, relheight=0.039
+        self.box_value = tk.StringVar()
+        self.UserComboBox = ttk.Combobox(self.MentorCntPnl, textvariable=self.box_value)
+        self.UserComboBox.place(relx=0.15, rely=0.088, relheight=0.039
                 , relwidth=0.29)
         self.UserComboBox.configure(textvariable=set_Tk_var)
         self.UserComboBox.configure(takefocus="")
+        self.UserComboBox['values'] = BlinkyDataBaseManagment.loadAllUsers(MentorID)
+
+        self.UserComboBox.bind("<<ComboboxSelected>>",callback,MentorList)
 
         self.ChooseImgLabel = tk.Label(self.MentorCntPnl)
-        self.ChooseImgLabel.place(relx=0.475, rely=0.188, height=31, width=127)
+        self.ChooseImgLabel.place(relx=0.475, rely=0.15, height=31, width=127)
         self.ChooseImgLabel.configure(activebackground="#f9f9f9")
         self.ChooseImgLabel.configure(activeforeground="black")
         self.ChooseImgLabel.configure(background="#d9d9d9")
@@ -136,26 +147,16 @@ class MentorPanel:
         self.ChooseImgLabel.configure(highlightcolor="black")
         self.ChooseImgLabel.configure(text='''Choose Image:''')
 
-        self.ImageComboBox = ttk.Combobox(self.MentorCntPnl)
-        self.ImageComboBox.place(relx=0.625, rely=0.188, relheight=0.039
+        self.box_value = tk.StringVar()
+        self.ImageComboBox = ttk.Combobox(self.MentorCntPnl,textvariable=self.box_value)
+        self.ImageComboBox.place(relx=0.625, rely=0.15, relheight=0.039
                 , relwidth=0.29)
         self.ImageComboBox.configure(textvariable=set_Tk_var)
         self.ImageComboBox.configure(takefocus="")
-
-        self.RemoveImgToUser = tk.Button(self.MentorCntPnl)
-        self.RemoveImgToUser.place(relx=0.063, rely=0.338, height=32, width=188)
-        self.RemoveImgToUser.configure(activebackground="#ececec")
-        self.RemoveImgToUser.configure(activeforeground="#000000")
-        self.RemoveImgToUser.configure(background="#d9d9d9")
-        self.RemoveImgToUser.configure(disabledforeground="#a3a3a3")
-        self.RemoveImgToUser.configure(foreground="#000000")
-        self.RemoveImgToUser.configure(highlightbackground="#d9d9d9")
-        self.RemoveImgToUser.configure(highlightcolor="black")
-        self.RemoveImgToUser.configure(pady="0")
-        self.RemoveImgToUser.configure(text='''Remove Image\Phrase''')
+        self.ImageComboBox['values'] =("")
 
         self.Label5 = tk.Label(self.MentorCntPnl)
-        self.Label5.place(relx=0.025, rely=0.263, height=31, width=103)
+        self.Label5.place(relx=0.025, rely=0.213, height=31, width=103)
         self.Label5.configure(activebackground="#f9f9f9")
         self.Label5.configure(activeforeground="black")
         self.Label5.configure(background="#d9d9d9")
@@ -166,15 +167,15 @@ class MentorPanel:
         self.Label5.configure(highlightcolor="black")
         self.Label5.configure(text='''Choose Title:''')
 
-        self.TCombobox3 = ttk.Combobox(self.MentorCntPnl)
-        self.TCombobox3.place(relx=0.175, rely=0.263, relheight=0.033
+        self.titleCombobox = ttk.Combobox(self.MentorCntPnl)
+        self.titleCombobox.place(relx=0.175, rely=0.213, relheight=0.033
                 , relwidth=0.271)
-        self.TCombobox3.configure(textvariable=set_Tk_var)
-        self.TCombobox3.configure(width=217)
-        self.TCombobox3.configure(takefocus="")
+        self.titleCombobox.configure(textvariable=set_Tk_var)
+        self.titleCombobox.configure(width=217)
+        self.titleCombobox.configure(takefocus="")
 
         self.SendMsgLabel = tk.Label(self.MentorCntPnl)
-        self.SendMsgLabel.place(relx=0.05, rely=0.575, height=61, width=207)
+        self.SendMsgLabel.place(relx=0.05, rely=0.638, height=61, width=207)
         self.SendMsgLabel.configure(activebackground="#f9f9f9")
         self.SendMsgLabel.configure(activeforeground="black")
         self.SendMsgLabel.configure(background="#d9d9d9")
@@ -185,7 +186,7 @@ class MentorPanel:
         self.SendMsgLabel.configure(text='''Send Message to Users:''')
 
         self.EntryMessageUser = tk.Entry(self.MentorCntPnl)
-        self.EntryMessageUser.place(relx=0.325, rely=0.588, height=96
+        self.EntryMessageUser.place(relx=0.338, rely=0.675, height=66
                 , relwidth=0.343)
         self.EntryMessageUser.configure(background="white")
         self.EntryMessageUser.configure(disabledforeground="#a3a3a3")
@@ -199,7 +200,7 @@ class MentorPanel:
         self.EntryMessageUser.configure(width=274)
 
         self.Sendmsgbutton = tk.Button(self.MentorCntPnl)
-        self.Sendmsgbutton.place(relx=0.738, rely=0.588, height=42, width=118)
+        self.Sendmsgbutton.place(relx=0.738, rely=0.663, height=42, width=118)
         self.Sendmsgbutton.configure(activebackground="#ececec")
         self.Sendmsgbutton.configure(activeforeground="#000000")
         self.Sendmsgbutton.configure(background="#d9d9d9")
@@ -232,11 +233,6 @@ class MentorPanel:
         self.ChooseUserLabel1.configure(highlightcolor="black")
         self.ChooseUserLabel1.configure(text='''Choose User:''')
 
-        self.ChooseUserComboBox1 = ttk.Combobox(self.MentorCntPnl)
-        self.ChooseUserComboBox1.place(relx=0.213, rely=0.788, relheight=0.039
-                , relwidth=0.29)
-        self.ChooseUserComboBox1.configure(textvariable=set_Tk_var)
-        self.ChooseUserComboBox1.configure(takefocus="")
 
         self.InfoBtn = tk.Button(self.MentorCntPnl)
         self.InfoBtn.place(relx=0.55, rely=0.788, height=42, width=108)
@@ -301,7 +297,7 @@ class MentorPanel:
         action_with_args = partial(LogicGui.LogicGui.LogoutfromMentor,self,top)
 
         self.LogOutMenBtn = tk.Button(self.MentorCntPnl,command=action_with_args)
-        self.LogOutMenBtn.place(relx=0.85, rely=0.013, height=52, width=98)
+        self.LogOutMenBtn.place(relx=0.85, rely=0.013, height=32, width=98)
         self.LogOutMenBtn.configure(activebackground="#ececec")
         self.LogOutMenBtn.configure(activeforeground="#000000")
         self.LogOutMenBtn.configure(background="#d9d9d9")
@@ -336,7 +332,7 @@ class MentorPanel:
         self.getSuppoertBtn.configure(text='''Get Support''')
 
         self.SendMsgLabel2 = tk.Label(self.MentorCntPnl)
-        self.SendMsgLabel2.place(relx=0.013, rely=0.438, height=61, width=207)
+        self.SendMsgLabel2.place(relx=0.05, rely=0.525, height=61, width=147)
         self.SendMsgLabel2.configure(activebackground="#f9f9f9")
         self.SendMsgLabel2.configure(activeforeground="black")
         self.SendMsgLabel2.configure(background="#d9d9d9")
@@ -346,20 +342,69 @@ class MentorPanel:
         self.SendMsgLabel2.configure(highlightcolor="black")
         self.SendMsgLabel2.configure(text='''Send feedback:''')
 
-        self.AddImgToUser_2 = tk.Button(self.MentorCntPnl)
-        self.AddImgToUser_2.place(relx=0.338, rely=0.338, height=32, width=188)
-        self.AddImgToUser_2.configure(activebackground="#ececec")
-        self.AddImgToUser_2.configure(activeforeground="#000000")
-        self.AddImgToUser_2.configure(background="#d9d9d9")
-        self.AddImgToUser_2.configure(disabledforeground="#a3a3a3")
-        self.AddImgToUser_2.configure(foreground="#000000")
-        self.AddImgToUser_2.configure(highlightbackground="#d9d9d9")
-        self.AddImgToUser_2.configure(highlightcolor="black")
-        self.AddImgToUser_2.configure(pady="0")
-        self.AddImgToUser_2.configure(text='''Add Image\Phrase''')
+        action_with_args = partial(BlinkyDataBaseManagment.MentorAddImagetoUser, MentorID, tempdirList, MentorList)
+
+        self.addImgButton = tk.Button(self.MentorCntPnl, command=action_with_args)
+        self.addImgButton.place(relx=0.725, rely=0.3, height=43, width=106)
+        self.addImgButton.configure(activebackground="#ececec")
+        self.addImgButton.configure(activeforeground="#000000")
+        self.addImgButton.configure(background="#d9d9d9")
+        self.addImgButton.configure(disabledforeground="#a3a3a3")
+        self.addImgButton.configure(foreground="#000000")
+        self.addImgButton.configure(highlightbackground="#d9d9d9")
+        self.addImgButton.configure(highlightcolor="black")
+        self.addImgButton.configure(pady="0")
+        self.addImgButton.configure(text='''add image''')
+        self.addImgButton.configure(width=106)
+
+        action_with_args = partial(BlinkyDataBaseManagment.MentorRemoveImagetoUser, MentorID, MentorList)
+
+        self.removeImgButton = tk.Button(self.MentorCntPnl,command=action_with_args)
+        self.removeImgButton.place(relx=0.725, rely=0.213, height=43, width=116)
+        self.removeImgButton.configure(activebackground="#ececec")
+        self.removeImgButton.configure(activeforeground="#000000")
+        self.removeImgButton.configure(background="#d9d9d9")
+        self.removeImgButton.configure(disabledforeground="#a3a3a3")
+        self.removeImgButton.configure(foreground="#000000")
+        self.removeImgButton.configure(highlightbackground="#d9d9d9")
+        self.removeImgButton.configure(highlightcolor="black")
+        self.removeImgButton.configure(pady="0")
+        self.removeImgButton.configure(text='''remove image''')
+        self.removeImgButton.configure(width=116)
+
+        action_with_args = partial(BlinkyDataBaseManagment.MentorAddPhrasetoUser,MentorID,MentorList)
+
+        self.addPhraseButton = tk.Button(self.MentorCntPnl,command=action_with_args)
+        self.addPhraseButton.place(relx=0.613, rely=0.425, height=43, width=106)
+        self.addPhraseButton.configure(activebackground="#ececec")
+        self.addPhraseButton.configure(activeforeground="#000000")
+        self.addPhraseButton.configure(background="#d9d9d9")
+        self.addPhraseButton.configure(disabledforeground="#a3a3a3")
+        self.addPhraseButton.configure(foreground="#000000")
+        self.addPhraseButton.configure(highlightbackground="#d9d9d9")
+        self.addPhraseButton.configure(highlightcolor="black")
+        self.addPhraseButton.configure(pady="0")
+        self.addPhraseButton.configure(text='''add phrase''')
+        self.addPhraseButton.configure(width=106)
+
+        action_with_args = partial(BlinkyDataBaseManagment.MentorRemovePhrasetoUser, MentorID, MentorList)
+
+        self.removePhraseButton = tk.Button(self.MentorCntPnl,command=action_with_args)
+        self.removePhraseButton.place(relx=0.513, rely=0.213, height=43
+                , width=126)
+        self.removePhraseButton.configure(activebackground="#ececec")
+        self.removePhraseButton.configure(activeforeground="#000000")
+        self.removePhraseButton.configure(background="#d9d9d9")
+        self.removePhraseButton.configure(disabledforeground="#a3a3a3")
+        self.removePhraseButton.configure(foreground="#000000")
+        self.removePhraseButton.configure(highlightbackground="#d9d9d9")
+        self.removePhraseButton.configure(highlightcolor="black")
+        self.removePhraseButton.configure(pady="0")
+        self.removePhraseButton.configure(text='''remove phrase''')
+        self.removePhraseButton.configure(width=126)
 
         self.SendFeedbackEntry = tk.Entry(self.MentorCntPnl)
-        self.SendFeedbackEntry.place(relx=0.325, rely=0.425, height=94
+        self.SendFeedbackEntry.place(relx=0.338, rely=0.525, height=64
                 , relwidth=0.343)
         self.SendFeedbackEntry.configure(background="white")
         self.SendFeedbackEntry.configure(disabledforeground="#a3a3a3")
@@ -369,7 +414,7 @@ class MentorPanel:
         self.SendFeedbackEntry.configure(width=274)
 
         self.sendfeedbackbutton = tk.Button(self.MentorCntPnl)
-        self.sendfeedbackbutton.place(relx=0.738, rely=0.463, height=43
+        self.sendfeedbackbutton.place(relx=0.738, rely=0.525, height=43
                 , width=116)
         self.sendfeedbackbutton.configure(activebackground="#ececec")
         self.sendfeedbackbutton.configure(activeforeground="#000000")
@@ -383,23 +428,120 @@ class MentorPanel:
         self.sendfeedbackbutton.configure(width=116)
 
         self.RoleLabel = tk.Label(self.MentorCntPnl)
-        self.RoleLabel.place(relx=0.488, rely=0.263, height=26, width=112)
+        self.RoleLabel.place(relx=0.025, rely=0.363, height=26, width=112)
         self.RoleLabel.configure(background="#d9d9d9")
         self.RoleLabel.configure(disabledforeground="#a3a3a3")
         self.RoleLabel.configure(foreground="#000000")
         self.RoleLabel.configure(text='''Choose index:''')
         self.RoleLabel.configure(width=112)
 
-        self.rolecombobox = ttk.Combobox(self.MentorCntPnl)
-        self.rolecombobox.place(relx=0.625, rely=0.263, relheight=0.033
-                , relwidth=0.284)
+        self.box_value = tk.StringVar()
+        self.rolecombobox = ttk.Combobox(self.MentorCntPnl, textvariable=self.box_value)
+        self.rolecombobox.place(relx=0.188, rely=0.363, relheight=0.033
+                , relwidth=0.246)
         self.rolecombobox.configure(textvariable=set_Tk_var)
         self.rolecombobox.configure(width=227)
         self.rolecombobox.configure(takefocus="")
+        self.rolecombobox['values'] = ('1', '2', '3', '4')
+
+        self.PathEntry = tk.Entry(self.MentorCntPnl)
+        self.PathEntry.place(relx=0.175, rely=0.3,height=24, relwidth=0.268)
+        self.PathEntry.configure(background="white")
+        self.PathEntry.configure(disabledforeground="#a3a3a3")
+        self.PathEntry.configure(font="TkFixedFont")
+        self.PathEntry.configure(foreground="#000000")
+        self.PathEntry.configure(insertbackground="black")
+        self.PathEntry.configure(width=214)
+        self.PathEntry.insert(0, tempdir)
+
+        action_with_args = partial(browse, self.PathEntry)
+
+        self.BrowseButton = tk.Button(self.MentorCntPnl,command=action_with_args)
+        self.BrowseButton.place(relx=0.513, rely=0.3, height=43, width=109)
+        self.BrowseButton.configure(activebackground="#ececec")
+        self.BrowseButton.configure(activeforeground="#000000")
+        self.BrowseButton.configure(background="#d9d9d9")
+        self.BrowseButton.configure(disabledforeground="#a3a3a3")
+        self.BrowseButton.configure(foreground="#000000")
+        self.BrowseButton.configure(highlightbackground="#d9d9d9")
+        self.BrowseButton.configure(highlightcolor="black")
+        self.BrowseButton.configure(pady="0")
+        self.BrowseButton.configure(text='''Browse...''')
+        self.BrowseButton.configure(width=109)
 
 
+        self.browseimageLabel = tk.Label(self.MentorCntPnl)
+        self.browseimageLabel.place(relx=0.038, rely=0.3, height=26, width=104)
+        self.browseimageLabel.configure(background="#d9d9d9")
+        self.browseimageLabel.configure(disabledforeground="#a3a3a3")
+        self.browseimageLabel.configure(foreground="#000000")
+        self.browseimageLabel.configure(text='''Choose Image:''')
+
+        self.newPhraseEntry = tk.Entry(self.MentorCntPnl)
+        self.newPhraseEntry.place(relx=0.188, rely=0.425, height=44
+                , relwidth=0.33)
+        self.newPhraseEntry.configure(background="white")
+        self.newPhraseEntry.configure(disabledforeground="#a3a3a3")
+        self.newPhraseEntry.configure(font="TkFixedFont")
+        self.newPhraseEntry.configure(foreground="#000000")
+        self.newPhraseEntry.configure(insertbackground="black")
+        self.newPhraseEntry.configure(width=264)
+
+        self.newPhraseLabel = tk.Label(self.MentorCntPnl)
+        self.newPhraseLabel.place(relx=0.038, rely=0.438, height=26, width=96)
+        self.newPhraseLabel.configure(background="#d9d9d9")
+        self.newPhraseLabel.configure(disabledforeground="#a3a3a3")
+        self.newPhraseLabel.configure(foreground="#000000")
+        self.newPhraseLabel.configure(text='''New Phrase:''')
+        self.newPhraseLabel.configure(width=96)
+
+        action_with_args = partial(BlinkyDataBaseManagment.MentorAddUser, MentorID, MentorList)
+
+        self.AddNewUser = tk.Button(self.MentorCntPnl,command=action_with_args)
+        self.AddNewUser.place(relx=0.788, rely=0.088, height=33, width=146)
+        self.AddNewUser.configure(activebackground="#ececec")
+        self.AddNewUser.configure(activeforeground="#000000")
+        self.AddNewUser.configure(background="#d9d9d9")
+        self.AddNewUser.configure(disabledforeground="#a3a3a3")
+        self.AddNewUser.configure(foreground="#000000")
+        self.AddNewUser.configure(highlightbackground="#d9d9d9")
+        self.AddNewUser.configure(highlightcolor="black")
+        self.AddNewUser.configure(pady="0")
+        self.AddNewUser.configure(text='''Add New User''')
+        self.AddNewUser.configure(width=146)
 
 
+        self.NewUserID = tk.Entry(self.MentorCntPnl)
+        self.NewUserID.place(relx=0.513, rely=0.094,height=24, relwidth=0.255)
+        self.NewUserID.configure(background="white")
+        self.NewUserID.configure(disabledforeground="#a3a3a3")
+        self.NewUserID.configure(font="TkFixedFont")
+        self.NewUserID.configure(foreground="#000000")
+        self.NewUserID.configure(insertbackground="black")
+        self.NewUserID.configure(width=204)
 
+        action_with_args = partial(BlinkyDataBaseManagment.MentorRemoveUser, MentorID, MentorList)
+
+        self.RemoveUserButton = tk.Button(self.MentorCntPnl, command=action_with_args)
+        self.RemoveUserButton.place(relx=0.213, rely=0.138, height=33, width=126)
+
+        self.RemoveUserButton.configure(activebackground="#ececec")
+        self.RemoveUserButton.configure(activeforeground="#000000")
+        self.RemoveUserButton.configure(background="#d9d9d9")
+        self.RemoveUserButton.configure(disabledforeground="#a3a3a3")
+        self.RemoveUserButton.configure(foreground="#000000")
+        self.RemoveUserButton.configure(highlightbackground="#d9d9d9")
+        self.RemoveUserButton.configure(highlightcolor="black")
+        self.RemoveUserButton.configure(pady="0")
+        self.RemoveUserButton.configure(text='''Remove User''')
+        self.RemoveUserButton.configure(width=126)
+
+
+        MentorList["UserComboBox"] = self.UserComboBox
+        MentorList["ImageComboBox"] = self.ImageComboBox
+        MentorList["titleCombobox"] = self.titleCombobox
+        MentorList["rolecombobox"] = self.rolecombobox
+        MentorList["newPhraseEntry"] = self.newPhraseEntry
+        MentorList["NewUserID"] = self.NewUserID
 
 
