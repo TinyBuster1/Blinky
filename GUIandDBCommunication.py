@@ -21,11 +21,11 @@ class GUIandDB:
         LogicGui.LogicGui.returnToMainFromUser(self, top)
         
     @staticmethod
-    def checkMentorInput(self,MentorList,top):
+    def checkMentorInput(self,MentorList,top,flag):
         BlinkyDataBaseManagment.registerMentor(MentorList["MentorID"].get(), MentorList["MentorPassword1"].get(),
                                                MentorList["MentorPassword2"].get(),MentorList["MentorName"].get(),
                                                MentorList["MentorLastName"].get(),MentorList["MentorPhone"].get())
-        LogicGui.LogicGui.returnToMainFromMentor(self, top)
+        LogicGui.LogicGui.returnToMainFromMentor(self, top,flag)
         
     @staticmethod
     def Logged(self, LoginList, top):
@@ -39,7 +39,7 @@ class GUIandDB:
             print("Admin login success!")
         elif userType == 2:
             # here do the transfer to mentor page
-            LogicGui.LogicGui.OpenMentorPanelWin(self, top)
+            LogicGui.LogicGui.OpenMentorPanelWin(self,LoginList["UserNameText"].get(), top)
             print("Mentor login success!")
         elif userType == 3:
             
