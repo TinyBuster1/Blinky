@@ -11,6 +11,7 @@ from functools import partial
 import RegisterNewMentor
 import LogicGui
 import GUIandDBCommunication
+import tkMessageBox
 
 try:
     import Tkinter as tk
@@ -25,6 +26,8 @@ except ImportError:
     py3 = True
     
 global root
+root = None
+
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
     global val, w
@@ -32,6 +35,7 @@ def vp_start_gui():
     top = MainPageContainer (root)
     init(root, top)
     root.mainloop()
+
     
 def vpReturnToMain(a):
     global val, w
