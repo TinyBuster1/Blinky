@@ -6,31 +6,33 @@ import LogicGui
 import BlinkyDataBaseManagment
 import sys
 import os.path
-
+import tkMessageBox
 
 class GUIandDB:
     @staticmethod
     def checkUserInput(self,UserList,top):
-        BlinkyDataBaseManagment.registerUser(UserList["UserID"].get(),UserList["UserPassword1"].get(),
+        value = BlinkyDataBaseManagment.registerUser(UserList["UserID"].get(),UserList["UserPassword1"].get(),
                                              UserList["PatientName"].get(),UserList["UserLastName"].get(),
                                              UserList["MentorID"].get(),UserList["UserAge"].get(),
                                              UserList["UserGender"].get(),UserList["PatientDOB"].get(),
                                              UserList["UserPhone"].get(),UserList["UserAddress"].get(),
                                              UserList["UserContact1"].get(),UserList["UserContact2"].get(),
                                              UserList["UserMedical"].get(),UserList["UserDiet"].get())
-        LogicGui.LogicGui.returnToMainFromUser(self, top)
+        if value == 0:
+            LogicGui.LogicGui.returnToMainFromUser(self, top)
         
     @staticmethod
     def checkMentorInput(self,MentorList,top,flag):
-        BlinkyDataBaseManagment.registerMentor(MentorList["MentorID"].get(), MentorList["MentorPassword1"].get(),
+        value = BlinkyDataBaseManagment.registerMentor(MentorList["MentorID"].get(), MentorList["MentorPassword1"].get(),
                                                MentorList["MentorPassword2"].get(),MentorList["MentorName"].get(),
                                                MentorList["MentorLastName"].get(),MentorList["MentorPhone"].get())
-        LogicGui.LogicGui.returnToMainFromMentor(self, top,flag)
+        if value == 0:
+            LogicGui.LogicGui.returnToMainFromMentor(self, top,flag)
         
     @staticmethod
     def Logged(self, LoginList, top):
-        
-        userType = BlinkyDataBaseManagment.userChecker(LoginList["UserNameText"].get(),LoginList["PasswordText"].get())
+        BlinkyDataBaseManagment.createCursor()
+        userType = BlinkyDataBaseManagment.userChecker(LoginList["UserNameText"].get(), LoginList["PasswordText"].get())
         
         if userType == 1:
             # here do the transfer to admin page
@@ -57,7 +59,7 @@ class GUIandDB:
             LogicGui.LogicGui.OpenUserPanelWin(self,LoginList["UserNameText"].get(), PicAndPharases, top)
             print("User login success!")
         else:
-            print("wrong id or password please try again!")
+            tkMessageBox.showinfo("error", "wrong id or password please try again!")
 
 
     @staticmethod
@@ -84,13 +86,9 @@ class GUIandDB:
         role = ChangeList["PhraseIDCombobox"].get()
         phrase =ChangeList["NewPhrasesBox"].get()
         button = ChangeList["Phrase"+role+"Button"]
-
         button.configure(text=phrase)
-
         button.update()
-
         ChangeList["LoginFrame"].update()
-
         top.mainloop()
 
 
