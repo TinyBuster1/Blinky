@@ -50,6 +50,27 @@ class MyTestCase(unittest.TestCase):
                                "Trusted_Connection=yes;")
          cursor = conn.cursor()
          self.assertTrue(cursor)
+        
+    def test_Loginflag(self):
+        print('tesing login flag value')
+        self.assertEqual(BlinkyDataBaseManagment.loginFlag,0,'not equal')
+        
+    
+    def test_Mentor_browse(self):
+        print('tesing Mentor browse func')
+        self.assertTrue(MentorPanel.browse(""),'not equal')
+        
+    def test_allMentors(self):
+        print('tesing allMentors func')
+        self.assertEqual(type(BlinkyDataBaseManagment.allMentors()),list,'not equal')
+        
+    def test_loadAllUsers(self):
+        print('tesing loadAllUsers func')
+        self.assertNotEqual(BlinkyDataBaseManagment.loadAllUsers("test"),list,'not equal')
+                 
+    def test_tempdirAdmin(self):
+        print('tesing tempdir value for browse function')
+        self.assertNotEqual(AdminPanel.tempdir," ",'not equal')
 
 
 if __name__ == '__main__':
