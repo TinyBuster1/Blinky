@@ -3,15 +3,25 @@ import os
 from shutil import copyfile
 import sys
 import GUIandDBCommunication
+import Tkinter as tk
+import tkMessageBox
 
-conn = pyodbc.connect('Driver={SQL Server};'
-                      'Server=DESKTOP-U1794AT\SQLEXPRESS;'
-                      'Database=BlinkyDB;'
-                      'Trusted_Connection=yes;')
-cursor = conn.cursor()
+
+global conn
+global cursor
 loginFlag = 0
 
+def createCursor():
+    global conn
+    conn = pyodbc.connect('Driver={SQL Server};'
+                          'Server=DESKTOP-H3SCR5P\SQLEXPRESS;'
+                          'Database=BlinkyDB;'
+                          'Trusted_Connection=yes;')
+    global cursor
+    cursor = conn.cursor()
+
 def userChecker(id, password):
+    global cursor
     params = (id, password)
     sql = '''SELECT * FROM BlinkyDB.dbo.Admins WHERE id=? AND password=?'''
     cursor.execute(sql, params)
@@ -62,6 +72,7 @@ def loginUser(userid, password):
             print("login success!")
         else:
             print("wrong id or password please try again!")
+            tkMessageBox.showinfo("error", "wrong id or password please try again!")
 
 def midCheck(mid):
     sql = '''SELECT mid FROM BlinkyDB.dbo.Mentor WHERE mid=?'''
@@ -73,18 +84,20 @@ def midCheck(mid):
 
 def registerMentor(mid, password, conpassword, firstName, lastName, phone):
     if password != conpassword:
-        print('password not match!, please repeat the password again.')
+        tkMessageBox.showinfo("error", 'password not match!, please repeat the password again.')
         return 1
     if midCheck(mid):
         sql1 = '''INSERT INTO BlinkyDB.dbo.Mentor (mid, password, firstName, lastName, phone) VALUES (?,?,?,?,?)'''
         params = (mid, password, firstName, lastName, phone)  # tuple containing parameter values
         cursor.execute(sql1, params)
         conn.commit()
-        print('mentor register successfully!')
+        tkMessageBox.showinfo("", 'mentor register successfully!')
+        return 0
     else:
-        print('mid already used by other mentor, please choose a different one!')
+        tkMessageBox.showinfo("error", 'mid already used by other mentor, please choose a different one!')
 
 def uidCheck(uid):
+    global cursor
     sql = '''SELECT uid FROM BlinkyDB.dbo.[User] WHERE uid=?'''
     cursor.execute(sql, uid)
     for row in cursor:
@@ -102,13 +115,15 @@ def registerUser(uid, password, firstName, lastName, mid, age, gender, birthday,
         params = (uid, mid)  # tuple containing parameter values
         cursor.execute(sql2, params)
         conn.commit()
-        print('user register successfully!')
+        tkMessageBox.showinfo("",'user register successfully!')
+        return 0
     elif(uidCheck(uid)==False):
-        print('user id already used by other user, please choose a different one!')
+        tkMessageBox.showinfo("error",'user id already used by other user, please choose a different one!')
     elif(midCheck(mid)==True):
-        print('mentor id is not exist!, please provide a valid mentor.')
+        tkMessageBox.showinfo("error",'mentor id is not exist!, please provide a valid mentor.')
 
 def patientsCheck(uid, mid):
+    global cursor
     sql = '''SELECT uid, mid FROM BlinkyDB.dbo.Patients WHERE uid=? AND mid=?'''
     cursor.execute(sql, (uid, mid))
     for row in cursor:
@@ -125,6 +140,7 @@ def imageCheck(imagesID):
     return False
 
 def uploadImage(imagesID, name, role, link, uid, mid):
+    global cursor
     if not uidCheck(uid) and not midCheck(mid):
         if patientsCheck(uid, mid) and not imageCheck(imagesID):
             sql1 = '''INSERT INTO BlinkyDB.dbo.Images (imagesID, name, role, link, uid, mid) VALUES (?,?,?,?,?,?)'''
@@ -321,18 +337,20 @@ def takePic(uid,role):
             return row.link
           
 def allMentors():
-        MentorList = []
-        sql = '''SELECT * FROM BlinkyDB.dbo.Mentor'''
-        cursor.execute(sql)
-        for row in cursor:
-            MentorList.append(row.mid)
-        return MentorList
+    global cursor
+    MentorList = []
+    sql = '''SELECT * FROM BlinkyDB.dbo.Mentor'''
+    cursor.execute(sql)
+    for row in cursor:
+        MentorList.append(row.mid)
+    return MentorList
     
 def deleteMentor(mid):
     sql = '''DELETE FROM BlinkyDB.dbo.Mentor WHERE mid=?'''
     cursor.execute(sql, (mid["MentorIDBox"].get()))
     conn.commit()
     mid["MentorIDBox"]['values'] = allMentors()
+    tkMessageBox.showinfo("","Mentor is deleted!")
 
 def AdminAddImage(tempdir,AdminList):
     picDir = tempdir["tempdir"].split('/')
@@ -351,14 +369,27 @@ def AdminAddImage(tempdir,AdminList):
     cursor.execute(sql1, params)
     conn.commit()
     AdminList["RemoveImage"]['values'] = allImages()
+    tkMessageBox.showinfo("", "Image Added!")
     
-def allImages():
-    MentorList = []
-    sql = '''SELECT DISTINCT name FROM BlinkyDB.dbo.Images'''
-    cursor.execute(sql)
-    for row in cursor:
-        MentorList.append(row.name)
-    return MentorList
+def allImages(uid=None,MentorList=None):
+    if uid is None:
+        ImagesList = []
+        sql = '''SELECT DISTINCT name FROM BlinkyDB.dbo.Images'''
+        cursor.execute(sql)
+        for row in cursor:
+            ImagesList.append(row.name)
+        return ImagesList
+    if uid == "":
+        return ""
+    else:
+        ImagesList = []
+        sql = '''SELECT DISTINCT name FROM BlinkyDB.dbo.Images WHERE uid=?'''
+        cursor.execute(sql,uid)
+        for row in cursor:
+            ImagesList.append(row.name)
+        if MentorList is not None:
+            MentorList["ImageComboBox"]['values'] = ImagesList
+        return ImagesList
 
 def deleteImage(imgList):
     sql = '''DELETE FROM BlinkyDB.dbo.Images WHERE name=?'''
@@ -366,6 +397,7 @@ def deleteImage(imgList):
     conn.commit()
     imgList["RemoveImage"].delete(0,'end')
     imgList["RemoveImage"]['values'] = allImages()
+    tkMessageBox.showinfo("", "image is deleted!")
     
 def AdminAddPhrase(AdminList):
     maxPhraseID = -1
@@ -378,14 +410,28 @@ def AdminAddPhrase(AdminList):
     cursor.execute(sql1,params)
     conn.commit()
     AdminList["RemovePhrase"]['values'] = allPhrases()
+    tkMessageBox.showinfo("", "Phrase is added!")
     
-def allPhrases():
-    PhraseList = []
-    sql = '''SELECT DISTINCT phrase FROM BlinkyDB.dbo.Titles'''
-    cursor.execute(sql)
-    for row in cursor:
-        PhraseList.append(row.phrase)
-    return PhraseList
+def allPhrases(uid=None, MentorList=None):
+    if uid is None:
+        PhraseList = []
+        sql = '''SELECT DISTINCT phrase FROM BlinkyDB.dbo.Titles'''
+        cursor.execute(sql)
+        for row in cursor:
+            PhraseList.append(row.phrase)
+        return PhraseList
+
+    if uid == "":
+        return ""
+    else:
+        PhraseList = []
+        sql = '''SELECT DISTINCT phrase FROM BlinkyDB.dbo.Titles WHERE uid=?'''
+        cursor.execute(sql, uid)
+        for row in cursor:
+            PhraseList.append(row.phrase)
+        if MentorList is not None:
+            MentorList["titleCombobox"]['values'] = PhraseList
+        return PhraseList
 
 def AdminRemovePhrase(AdminList):
     sql = '''DELETE FROM BlinkyDB.dbo.Titles WHERE phrase=?'''
@@ -393,8 +439,10 @@ def AdminRemovePhrase(AdminList):
     conn.commit()
     AdminList["RemovePhrase"].delete(0,'end')
     AdminList["RemovePhrase"]['values'] = allPhrases()
+    tkMessageBox.showinfo("", "Phrase is deleted!")
 
 def loadAllUsers(ID):
+    global cursor
     UserList = []
     sql = '''SELECT * FROM BlinkyDB.dbo.[User] WHERE mid=?'''
     cursor.execute(sql,ID)
@@ -413,6 +461,7 @@ def MentorRemoveImagetoUser(MentorID,MentorList):
     MentorList["UserComboBox"].delete(0, 'end')
     MentorList["ImageComboBox"].delete(0,'end')
     MentorList["ImageComboBox"]['values'] = allImages(MentorID,MentorList)
+    tkMessageBox.showinfo("","the image has been removed.")
 
 def MentorRemovePhrasetoUser(MentorID,MentorList):
 
@@ -423,12 +472,14 @@ def MentorRemovePhrasetoUser(MentorID,MentorList):
     MentorList["UserComboBox"].delete(0, 'end')
     MentorList["titleCombobox"].delete(0, 'end')
     MentorList["titleCombobox"]['values'] = allPhrases(MentorID,MentorList)
+    tkMessageBox.showinfo("", "the phrase has been removed.")
 
 def MentorAddPhrasetoUser(MentorID,MentorList):
     sql = '''UPDATE BlinkyDB.dbo.Titles set role=? WHERE uid=? AND role=? AND mid=?'''
     params = (0,MentorList["UserComboBox"].get(),MentorList["rolecombobox"].get(),MentorID)
     cursor.execute(sql, params)
     conn.commit()
+    tkMessageBox.showinfo("", "the phrase had been added.")
 
     maxPhraseID = -1
     sql1 = '''SELECT MAX(titleID) as titleID FROM BlinkyDB.dbo.Titles'''
@@ -440,8 +491,7 @@ def MentorAddPhrasetoUser(MentorID,MentorList):
     params = (maxPhraseID+1,MentorList["newPhraseEntry"].get(),MentorList["UserComboBox"].get(), MentorID,MentorList["rolecombobox"].get())  # tuple containing parameter values
     cursor.execute(sql2, params)
     conn.commit()
-    
-    
+
 def MentorAddImagetoUser(MentorID, tempdir ,MentorList):
     picDir = tempdir["tempdir"].split('/')
     picName = picDir[-1]
@@ -476,6 +526,7 @@ def MentorAddImagetoUser(MentorID, tempdir ,MentorList):
         cursor.execute(sql1, params)
         conn.commit()
         MentorList["ImageComboBox"]['values'] = allImages(MentorID, MentorList)
+    tkMessageBox.showinfo("", "the image has been added.")
 
 def MentorRemoveUser(MentorID,MentorList):
     sql = '''UPDATE BlinkyDB.dbo.Titles set mid=? WHERE uid=? AND mid=?'''
@@ -499,6 +550,7 @@ def MentorRemoveUser(MentorID,MentorList):
     conn.commit()
 
     MentorList["UserComboBox"]['values'] = loadAllUsers(MentorID)
+    tkMessageBox.showinfo("", "the user has been removed.")
 
 def MentorAddUser(MentorID,MentorList):
     sql = '''SELECT * FROM BlinkyDB.dbo.[User] WHERE uid=?'''
@@ -526,12 +578,13 @@ def MentorAddUser(MentorID,MentorList):
         conn.commit()
 
         MentorList["UserComboBox"]['values'] = loadAllUsers(MentorID)
+        tkMessageBox.showinfo("", "the user has been added.")
     else:
-        print("error")
+        tkMessageBox.showinfo("", "invalid data input.")
 
 def closeSQLconnection():
+    global cursor
+    global conn
     cursor.close()
     del cursor
     conn.close()
-    
-            
