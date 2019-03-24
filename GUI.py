@@ -5,6 +5,7 @@
 #  in conjunction with Tcl version 8.6
 #    Mar 09, 2019 05:11:15 AM +0200  platform: Windows NT
 #Alex
+# Jira test
 import sys
 import NewUserRegister
 from functools import partial
