@@ -339,11 +339,29 @@ def takePic(uid,role):
 def allMentors():
     global cursor
     MentorList = []
-    sql = '''SELECT * FROM BlinkyDB.dbo.Mentor'''
+    sql = '''SELECT DISTINCT * FROM BlinkyDB.dbo.Mentor'''
     cursor.execute(sql)
     for row in cursor:
         MentorList.append(row.mid)
     return MentorList
+
+def allUsers():
+    global cursor
+    UserList = []
+    sql = '''SELECT DISTINCT * FROM BlinkyDB.dbo.[User]'''
+    cursor.execute(sql)
+    for row in cursor:
+        UserList.append(row.uid)
+    return UserList
+
+def allAdmins():
+    global cursor
+    adminList = []
+    sql = '''SELECT DISTINCT * FROM BlinkyDB.dbo.Admins'''
+    cursor.execute(sql)
+    for row in cursor:
+        adminList.append(row.id)
+    return adminList
     
 def deleteMentor(mid):
     sql = '''DELETE FROM BlinkyDB.dbo.Mentor WHERE mid=?'''
