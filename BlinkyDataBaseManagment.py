@@ -1,4 +1,3 @@
-#updated
 import pyodbc
 import os
 from shutil import copyfile
