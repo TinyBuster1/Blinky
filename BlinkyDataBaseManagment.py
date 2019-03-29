@@ -35,6 +35,7 @@ def userChecker(id, password):
         if row.mid == id and row.password == password:
             print('Hello Mentor ' + row.mid)
             return 2
+            #f
     sql = '''SELECT * FROM BlinkyDB.dbo.[User] WHERE uid=? AND password=?'''
     cursor.execute(sql, params)
     for row in cursor:
