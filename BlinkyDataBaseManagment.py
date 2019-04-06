@@ -5,10 +5,16 @@ import sys
 import GUIandDBCommunication
 import Tkinter as tk
 import tkMessageBox
+import datetime
 
 
 global conn
 global cursor
+global prog_call
+global prog_location
+
+prog_call = sys.argv[0]
+prog_location = os.path.split(prog_call)[0]
 loginFlag = 0
 
 def createCursor():
@@ -368,7 +374,14 @@ def deleteMentor(mid):
     cursor.execute(sql, (mid["MentorIDBox"].get()))
     conn.commit()
     mid["MentorIDBox"]['values'] = allMentors()
-    tkMessageBox.showinfo("","Mentor is deleted!")
+    File_path = prog_location + "\Reports" + "\\" + "statisticsReport.txt"
+    f = open(File_path, "a")
+    now = datetime.datetime.now()
+    line = "mid: " + str(mid["MentorIDBox"].get()) + " is deleted at: " + now.day.__str__() + "/" + now.month.__str__()
+    line += "/" + now.year.__str__() + " at: " + now.time().__str__()
+    f.write(line + "%d\r\n" % (1))
+    f.close()
+    tkMessageBox.showinfo("", "Mentor is deleted!")
 
 def AdminAddImage(tempdir,AdminList):
     picDir = tempdir["tempdir"].split('/')
@@ -413,8 +426,16 @@ def deleteImage(imgList):
     sql = '''DELETE FROM BlinkyDB.dbo.Images WHERE name=?'''
     cursor.execute(sql, (imgList["RemoveImage"].get()))
     conn.commit()
-    imgList["RemoveImage"].delete(0,'end')
+    name = imgList["RemoveImage"].get()
+    imgList["RemoveImage"].delete(0, 'end')
     imgList["RemoveImage"]['values'] = allImages()
+    File_path = prog_location + "\Reports" + "\\" + "statisticsReport.txt"
+    f = open(File_path, "a")
+    now = datetime.datetime.now()
+    line = "image name: " + str(name) + " is deleted at: " + now.day.__str__() + "/" + now.month.__str__()
+    line += "/" + now.year.__str__() + " at: " + now.time().__str__()
+    f.write(line + "%d\r\n" % (1))
+    f.close()
     tkMessageBox.showinfo("", "image is deleted!")
     
 def AdminAddPhrase(AdminList):
@@ -455,8 +476,16 @@ def AdminRemovePhrase(AdminList):
     sql = '''DELETE FROM BlinkyDB.dbo.Titles WHERE phrase=?'''
     cursor.execute(sql, (AdminList["RemovePhrase"].get()))
     conn.commit()
+    name = AdminList["RemovePhrase"].get()
     AdminList["RemovePhrase"].delete(0,'end')
     AdminList["RemovePhrase"]['values'] = allPhrases()
+    File_path = prog_location + "\Reports" + "\\" + "statisticsReport.txt"
+    f = open(File_path, "a")
+    now = datetime.datetime.now()
+    line = "title: " + str(name) + " is deleted at: " + now.day.__str__() + "/" + now.month.__str__()
+    line += "/" + now.year.__str__() + " at: " + now.time().__str__()
+    f.write(line)
+    f.close()
     tkMessageBox.showinfo("", "Phrase is deleted!")
 
 def loadAllUsers(ID):
@@ -606,3 +635,67 @@ def closeSQLconnection():
     cursor.close()
     del cursor
     conn.close()
+
+def returnNumOfUsers():
+    global cursor
+    userList = []
+    sql = '''SELECT DISTINCT * FROM BlinkyDB.dbo.[User]'''
+    cursor.execute(sql)
+    for row in cursor:
+        userList.append(row.uid)
+    return len(userList)
+
+def returnNumOfMentors():
+    global cursor
+    mentorList = []
+    sql = '''SELECT DISTINCT * FROM BlinkyDB.dbo.[Mentor]'''
+    cursor.execute(sql)
+    for row in cursor:
+        mentorList.append(row.mid)
+    return len(mentorList)
+
+def returnNumOfAdmins():
+    global cursor
+    adminList = []
+    sql = '''SELECT DISTINCT * FROM BlinkyDB.dbo.[Admins]'''
+    cursor.execute(sql)
+    for row in cursor:
+        adminList.append(row.id)
+    return len(adminList)
+
+def returnNumOfPictures():
+    global cursor
+    imageList = []
+    sql = '''SELECT DISTINCT * FROM BlinkyDB.dbo.[Images]'''
+    cursor.execute(sql)
+    for row in cursor:
+        imageList.append(row.ImagesID)
+    return len(imageList)
+
+def returnNumOfPhrases():
+    global cursor
+    phraseList = []
+    sql = '''SELECT DISTINCT * FROM BlinkyDB.dbo.[Titles]'''
+    cursor.execute(sql)
+    for row in cursor:
+        phraseList.append(row.titleID)
+    return len(phraseList)
+
+def getAllImages():
+    global cursor
+    imageList = []
+    sql = '''SELECT DISTINCT * FROM BlinkyDB.dbo.[Images]'''
+    cursor.execute(sql)
+    for row in cursor:
+        imageList.append(row.name)
+    return imageList
+
+
+def getAllTitles():
+    global cursor
+    titleList = []
+    sql = '''SELECT DISTINCT * FROM BlinkyDB.dbo.[Titles]'''
+    cursor.execute(sql)
+    for row in cursor:
+        titleList.append(row.phrase)
+    return titleList
