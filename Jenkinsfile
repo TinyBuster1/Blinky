@@ -10,7 +10,7 @@ pipeline {
     }
     stage('preperation') {
       steps {
-        sh 'pip install --user --no-cache-dir -r requirements.txt'
+        sh 'pip install --user --no-cache-dir -r requirements.txt '
       }
     }
     stage('test') {
