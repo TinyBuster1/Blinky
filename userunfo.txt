@@ -1,0 +1,36 @@
+Hello Mentor M1
+        You have 4 users under your name
+
+ user number #0
+        uid: U1
+        first name: FU1
+        last name: LU1
+        age: 29
+        gender: F         
+        birthday: 2019-04-07
+        phone: 5214
+        address: A1
+        contact1: 525
+        contact2: 5221
+ user number #1
+        uid: u12
+        first name: AA
+        last name: BB
+        age: 24
+        gender:           
+        birthday: 1900-01-01
+        phone: 0
+        address: 
+        contact1: 0
+        contact2: 0
+ user number #2
+        uid: U420
+        first name: pop
+        last name: 420
+        age: 123
+        gender: M         
+        birthday: 1900-01-01
+        phone: 525461226
+        address: H.BOKK
+        contact1: 525461840
+        contact2: 52514521

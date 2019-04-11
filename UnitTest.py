@@ -111,11 +111,63 @@ class BlinkyTest(unittest.TestCase):
          print('tesing logSQLconnection() func')
 
          conn = pyodbc.connect("Driver={SQL Server};"  
-                               "Server=DESKTOP-H3SCR5P\SQLEXPRESS;" 
+                               "Server=LAPTOP-L7B6A755;" 
                                "Database=BlinkyDB;"  
                                "Trusted_Connection=yes;")
          cursor = conn.cursor()
          self.assertTrue(cursor)
+
+
+
+    def test_user_info1(self):
+        print('test_user_info ')
+        self.assertEqual(MentorPanel.user_info(None), False)
+
+    def test_user_info2(self):
+        print('test_user_info ')
+        self.assertEqual(MentorPanel.user_info('M1'), True)
+
+    def test_user_info3(self):
+        print('test_user_info ')
+        self.assertEqual(MentorPanel.user_info(125), False)
+
+    def test_user_info4(self):
+        print('test_user_info ')
+        self.assertEqual(MentorPanel.user_info('sdsd'), True)
+
+    def test_user_info5(self):
+        print('test_user_info ')
+        self.assertEqual(MentorPanel.user_info(3.14), False)
+
+
+    def test_user_medical_info1(self):
+        print('test_user_info ')
+        self.assertEqual(MentorPanel.medical_info(None), False)
+
+    def test_user_medical_info2(self):
+        print('test medical_info ')
+        self.assertEqual(MentorPanel.medical_info('M1'), True)
+
+    def test_medical_info3(self):
+        print('test medical_info')
+        self.assertEqual(MentorPanel.medical_info(125), False)
+
+    def test_user_medical_info4(self):
+        print('test medical_info')
+        self.assertEqual(MentorPanel.medical_info('sdsd'), False)
+
+    def test_user_medical_info5(self):
+        print('test medical_info ')
+        self.assertEqual(MentorPanel.medical_info(3.14), False)
+
+    def test_user_medical_info6(self):
+        print('test medical_info ')
+        self.assertEqual(MentorPanel.medical_info(-3.14), False)
+
+    def test_user_medical_info5(self):
+        print('test medical_info ')
+        self.assertEqual(MentorPanel.medical_info(-1), False)
+
 
 
 if __name__ == '__main__':

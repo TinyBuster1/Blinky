@@ -36,14 +36,10 @@ def vp_start_gui():
     top = MainPageContainer (root)
     init(root, top)
     root.mainloop()
-
-    
 def vpReturnToMain(a):
     global val, w
     top = MainPageContainer (a)
     init(a, top)
-    
-
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
@@ -61,7 +57,6 @@ def create_MainPageContainer(root, *args, **kwargs):
     top = MainPageContainer (w)
     init(w, top, *args, **kwargs)
     return (w, top)
-
 def destroy_MainPageContainer():
     global w
     w.destroy()

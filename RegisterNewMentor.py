@@ -97,7 +97,7 @@ class RegisterNewMentorLevel:
         self.NewMentorBackToMenu.configure(text='''Back''')
         self.NewMentorBackToMenu.configure(width=186)
         
-        action_with_args = partial(GUIandDBCommunication.GUIandDB.checkMentorInput, self, self.MentorInput, top)
+        action_with_args = partial(GUIandDBCommunication.GUIandDB.checkMentorInput, self, self.MentorInput,top,0)
         
         self.NewMentorNextToPatient = tk.Button(self.RegisterNewMentorFrame, command = action_with_args)
         self.NewMentorNextToPatient.place(relx=0.6, rely=0.763, height=103
