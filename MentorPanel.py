@@ -35,7 +35,79 @@ tempdirList = {}
 
 
 
+def user_info(Mid):
+    if (Mid == None):
+        return False
+    if (type(Mid) != str):
+        return False
+    global conn
+    global cursor
+    conn = pyodbc.connect('Driver={SQL Server};'
+                          'Server=LAPTOP-L7B6A755;'
+                          'Database=BlinkyDB;'
+                          'Trusted_Connection=yes;')
+    cursor = conn.cursor()
+    sql = '''SELECT DISTINCT COUNT(*) FROM BlinkyDB.dbo.Mentor,BlinkyDB.dbo.[User]
+                               where BlinkyDB.dbo.Mentor.mid=BlinkyDB.dbo.[User].mid;'''
+    cursor.execute(sql)
+    row = cursor.fetchone()
+    file = open('userunfo.txt', 'w')
+    file.write('Hello Mentor ' + Mid)
+    file.write('\n')
+    file.write('        You have ' + str(row[0]) + ' users under your name\n')
 
+    sql = '''SELECT DISTINCT [User].mid,[User].uid,[User].firstName,[User].lastName,[User].age, [User].gender,[User].birthday,[User].phone,[User].address,[User].contact1,[User].contact2,[User].diet
+           FROM BlinkyDB.dbo.Mentor,BlinkyDB.dbo.[User]
+           where BlinkyDB.dbo.[User].mid=?;'''
+
+
+    cursor.execute(sql, Mid)
+    if(cursor==None):
+        return False
+
+    file.write('\n')
+    t = 0
+    for row in cursor:
+        assert isinstance(Mid, str)
+        if (row == None):
+            return False
+        file.write(' user number #' + str(t))
+        file.write('\n')
+        t = t + 1
+        file.write('        uid: ' + row.uid)
+        file.write('\n')
+        file.write('        first name: ' + row.firstName)
+        file.write('\n')
+        file.write('        last name: ' + row.lastName)
+        file.write('\n')
+        file.write('        age: ' + str(row.age))
+        file.write('\n')
+        file.write('        gender: ' + row.gender)
+        file.write('\n')
+        file.write('        birthday: ' + row.birthday)
+        file.write('\n')
+        file.write('        phone: ' + str(row.phone))
+        file.write('\n')
+        file.write('        address: ' + row.address)
+        file.write('\n')
+        file.write('        contact1: ' + str(row.contact1))
+        file.write('\n')
+        file.write('        contact2: ' + str(row.contact2))
+        file.write('\n')
+    file.close()
+    conn.close()
+
+    root = tk.Tk()
+    st = Pmw.ScrolledText(root, borderframe=1, labelpos=tk.N,
+                          label_text='Blackmail', usehullsize=1,
+                          hull_width=400, hull_height=300,
+                          text_padx=10, text_pady=10,
+                          text_wrap='none')
+    st.importfile('userunfo.txt')
+    st.pack(fill=tk.BOTH, expand=1, padx=5, pady=5)
+
+    root.mainloop()
+    return True
 
 def medical_info(mid):
     global conn
