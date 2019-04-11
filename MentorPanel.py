@@ -47,14 +47,6 @@ def user_info(Mid):
                           'Database=BlinkyDB;'
                           'Trusted_Connection=yes;')
     cursor = conn.cursor()
-    sql = '''SELECT DISTINCT COUNT(*) FROM BlinkyDB.dbo.Mentor,BlinkyDB.dbo.[User]
-                               where BlinkyDB.dbo.Mentor.mid=BlinkyDB.dbo.[User].mid;'''
-    cursor.execute(sql)
-    row = cursor.fetchone()
-    file = open('userunfo.txt', 'w')
-    file.write('Hello Mentor ' + Mid)
-    file.write('\n')
-    file.write('        You have ' + str(row[0]) + ' users under your name\n')
 
     sql = '''SELECT DISTINCT [User].mid,[User].uid,[User].firstName,[User].lastName,[User].age, [User].gender,[User].birthday,[User].phone,[User].address,[User].contact1,[User].contact2,[User].diet
            FROM BlinkyDB.dbo.Mentor,BlinkyDB.dbo.[User]
@@ -109,52 +101,6 @@ def user_info(Mid):
     root.mainloop()
     return True
 
-def medical_info(mid):
-    global conn
-    if (mid == None):
-        return False
-    if (type(mid) != str):
-        return False
-    conn = pyodbc.connect('Driver={SQL Server};'
-                          'Server=LAPTOP-L7B6A755;'
-                          'Database=BlinkyDB;'
-                          'Trusted_Connection=yes;')
-    global cursor
-    cursor = conn.cursor()
-    sql = '''SELECT Mentor.mid,[User].uid,medical
-            FROM BlinkyDB.dbo.Mentor,BlinkyDB.dbo.[User]
-            where BlinkyDB.dbo.Mentor.mid=BlinkyDB.dbo.[User].mid AND Mentor.mid=?;'''
-
-    cursor.execute(sql, mid)
-    row = cursor.fetchone()
-    if(row==None):
-        return False
-    file = open('medical_info_Report.txt', 'w')
-    file.write('medical info Report:')
-    file.write('\n')
-    file.write('Hello Mentor ' + mid)
-    file.write('\n')
-    file.write('        user name:' + str(row.uid))
-    file.write('\n')
-    file.write('            medical info:')
-    file.write('\n')
-    file.write('                    ' + str(row.medical))
-    file.write('\n')
-    file.close()
-
-    conn.close()
-
-    root = tk.Tk()
-    st = Pmw.ScrolledText(root, borderframe=1, labelpos=tk.N,
-                          label_text='Blackmail', usehullsize=1,
-                          hull_width=400, hull_height=300,
-                          text_padx=10, text_pady=10,
-                          text_wrap='none')
-    st.importfile('medical_info_Report.txt')
-    st.pack(fill=tk.BOTH, expand=1, padx=5, pady=5)
-
-    root.mainloop()
-    return True
 
 
 def browse(entry):
