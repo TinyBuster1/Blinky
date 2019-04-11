@@ -6,7 +6,7 @@ import BlinkyDataBaseManagment
 import sys
 import os.path
 import tkMessageBox
-import LoginAuth
+
 import Tkinter as tk
 import tkSimpleDialog
 import datetime
@@ -24,6 +24,8 @@ login_dict = {}
 class GUIandDB:
     @staticmethod
     def checkUserInput(self,UserList,top):
+
+
         value = BlinkyDataBaseManagment.registerUser(UserList["UserID"].get(),UserList["UserPassword1"].get(),
                                              UserList["PatientName"].get(),UserList["UserLastName"].get(),
                                              UserList["MentorID"].get(),UserList["UserAge"].get(),
@@ -31,6 +33,7 @@ class GUIandDB:
                                              UserList["UserPhone"].get(),UserList["UserAddress"].get(),
                                              UserList["UserContact1"].get(),UserList["UserContact2"].get(),
                                              UserList["UserMedical"].get(),UserList["UserDiet"].get())
+
         if value == 0:
             LogicGui.LogicGui.returnToMainFromUser(self, top)
         
@@ -39,6 +42,7 @@ class GUIandDB:
         value = BlinkyDataBaseManagment.registerMentor(MentorList["MentorID"].get(), MentorList["MentorPassword1"].get(),
                                                MentorList["MentorPassword2"].get(),MentorList["MentorName"].get(),
                                                MentorList["MentorLastName"].get(),MentorList["MentorPhone"].get())
+
         if value == 0:
             LogicGui.LogicGui.returnToMainFromMentor(self, top,flag)
         
