@@ -67,8 +67,8 @@ class UserRegister:
         
 
         self.PatientRegisterFrame = tk.Frame(top)
-        self.PatientRegisterFrame.place(relx=0.145, rely=0.066, relheight=0.877
-                , relwidth=0.681)
+        self.PatientRegisterFrame.place(relx=0.145, rely=0.066, relheight=0.877 , relwidth=0.681)
+
         self.PatientRegisterFrame.configure(relief='groove')
         self.PatientRegisterFrame.configure(borderwidth="2")
         self.PatientRegisterFrame.configure(relief='groove')
@@ -78,8 +78,7 @@ class UserRegister:
         self.PatientRegisterFrame.configure(width=800)
 
         self.PatientRegisterLabel = tk.Label(self.PatientRegisterFrame)
-        self.PatientRegisterLabel.place(relx=0.288, rely=0.013, height=56
-                , width=322)
+        self.PatientRegisterLabel.place(relx=0.288, rely=0.013, height=56 , relwidth=0.681)
         self.PatientRegisterLabel.configure(activebackground="#f9f9f9")
         self.PatientRegisterLabel.configure(activeforeground="black")
         self.PatientRegisterLabel.configure(background="#d9d9d9")
@@ -90,6 +89,11 @@ class UserRegister:
         self.PatientRegisterLabel.configure(highlightcolor="black")
         self.PatientRegisterLabel.configure(text='''New User Register''')
 
+
+
+
+
+        ######lable########
         self.MentorIDLabel = tk.Label(self.PatientRegisterFrame)
         self.MentorIDLabel.place(relx=0.038, rely=0.1, height=36, width=116)
         self.MentorIDLabel.configure(activebackground="#f9f9f9")
@@ -115,6 +119,8 @@ class UserRegister:
         self.MentorID.configure(selectforeground="black")
         
 
+
+
         self.PatientNameLabel = tk.Label(self.PatientRegisterFrame)
         self.PatientNameLabel.place(relx=0.025, rely=0.15, height=34, width=102)
         self.PatientNameLabel.configure(activebackground="#f9f9f9")
@@ -128,8 +134,7 @@ class UserRegister:
         self.PatientNameLabel.configure(text='''Name:''')
 
         self.PatientLastNameLabel = tk.Label(self.PatientRegisterFrame)
-        self.PatientLastNameLabel.place(relx=0.5, rely=0.15, height=34
-                , width=101)
+        self.PatientLastNameLabel.place(relx=0.5, rely=0.15, height=34 , width=101)
         self.PatientLastNameLabel.configure(activebackground="#f9f9f9")
         self.PatientLastNameLabel.configure(activeforeground="black")
         self.PatientLastNameLabel.configure(background="#d9d9d9")
@@ -141,8 +146,7 @@ class UserRegister:
         self.PatientLastNameLabel.configure(text='''Last Name:''')
 
         self.PatientGenderLabel = tk.Label(self.PatientRegisterFrame)
-        self.PatientGenderLabel.place(relx=0.025, rely=0.275, height=44
-                , width=112)
+        self.PatientGenderLabel.place(relx=0.025, rely=0.275, height=44, width=112)
         self.PatientGenderLabel.configure(activebackground="#f9f9f9")
         self.PatientGenderLabel.configure(activeforeground="black")
         self.PatientGenderLabel.configure(background="#d9d9d9")
@@ -154,8 +158,7 @@ class UserRegister:
         self.PatientGenderLabel.configure(text='''Gender:''')
 
         self.PatientBirthdayLabel = tk.Label(self.PatientRegisterFrame)
-        self.PatientBirthdayLabel.place(relx=0.05, rely=0.213, height=34
-                , width=121)
+        self.PatientBirthdayLabel.place(relx=0.05, rely=0.213, height=34 , width=121)
         self.PatientBirthdayLabel.configure(activebackground="#f9f9f9")
         self.PatientBirthdayLabel.configure(activeforeground="black")
         self.PatientBirthdayLabel.configure(background="#d9d9d9")
@@ -167,8 +170,7 @@ class UserRegister:
         self.PatientBirthdayLabel.configure(text='''Date of birth:''')
 
         self.Patientcontact1label = tk.Label(self.PatientRegisterFrame)
-        self.Patientcontact1label.place(relx=0.05, rely=0.35, height=34
-                , width=89)
+        self.Patientcontact1label.place(relx=0.05, rely=0.35, height=34, width=89)
         self.Patientcontact1label.configure(activebackground="#f9f9f9")
         self.Patientcontact1label.configure(activeforeground="black")
         self.Patientcontact1label.configure(background="#d9d9d9")
@@ -180,8 +182,7 @@ class UserRegister:
         self.Patientcontact1label.configure(text='''Contact1:''')
 
         self.Patientcontact2Label = tk.Label(self.PatientRegisterFrame)
-        self.Patientcontact2Label.place(relx=0.5, rely=0.338, height=26
-                , width=88)
+        self.Patientcontact2Label.place(relx=0.5, rely=0.338, height=26 , width=88)
         self.Patientcontact2Label.configure(activebackground="#f9f9f9")
         self.Patientcontact2Label.configure(activeforeground="black")
         self.Patientcontact2Label.configure(background="#d9d9d9")
@@ -230,7 +231,6 @@ class UserRegister:
 
         self.PetientName = tk.Entry(self.PatientRegisterFrame)
         self.PetientName.place(relx=0.213, rely=0.163, height=24, relwidth=0.255)
-
         self.PetientName.configure(background="white")
         self.PetientName.configure(disabledforeground="#a3a3a3")
         self.PetientName.configure(font="TkFixedFont")
@@ -267,7 +267,6 @@ class UserRegister:
 
         self.UserContact1 = tk.Entry(self.PatientRegisterFrame)
         self.UserContact1.place(relx=0.213, rely=0.35, height=24, relwidth=0.255)
-
         self.UserContact1.configure(background="white")
         self.UserContact1.configure(disabledforeground="#a3a3a3")
         self.UserContact1.configure(font="TkFixedFont")
@@ -292,7 +291,6 @@ class UserRegister:
 
         self.UserLastName = tk.Entry(self.PatientRegisterFrame)
         self.UserLastName.place(relx=0.688, rely=0.15, height=24, relwidth=0.255)
-
         self.UserLastName.configure(background="white")
         self.UserLastName.configure(disabledforeground="#a3a3a3")
         self.UserLastName.configure(font="TkFixedFont")
@@ -317,7 +315,6 @@ class UserRegister:
 
         self.UserAddress = tk.Entry(self.PatientRegisterFrame)
         self.UserAddress.place(relx=0.688, rely=0.275, height=24, relwidth=0.255)
-
         self.UserAddress.configure(background="white")
         self.UserAddress.configure(disabledforeground="#a3a3a3")
         self.UserAddress.configure(font="TkFixedFont")
@@ -329,8 +326,7 @@ class UserRegister:
         self.UserAddress.configure(selectforeground="black")
 
         self.UserContact2 = tk.Entry(self.PatientRegisterFrame)
-        self.UserContact2.place(relx=0.688, rely=0.338, height=24
-                , relwidth=0.255)
+        self.UserContact2.place(relx=0.688, rely=0.338, height=24 , relwidth=0.255)
         self.UserContact2.configure(background="white")
         self.UserContact2.configure(disabledforeground="#a3a3a3")
         self.UserContact2.configure(font="TkFixedFont")
@@ -341,9 +337,13 @@ class UserRegister:
         self.UserContact2.configure(selectbackground="#c4c4c4")
         self.UserContact2.configure(selectforeground="black")
 
+
+
+
+
+
         self.UserMedical = tk.Entry(self.PatientRegisterFrame)
-        self.UserMedical.place(relx=0.025, rely=0.763, height=154
-                , relwidth=0.255)
+        self.UserMedical.place(relx=0.025, rely=0.763, height=154, relwidth=0.255)
         self.UserMedical.configure(background="white")
         self.UserMedical.configure(disabledforeground="#a3a3a3")
         self.UserMedical.configure(font="TkFixedFont")
@@ -366,6 +366,10 @@ class UserRegister:
         self.UserDiet.configure(selectbackground="#c4c4c4")
         self.UserDiet.configure(selectforeground="black")
 
+
+
+
+
         self.UserMedicalLabel = tk.Label(self.PatientRegisterFrame)
         self.UserMedicalLabel.place(relx=0.038, rely=0.7, height=26, width=122)
         self.UserMedicalLabel.configure(activebackground="#f9f9f9")
@@ -377,8 +381,9 @@ class UserRegister:
         self.UserMedicalLabel.configure(highlightbackground="#d9d9d9")
         self.UserMedicalLabel.configure(highlightcolor="black")
         self.UserMedicalLabel.configure(text='''Medical info:''')
+        self.UserMedicalLabel.configure(text='''Medical info:''')
 
-        self.UserDietLabel = tk.Label(self.PatientRegisterFrame)
+        self.UserDietLabel = tk.Label(self.PatientRegisterFrame,)
         self.UserDietLabel.place(relx=0.7, rely=0.7, height=34, width=46)
         self.UserDietLabel.configure(activebackground="#f9f9f9")
         self.UserDietLabel.configure(activeforeground="black")
@@ -389,6 +394,9 @@ class UserRegister:
         self.UserDietLabel.configure(highlightbackground="#d9d9d9")
         self.UserDietLabel.configure(highlightcolor="black")
         self.UserDietLabel.configure(text='''Diet:''')
+
+
+
 
         self.UserPhone = tk.Entry(self.PatientRegisterFrame)
         self.UserPhone.place(relx=0.213, rely=0.413,height=24, relwidth=0.255)
@@ -413,7 +421,9 @@ class UserRegister:
         self.UserPhoneLabel.configure(highlightbackground="#d9d9d9")
         self.UserPhoneLabel.configure(highlightcolor="black")
         self.UserPhoneLabel.configure(text='''Phone:''')
-        
+
+
+
         action_with_args = partial(GUIandDBCommunication.GUIandDB.checkUserInput, self, self.UserInput, top)
 
         self.RegisterNewUser = tk.Button(self.PatientRegisterFrame,command = action_with_args)
@@ -431,8 +441,7 @@ class UserRegister:
         action_with_args = partial(LogicGui.LogicGui.returnToMainFromUser,self, top)
         
         self.NewUserRegisterBack = tk.Button(self.PatientRegisterFrame, command=action_with_args)
-        self.NewUserRegisterBack.place(relx=0.4, rely=0.875, height=63
-                , width=146)
+        self.NewUserRegisterBack.place(relx=0.4, rely=0.875, height=63 , width=146)
         self.NewUserRegisterBack.configure(activebackground="#ececec")
         self.NewUserRegisterBack.configure(activeforeground="#000000")
         self.NewUserRegisterBack.configure(background="#d9d9d9")
@@ -445,7 +454,6 @@ class UserRegister:
 
         self.UserPassword1 = tk.Entry(self.PatientRegisterFrame)
         self.UserPassword1.place(relx=0.2, rely=0.538, height=24, relwidth=0.255)
-
         self.UserPassword1.configure(background="white")
         self.UserPassword1.configure(disabledforeground="#a3a3a3")
         self.UserPassword1.configure(font="TkFixedFont")
@@ -453,8 +461,7 @@ class UserRegister:
         self.UserPassword1.configure(insertbackground="black")
 
         self.UserPassword2 = tk.Entry(self.PatientRegisterFrame)
-        self.UserPassword2.place(relx=0.675, rely=0.538, height=24
-                , relwidth=0.255)
+        self.UserPassword2.place(relx=0.675, rely=0.538, height=24, relwidth=0.255)
         self.UserPassword2.configure(background="white")
         self.UserPassword2.configure(disabledforeground="#a3a3a3")
         self.UserPassword2.configure(font="TkFixedFont")
@@ -470,15 +477,14 @@ class UserRegister:
         self.Password1Label.configure(text='''Password:''')
 
         self.UserPassword2Label = tk.Label(self.PatientRegisterFrame)
-        self.UserPassword2Label.place(relx=0.475, rely=0.525, height=34
-                , width=159)
+        self.UserPassword2Label.place(relx=0.475, rely=0.525, height=34 , width=159)
         self.UserPassword2Label.configure(background="#d9d9d9")
         self.UserPassword2Label.configure(disabledforeground="#a3a3a3")
         self.UserPassword2Label.configure(font=font9)
         self.UserPassword2Label.configure(foreground="#000000")
         self.UserPassword2Label.configure(text='''Repeat password:''')
         
-        
+        ##take all string from entry
         self.UserInput["MentorID"] = self.MentorID
         self.UserInput["UserID"] = self.UserID
         self.UserInput["PatientName"] = self.PetientName

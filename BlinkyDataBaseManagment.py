@@ -20,7 +20,7 @@ loginFlag = 0
 def createCursor():
     global conn
     conn = pyodbc.connect('Driver={SQL Server};'
-                          'Server=DESKTOP-H3SCR5P\SQLEXPRESS;'
+                          'Server=LAPTOP-L7B6A755;'
                           'Database=BlinkyDB;'
                           'Trusted_Connection=yes;')
     global cursor
@@ -81,7 +81,18 @@ def loginUser(userid, password):
             tkMessageBox.showinfo("error", "wrong id or password please try again!")
 
 def midCheck(mid):
+    global conn
+    global cursor
     sql = '''SELECT mid FROM BlinkyDB.dbo.Mentor WHERE mid=?'''
+
+    conn = pyodbc.connect('Driver={SQL Server};'
+                          'Server=LAPTOP-L7B6A755;'
+                          'Database=BlinkyDB;'
+                          'Trusted_Connection=yes;')
+
+    cursor = conn.cursor()
+    #row = cursor.fetchone()
+
     cursor.execute(sql, mid)
     for row in cursor:
         if row.mid == mid:
@@ -103,15 +114,27 @@ def registerMentor(mid, password, conpassword, firstName, lastName, phone):
         tkMessageBox.showinfo("error", 'mid already used by other mentor, please choose a different one!')
 
 def uidCheck(uid):
-    global cursor
+
     sql = '''SELECT uid FROM BlinkyDB.dbo.[User] WHERE uid=?'''
+
+    global conn
+    conn = pyodbc.connect('Driver={SQL Server};'
+                          'Server=LAPTOP-L7B6A755;'
+                          'Database=BlinkyDB;'
+                          'Trusted_Connection=yes;')
+    global cursor
+    cursor = conn.cursor()
     cursor.execute(sql, uid)
+
+    row=cursor.fetchone()
+
     for row in cursor:
         if row.uid == uid:
             return False
     return True
 
 def registerUser(uid, password, firstName, lastName, mid, age, gender, birthday, phone, address, contact1, contact2, medical, diet):
+    global cursor
     if uidCheck(uid) and not midCheck(mid):
         sql1 = '''INSERT INTO BlinkyDB.dbo.[User] (uid, password, firstName, lastName, mid, age, gender, birthday, phone, address, contact1, contact2, medical, diet) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
         params = (uid, password, firstName, lastName, mid, age, gender, birthday, phone, address, contact1, contact2, medical, diet)  # tuple containing parameter values
