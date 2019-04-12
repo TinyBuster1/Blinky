@@ -1,0 +1,36 @@
+Hello Mentor m
+        You have 3 users under your name
+
+ user number #0
+        uid: b
+        first name: b
+        last name: b
+        age: 6
+        gender: b         
+        birthday: 1990-01-01
+        phone: 6
+        address: b
+        contact1: 7
+        contact2: 7
+ user number #1
+        uid: j
+        first name: j
+        last name: j
+        age: 5
+        gender: j         
+        birthday: 1900-01-01
+        phone: 5
+        address: j
+        contact1: 5
+        contact2: 5
+ user number #2
+        uid: u
+        first name: 
+        last name: 
+        age: 0
+        gender:           
+        birthday: 1900-01-01
+        phone: 0
+        address: 
+        contact1: 0
+        contact2: 0
