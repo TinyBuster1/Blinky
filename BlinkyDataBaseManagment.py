@@ -6,8 +6,9 @@ import GUIandDBCommunication
 import Tkinter as tk
 import tkMessageBox
 import datetime
+import Pmw
 
-
+global mySQLserver
 global conn
 global cursor
 global prog_call
@@ -15,14 +16,12 @@ global prog_location
 
 prog_call = sys.argv[0]
 prog_location = os.path.split(prog_call)[0]
+mySQLserver = 'Driver={SQL Server};''Server=DESKTOP-H3SCR5P\SQLEXPRESS;''Database=BlinkyDB;''Trusted_Connection=yes;'
 loginFlag = 0
 
 def createCursor():
     global conn
-    conn = pyodbc.connect('Driver={SQL Server};'
-                          'Server=LAPTOP-L7B6A755;'
-                          'Database=BlinkyDB;'
-                          'Trusted_Connection=yes;')
+    conn = pyodbc.connect(mySQLserver)
     global cursor
     cursor = conn.cursor()
 
@@ -85,10 +84,7 @@ def midCheck(mid):
     global cursor
     sql = '''SELECT mid FROM BlinkyDB.dbo.Mentor WHERE mid=?'''
 
-    conn = pyodbc.connect('Driver={SQL Server};'
-                          'Server=LAPTOP-L7B6A755;'
-                          'Database=BlinkyDB;'
-                          'Trusted_Connection=yes;')
+    conn = pyodbc.connect(mySQLserver)
 
     cursor = conn.cursor()
     #row = cursor.fetchone()
@@ -118,10 +114,7 @@ def uidCheck(uid):
     sql = '''SELECT uid FROM BlinkyDB.dbo.[User] WHERE uid=?'''
 
     global conn
-    conn = pyodbc.connect('Driver={SQL Server};'
-                          'Server=LAPTOP-L7B6A755;'
-                          'Database=BlinkyDB;'
-                          'Trusted_Connection=yes;')
+    conn = pyodbc.connect(mySQLserver)
     global cursor
     cursor = conn.cursor()
     cursor.execute(sql, uid)
@@ -692,7 +685,7 @@ def returnNumOfPictures():
     sql = '''SELECT DISTINCT * FROM BlinkyDB.dbo.[Images]'''
     cursor.execute(sql)
     for row in cursor:
-        imageList.append(row.ImagesID)
+        imageList.append(row.imagesID)
     return len(imageList)
 
 def returnNumOfPhrases():
@@ -722,3 +715,120 @@ def getAllTitles():
     for row in cursor:
         titleList.append(row.phrase)
     return titleList
+
+def user_info(Mid):
+    if (Mid == None):
+        return False
+    if (type(Mid) != str):
+        return False
+    global conn
+    global cursor
+    conn = pyodbc.connect(mySQLserver)
+    cursor = conn.cursor()
+    sql = '''SELECT DISTINCT COUNT(*) FROM BlinkyDB.dbo.Mentor,BlinkyDB.dbo.[User]
+                               where BlinkyDB.dbo.Mentor.mid=BlinkyDB.dbo.[User].mid;'''
+    cursor.execute(sql)
+    row = cursor.fetchone()
+    fpath = os.path.join(prog_location+'/Reports', 'userinfo.txt')
+    file = open(fpath, 'w')
+    file.write('Hello Mentor ' + Mid)
+    file.write('\n')
+    file.write('        You have ' + str(row[0]) + ' users under your name\n')
+
+    sql = '''SELECT DISTINCT [User].mid,[User].uid,[User].firstName,[User].lastName,[User].age, [User].gender,[User].birthday,[User].phone,[User].address,[User].contact1,[User].contact2,[User].diet
+           FROM BlinkyDB.dbo.Mentor,BlinkyDB.dbo.[User]
+           where BlinkyDB.dbo.[User].mid=?;'''
+
+
+    cursor.execute(sql, Mid)
+    if(cursor==None):
+        return False
+
+    file.write('\n')
+    t = 0
+    for row in cursor:
+        assert isinstance(Mid, str)
+        if (row == None):
+            return False
+        file.write(' user number #' + str(t))
+        file.write('\n')
+        t = t + 1
+        file.write('        uid: ' + row.uid)
+        file.write('\n')
+        file.write('        first name: ' + row.firstName)
+        file.write('\n')
+        file.write('        last name: ' + row.lastName)
+        file.write('\n')
+        file.write('        age: ' + str(row.age))
+        file.write('\n')
+        file.write('        gender: ' + row.gender)
+        file.write('\n')
+        file.write('        birthday: ' + row.birthday)
+        file.write('\n')
+        file.write('        phone: ' + str(row.phone))
+        file.write('\n')
+        file.write('        address: ' + row.address)
+        file.write('\n')
+        file.write('        contact1: ' + str(row.contact1))
+        file.write('\n')
+        file.write('        contact2: ' + str(row.contact2))
+        file.write('\n')
+    file.close()
+    conn.close()
+
+    root = tk.Tk()
+    st = Pmw.ScrolledText(root, borderframe=1, labelpos=tk.N,
+                          label_text='Blackmail', usehullsize=1,
+                          hull_width=400, hull_height=300,
+                          text_padx=10, text_pady=10,
+                          text_wrap='none')
+    st.importfile(fpath)
+    st.pack(fill=tk.BOTH, expand=1, padx=5, pady=5)
+
+    root.mainloop()
+    return True
+
+def medical_info(mid):
+    global conn
+    if (mid == None):
+        return False
+    if (type(mid) != str):
+        return False
+    conn = pyodbc.connect(mySQLserver)
+    global cursor
+    cursor = conn.cursor()
+    sql = '''SELECT Mentor.mid,[User].uid,medical
+            FROM BlinkyDB.dbo.Mentor,BlinkyDB.dbo.[User]
+            where BlinkyDB.dbo.Mentor.mid=BlinkyDB.dbo.[User].mid AND Mentor.mid=?;'''
+
+    cursor.execute(sql, mid)
+    row = cursor.fetchone()
+    if(row==None):
+        return False
+    fpath = os.path.join(prog_location+'/Reports', 'medical_info_Report.txt')
+    file = open(fpath, 'w')
+    file.write('medical info Report:')
+    file.write('\n')
+    file.write('Hello Mentor ' + mid)
+    file.write('\n')
+    file.write('        user name:' + str(row.uid))
+    file.write('\n')
+    file.write('            medical info:')
+    file.write('\n')
+    file.write('                    ' + str(row.medical))
+    file.write('\n')
+    file.close()
+
+    conn.close()
+
+    root = tk.Tk()
+    st = Pmw.ScrolledText(root, borderframe=1, labelpos=tk.N,
+                          label_text='Blackmail', usehullsize=1,
+                          hull_width=400, hull_height=300,
+                          text_padx=10, text_pady=10,
+                          text_wrap='none')
+    st.importfile(fpath)
+    st.pack(fill=tk.BOTH, expand=1, padx=5, pady=5)
+
+    root.mainloop()
+    return True
