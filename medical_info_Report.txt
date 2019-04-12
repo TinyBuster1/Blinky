@@ -1,5 +1,0 @@
-medical info Report:
-Hello Mentor M1
-        user name:U1
-            medical info:
-                    MU1
