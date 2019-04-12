@@ -6,6 +6,8 @@ import BlinkyDataBaseManagment
 import sys
 import os.path
 import tkMessageBox
+#comment loginAuth if needed  DONT DELETE IT!
+import LoginAuth
 
 import Tkinter as tk
 import tkSimpleDialog
