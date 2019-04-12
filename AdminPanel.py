@@ -19,16 +19,21 @@ except ImportError:
     import tkinter as tk
 import LogicGui
 from functools import partial
+
 try:
     import ttk
+
     py3 = False
 except ImportError:
     import tkinter.ttk as ttk
+
     py3 = True
+
 
 def set_Tk_var():
     global combobox
     combobox = tk.StringVar()
+
 
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
@@ -36,33 +41,36 @@ def init(top, gui, *args, **kwargs):
     top_level = top
     root = top
 
+
 w = None
+
 
 def create_AdminPanel(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
     global w, w_win, rt
     rt = root
-    w = tk.Toplevel (root)
+    w = tk.Toplevel(root)
     set_Tk_var()
-    top = AdminPanel (w)
+    top = AdminPanel(w)
     init(w, top, *args, **kwargs)
     return (w, top)
+
 
 def destroy_AdminPanel():
     global w
     w.destroy()
     w = None
 
+
 global tempdir
 tempdir = ""
 tempdirList = {}
+
+
 def browse(entry):
     tempdir = tkFileDialog.askopenfilename()
-    entry.insert(0,tempdir)
+    entry.insert(0, tempdir)
     tempdirList["tempdir"] = tempdir
-
-
-
 
 
 class AdminPanel:
@@ -71,17 +79,17 @@ class AdminPanel:
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
         _fgcolor = '#000000'  # X11 color: 'black'
-        _compcolor = '#d9d9d9' # X11 color: 'gray85'
-        _ana1color = '#d9d9d9' # X11 color: 'gray85'
-        _ana2color = '#ececec' # Closest X11 color: 'gray92'
+        _compcolor = '#d9d9d9'  # X11 color: 'gray85'
+        _ana1color = '#d9d9d9'  # X11 color: 'gray85'
+        _ana2color = '#ececec'  # Closest X11 color: 'gray92'
         self.style = ttk.Style()
         if sys.platform == "win32":
             self.style.theme_use('winnative')
-        self.style.configure('.',background=_bgcolor)
-        self.style.configure('.',foreground=_fgcolor)
-        self.style.configure('.',font="TkDefaultFont")
-        self.style.map('.',background=
-            [('selected', _compcolor), ('active',_ana2color)])
+        self.style.configure('.', background=_bgcolor)
+        self.style.configure('.', foreground=_fgcolor)
+        self.style.configure('.', font="TkDefaultFont")
+        self.style.map('.', background=
+        [('selected', _compcolor), ('active', _ana2color)])
 
         top.geometry("1162x848+446+87")
         top.title("New Toplevel")
@@ -93,10 +101,9 @@ class AdminPanel:
         self.currdir = os.getcwd()
         self.tempdir = -1
 
-
         self.AdminOptions = tk.Frame(top)
         self.AdminOptions.place(relx=0.155, rely=0.024, relheight=0.943
-                , relwidth=0.688)
+                                , relwidth=0.688)
         self.AdminOptions.configure(relief='groove')
         self.AdminOptions.configure(borderwidth="2")
         self.AdminOptions.configure(relief='groove')
@@ -119,7 +126,7 @@ class AdminPanel:
 
         self.AddOrRmvMentorStat = tk.Label(self.AdminOptions)
         self.AddOrRmvMentorStat.place(relx=0.05, rely=0.088, height=51
-                , width=317)
+                                      , width=317)
         self.AddOrRmvMentorStat.configure(activebackground="#f9f9f9")
         self.AddOrRmvMentorStat.configure(activeforeground="black")
         self.AddOrRmvMentorStat.configure(background="#d9d9d9")
@@ -141,9 +148,9 @@ class AdminPanel:
         self.EnterUserID.configure(highlightcolor="black")
         self.EnterUserID.configure(text='''Choose Mentor ID:''')
 
-        action_with_args = partial(LogicGui.LogicGui.RegNewMenWin, self, top,1)
+        action_with_args = partial(LogicGui.LogicGui.RegNewMenWin, self, top, 1)
 
-        self.AddNewMentorBtn = tk.Button(self.AdminOptions, command = action_with_args)
+        self.AddNewMentorBtn = tk.Button(self.AdminOptions, command=action_with_args)
         self.AddNewMentorBtn.place(relx=0.775, rely=0.156, height=32, width=148)
         self.AddNewMentorBtn.configure(activebackground="#ececec")
         self.AddNewMentorBtn.configure(activeforeground="#000000")
@@ -158,9 +165,8 @@ class AdminPanel:
         self.TSeparator1 = ttk.Separator(self.AdminOptions)
         self.TSeparator1.place(relx=-0.013, rely=0.269, relwidth=1.013)
 
-
-        action_with_args = partial(BlinkyDataBaseManagment.deleteMentor,self.AdminList)
-        self.RmvMentorBtn = tk.Button(self.AdminOptions, command = action_with_args)
+        action_with_args = partial(BlinkyDataBaseManagment.deleteMentor, self.AdminList)
+        self.RmvMentorBtn = tk.Button(self.AdminOptions, command=action_with_args)
         self.RmvMentorBtn.place(relx=0.563, rely=0.156, height=32, width=148)
         self.RmvMentorBtn.configure(activebackground="#ececec")
         self.RmvMentorBtn.configure(activeforeground="#000000")
@@ -186,7 +192,7 @@ class AdminPanel:
 
         self.ChooseImageAddLab = tk.Label(self.AdminOptions)
         self.ChooseImageAddLab.place(relx=0.063, rely=0.344, height=31
-                , width=183)
+                                     , width=183)
         self.ChooseImageAddLab.configure(activebackground="#f9f9f9")
         self.ChooseImageAddLab.configure(activeforeground="black")
         self.ChooseImageAddLab.configure(background="#d9d9d9")
@@ -198,7 +204,7 @@ class AdminPanel:
 
         self.EntryForChoosenImage = tk.Entry(self.AdminOptions)
         self.EntryForChoosenImage.place(relx=0.3, rely=0.35, height=26
-                , relwidth=0.455)
+                                        , relwidth=0.455)
         self.EntryForChoosenImage.configure(background="white")
         self.EntryForChoosenImage.configure(disabledforeground="#a3a3a3")
         self.EntryForChoosenImage.configure(font="TkFixedFont")
@@ -210,9 +216,9 @@ class AdminPanel:
         self.EntryForChoosenImage.configure(selectforeground="black")
         self.EntryForChoosenImage.insert(0, tempdir)
 
-        action_with_args = partial(browse,self.EntryForChoosenImage)
+        action_with_args = partial(browse, self.EntryForChoosenImage)
 
-        self.SearchForImageBtn = tk.Button(self.AdminOptions, command = action_with_args)
+        self.SearchForImageBtn = tk.Button(self.AdminOptions, command=action_with_args)
         self.SearchForImageBtn.place(relx=0.788, rely=0.35, height=32, width=118)
 
         self.SearchForImageBtn.configure(activebackground="#ececec")
@@ -225,9 +231,7 @@ class AdminPanel:
         self.SearchForImageBtn.configure(pady="0")
         self.SearchForImageBtn.configure(text='''Search...''')
 
-
-        #self.tempdir = tkFileDialog.askdirectory(parent = self.SearchForImageBtn,initialdir = self.currdir, title = 'Please select an image')
-
+        # self.tempdir = tkFileDialog.askdirectory(parent = self.SearchForImageBtn,initialdir = self.currdir, title = 'Please select an image')
 
         self.RmvImageIdLabel = tk.Label(self.AdminOptions)
         self.RmvImageIdLabel.place(relx=0.063, rely=0.45, height=31, width=240)
@@ -243,14 +247,14 @@ class AdminPanel:
         self.box_value = tk.StringVar()
         self.RmvImgIDBox = ttk.Combobox(self.AdminOptions, textvariable=self.box_value)
         self.RmvImgIDBox.place(relx=0.375, rely=0.45, relheight=0.039
-                , relwidth=0.29)
+                               , relwidth=0.29)
         self.RmvImgIDBox.configure(textvariable=set_Tk_var)
         self.RmvImgIDBox.configure(takefocus="")
         self.RmvImgIDBox['values'] = BlinkyDataBaseManagment.allImages()
 
-        action_with_args = partial(BlinkyDataBaseManagment.deleteImage,self.AdminList)
+        action_with_args = partial(BlinkyDataBaseManagment.deleteImage, self.AdminList)
 
-        self.ChoosenImgRmvBtn = tk.Button(self.AdminOptions, command = action_with_args)
+        self.ChoosenImgRmvBtn = tk.Button(self.AdminOptions, command=action_with_args)
         self.ChoosenImgRmvBtn.place(relx=0.7, rely=0.45, height=32, width=118)
         self.ChoosenImgRmvBtn.configure(activebackground="#ececec")
         self.ChoosenImgRmvBtn.configure(activeforeground="#000000")
@@ -280,7 +284,7 @@ class AdminPanel:
 
         self.ChooseImageAddLab_4 = tk.Label(self.AdminOptions)
         self.ChooseImageAddLab_4.place(relx=0.038, rely=0.575, height=31
-                , width=183)
+                                       , width=183)
         self.ChooseImageAddLab_4.configure(activebackground="#f9f9f9")
         self.ChooseImageAddLab_4.configure(activeforeground="black")
         self.ChooseImageAddLab_4.configure(background="#d9d9d9")
@@ -290,10 +294,9 @@ class AdminPanel:
         self.ChooseImageAddLab_4.configure(highlightcolor="black")
         self.ChooseImageAddLab_4.configure(text='''Add/Write Phrase:''')
 
+        action_with_args = partial(BlinkyDataBaseManagment.AdminAddImage, tempdirList, self.AdminList)
 
-        action_with_args = partial(BlinkyDataBaseManagment.AdminAddImage,tempdirList,self.AdminList)
-
-        self.AddImgBtn = tk.Button(self.AdminOptions, command = action_with_args)
+        self.AddImgBtn = tk.Button(self.AdminOptions, command=action_with_args)
         self.AddImgBtn.place(relx=0.525, rely=0.394, height=32, width=118)
         self.AddImgBtn.configure(activebackground="#ececec")
         self.AddImgBtn.configure(activeforeground="#000000")
@@ -307,7 +310,7 @@ class AdminPanel:
 
         self.EntryForWritePhrase = tk.Entry(self.AdminOptions)
         self.EntryForWritePhrase.place(relx=0.263, rely=0.581, height=26
-                , relwidth=0.568)
+                                       , relwidth=0.568)
         self.EntryForWritePhrase.configure(background="white")
         self.EntryForWritePhrase.configure(disabledforeground="#a3a3a3")
         self.EntryForWritePhrase.configure(font="TkFixedFont")
@@ -318,9 +321,9 @@ class AdminPanel:
         self.EntryForWritePhrase.configure(selectbackground="#c4c4c4")
         self.EntryForWritePhrase.configure(selectforeground="black")
 
-        action_with_args = partial(BlinkyDataBaseManagment.AdminAddPhrase,self.AdminList)
+        action_with_args = partial(BlinkyDataBaseManagment.AdminAddPhrase, self.AdminList)
 
-        self.AddPhraseBtn = tk.Button(self.AdminOptions, command = action_with_args)
+        self.AddPhraseBtn = tk.Button(self.AdminOptions, command=action_with_args)
         self.AddPhraseBtn.place(relx=0.838, rely=0.575, height=32, width=118)
         self.AddPhraseBtn.configure(activebackground="#ececec")
         self.AddPhraseBtn.configure(activeforeground="#000000")
@@ -346,14 +349,14 @@ class AdminPanel:
         self.box_value = tk.StringVar()
         self.RmvPhraseBox = ttk.Combobox(self.AdminOptions, textvariable=self.box_value)
         self.RmvPhraseBox.place(relx=0.338, rely=0.625, relheight=0.039
-                , relwidth=0.29)
+                                , relwidth=0.29)
         self.RmvPhraseBox.configure(textvariable=set_Tk_var)
         self.RmvPhraseBox.configure(takefocus="")
         self.RmvPhraseBox['values'] = BlinkyDataBaseManagment.allPhrases()
 
-        action_with_args = partial(BlinkyDataBaseManagment.AdminRemovePhrase,self.AdminList)
+        action_with_args = partial(BlinkyDataBaseManagment.AdminRemovePhrase, self.AdminList)
 
-        self.RmvPhraseBtn = tk.Button(self.AdminOptions, command = action_with_args)
+        self.RmvPhraseBtn = tk.Button(self.AdminOptions, command=action_with_args)
         self.RmvPhraseBtn.place(relx=0.675, rely=0.625, height=32, width=138)
         self.RmvPhraseBtn.configure(activebackground="#ececec")
         self.RmvPhraseBtn.configure(activeforeground="#000000")
@@ -377,7 +380,7 @@ class AdminPanel:
 
         self.EntryMsgToMentors = tk.Entry(self.AdminOptions)
         self.EntryMsgToMentors.place(relx=0.363, rely=0.7, height=76
-                , relwidth=0.38)
+                                     , relwidth=0.38)
         self.EntryMsgToMentors.configure(background="white")
         self.EntryMsgToMentors.configure(disabledforeground="#a3a3a3")
         self.EntryMsgToMentors.configure(font="TkFixedFont")
@@ -402,7 +405,7 @@ class AdminPanel:
 
         self.AddRmvPhrasesLab_3 = tk.Label(self.AdminOptions)
         self.AddRmvPhrasesLab_3.place(relx=0.044, rely=0.825, height=51
-                , width=257)
+                                      , width=257)
         self.AddRmvPhrasesLab_3.configure(activebackground="#f9f9f9")
         self.AddRmvPhrasesLab_3.configure(activeforeground="black")
         self.AddRmvPhrasesLab_3.configure(background="#d9d9d9")
@@ -413,7 +416,7 @@ class AdminPanel:
         self.AddRmvPhrasesLab_3.configure(highlightcolor="black")
         self.AddRmvPhrasesLab_3.configure(text='''Statistics and security logs:''')
 
-        self.PswMisBtn = tk.Button(self.AdminOptions,command=Reports.wrongPassword)
+        self.PswMisBtn = tk.Button(self.AdminOptions, command=Reports.wrongPassword)
         self.PswMisBtn.place(relx=0.044, rely=0.888, height=72, width=128)
         self.PswMisBtn.configure(activebackground="#ececec")
         self.PswMisBtn.configure(activeforeground="#000000")
@@ -426,7 +429,7 @@ class AdminPanel:
         self.PswMisBtn.configure(text='''Invalid login report''')
         self.PswMisBtn.configure(width=128)
 
-        self.OnlineUsersBtn = tk.Button(self.AdminOptions,command=Reports.onlineUsers)
+        self.OnlineUsersBtn = tk.Button(self.AdminOptions, command=Reports.onlineUsers)
         self.OnlineUsersBtn.place(relx=0.238, rely=0.888, height=72, width=128)
         self.OnlineUsersBtn.configure(activebackground="#ececec")
         self.OnlineUsersBtn.configure(activeforeground="#000000")
@@ -465,7 +468,7 @@ class AdminPanel:
         self.FeedBackLogBtn.configure(text='''Feed Back Log''')
         self.FeedBackLogBtn.configure(width=128)
 
-        self.StatisticLogBtn = tk.Button(self.AdminOptions,command=Reports.statisticsReport)
+        self.StatisticLogBtn = tk.Button(self.AdminOptions, command=Reports.statisticsReport)
         self.StatisticLogBtn.place(relx=0.813, rely=0.888, height=72, width=128)
         self.StatisticLogBtn.configure(activebackground="#ececec")
         self.StatisticLogBtn.configure(activeforeground="#000000")
@@ -477,16 +480,14 @@ class AdminPanel:
         self.StatisticLogBtn.configure(pady="0")
         self.StatisticLogBtn.configure(text='''Statistic Log''')
         self.StatisticLogBtn.configure(width=128)
-        
-        
+
         self.box_value = tk.StringVar()
         self.ChooseUserIDBox = ttk.Combobox(self.AdminOptions, textvariable=self.box_value)
         self.ChooseUserIDBox.place(relx=0.225, rely=0.15, relheight=0.039
-                , relwidth=0.29)
+                                   , relwidth=0.29)
         self.ChooseUserIDBox.configure(textvariable=set_Tk_var)
         self.ChooseUserIDBox.configure(takefocus="")
         self.ChooseUserIDBox['values'] = BlinkyDataBaseManagment.allMentors()
-                
 
         self.ChangePassLabel = tk.Label(self.AdminOptions)
         self.ChangePassLabel.place(relx=0.031, rely=0.213, height=31, width=297)
@@ -502,7 +503,7 @@ class AdminPanel:
 
         self.EntryChangePass = tk.Entry(self.AdminOptions)
         self.EntryChangePass.place(relx=0.413, rely=0.213, height=26
-                , relwidth=0.305)
+                                   , relwidth=0.305)
         self.EntryChangePass.configure(background="white")
         self.EntryChangePass.configure(disabledforeground="#a3a3a3")
         self.EntryChangePass.configure(font="TkFixedFont")
@@ -524,7 +525,7 @@ class AdminPanel:
 
         action_with_args = partial(LogicGui.LogicGui.LogoutfromAdmin, self, top)
 
-        self.AdminLogOutBtn = tk.Button(self.AdminOptions,command=action_with_args)
+        self.AdminLogOutBtn = tk.Button(self.AdminOptions, command=action_with_args)
         self.AdminLogOutBtn.place(relx=0.863, rely=0.013, height=52, width=98)
         self.AdminLogOutBtn.configure(activebackground="#ececec")
         self.AdminLogOutBtn.configure(activeforeground="#000000")
@@ -538,8 +539,8 @@ class AdminPanel:
         self.AdminLogOutBtn.configure(width=98)
 
         self.AdminList["MentorIDBox"] = self.ChooseUserIDBox
-        self.AdminList["RemoveImage"] = self.RmvImgIDBox   
-        self.AdminList["PhraseEntry"] = self.EntryForWritePhrase  
+        self.AdminList["RemoveImage"] = self.RmvImgIDBox
+        self.AdminList["PhraseEntry"] = self.EntryForWritePhrase
         self.AdminList["RemovePhrase"] = self.RmvPhraseBox   
 
 
