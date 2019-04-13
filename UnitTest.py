@@ -111,6 +111,26 @@ class BlinkyTest(unittest.TestCase):
         cursor = conn.cursor()
         self.assertTrue(cursor)
 
+    def test_numOfAdmins(self):
+        print('testing num of admins function')
+        self.assertEqual(self.dataBase.returnNumOfAdmins(), 1)
+
+    def test_possitiveNumOfAdmins(self):
+        print('testing num of admins is positive integer')
+        self.assertGreater(self.dataBase.returnNumOfAdmins(), 0)
+
+    def test_numOfUsers(self):
+        print('testing num of users function')
+        self.assertEqual(self.dataBase.returnNumOfUsers(), 3)
+
+    def test_numOfMentors(self):
+        print('testing num of mentors function')
+        self.assertEqual(self.dataBase.returnNumOfUsers(), 3)
+
+    def test_numOfPhrases(self):
+        print('testing num of phrases function')
+        self.assertNotEqual(self.dataBase.returnNumOfPhrases(), 3)
+
     def test_numOfPictures(self):
         print('testing num of pictures function')
         self.assertNotEqual(self.dataBase.returnNumOfPictures(), 3)
