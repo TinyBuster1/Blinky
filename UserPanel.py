@@ -122,6 +122,40 @@ class UserPanel:
         self.SendMsg.configure(pady="0")
         self.SendMsg.configure(text='''Send message to mentor''')
 
+        self.medicalORdiet = ttk.Entry(self.LoginFrame)
+        self.medicalORdiet.place(relx=0.26, rely=0.031, relheight=0.029
+                , relwidth=0.166)
+        self.medicalORdiet.configure(takefocus="")
+        self.medicalORdiet.configure(cursor="ibeam")
+
+        action_with_args = partial(BlinkyDataBaseManagment.updateMedical, self.UserID,self.ChangeList)
+
+        self.medicalButton = tk.Button(self.LoginFrame,command=action_with_args)
+        self.medicalButton.place(relx=0.57, rely=0.022, height=33, width=110)
+        self.medicalButton.configure(activebackground="#ececec")
+        self.medicalButton.configure(activeforeground="#000000")
+        self.medicalButton.configure(background="#d9d9d9")
+        self.medicalButton.configure(disabledforeground="#a3a3a3")
+        self.medicalButton.configure(foreground="#000000")
+        self.medicalButton.configure(highlightbackground="#d9d9d9")
+        self.medicalButton.configure(highlightcolor="black")
+        self.medicalButton.configure(pady="0")
+        self.medicalButton.configure(text='''Add medical''')
+
+        action_with_args = partial(BlinkyDataBaseManagment.updateDiet, self.UserID, self.ChangeList)
+
+        self.dietButton = tk.Button(self.LoginFrame,command=action_with_args)
+        self.dietButton.place(relx=0.45, rely=0.022, height=33, width=110)
+        self.dietButton.configure(activebackground="#ececec")
+        self.dietButton.configure(activeforeground="#000000")
+        self.dietButton.configure(background="#d9d9d9")
+        self.dietButton.configure(disabledforeground="#a3a3a3")
+        self.dietButton.configure(foreground="#000000")
+        self.dietButton.configure(highlightbackground="#d9d9d9")
+        self.dietButton.configure(highlightcolor="black")
+        self.dietButton.configure(pady="0")
+        self.dietButton.configure(text='''Add diet''')
+
         self.Info = tk.Button(self.LoginFrame)
         self.Info.place(relx=0.7, rely=0.022, height=33, width=155)
         self.Info.configure(activebackground="#ececec")
@@ -405,6 +439,7 @@ class UserPanel:
         self.ChangeList["Phrase4Button"] = self.Phrase4Button
 
         self.ChangeList["LoginFrame"] = self.LoginFrame
+        self.ChangeList["MedicalOrDiet"] = self.medicalORdiet
 
 
 
