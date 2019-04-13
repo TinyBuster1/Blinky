@@ -1,9 +1,3 @@
 pyodbc
 Pmw
 pandas
-datetime
-sys
-os
-shutil
-functools
-unittest
