@@ -20,6 +20,9 @@ pipeline {
       post {
         always {
           junit 'test-reports/*.xml'
+          cleanup {
+                script {clean_up()}
+          }
         }
       }
     }
