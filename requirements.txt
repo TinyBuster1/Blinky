@@ -1,1 +1,11 @@
-
+pyodbc
+Pmw
+pandas
+datetime
+Tkinter
+sys
+os
+shutil
+tkFileDialog
+functools
+unittest
