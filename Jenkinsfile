@@ -1,6 +1,6 @@
 pipeline {
   agent { docker { image 'python:2.7.15' } }
-  environment {["HOME=${env.WORKSPACE}"]} 
+  environment {"HOME=${env.WORKSPACE}"} 
   stages {
     // First stage , get files from your GitHub repository.
     stage('Git'){
