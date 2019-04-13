@@ -1,6 +1,6 @@
 pipeline {
   agent { docker { image 'python:2.7.15' } }
-  environment {HOME=${"env.WORKSPACE"}} 
+  environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
     stage('Git'){
@@ -8,21 +8,18 @@ pipeline {
             checkout scm
         }
     }
-    stage('preperation') {
+    stage('build') {
       steps {
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
     stage('test') {
       steps {
-        sh 'UnitTest.py'
+        sh 'python tests.py'
       }
       post {
         always {
           junit 'test-reports/*.xml'
-          cleanup {
-                script {clean_up()}
-          }
         }
       }
     }
