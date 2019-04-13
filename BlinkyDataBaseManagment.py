@@ -832,3 +832,17 @@ def medical_info(mid):
 
     root.mainloop()
     return True
+
+def updateMedical(userid,changeList):
+    updateString = changeList['MedicalOrDiet'].get()
+    sql = '''UPDATE BlinkyDB.dbo.[user] set medical=? WHERE uid=?'''
+    params = (updateString,userid)
+    cursor.execute(sql, params)
+    conn.commit()
+
+def updateDiet(userid,changeList):
+    updateString = changeList['MedicalOrDiet'].get()
+    sql = '''UPDATE BlinkyDB.dbo.[user] set diet=? WHERE uid=?'''
+    params = (updateString,userid)
+    cursor.execute(sql, params)
+    conn.commit()
