@@ -1,4 +1,3 @@
 pyodbc
 Pmw
 pandas
-functools
