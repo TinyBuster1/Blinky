@@ -1,6 +1,4 @@
 pyodbc
 Pmw
 pandas
-Tkinter
-tkFileDialog
 functools
