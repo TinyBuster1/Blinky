@@ -15,7 +15,10 @@ pipeline {
     }
     stage('test') {
       steps {
-        sh 'UnitTest.py'
+        sh """
+          cd ${WORKSPACE}
+          /usr/local/bin/python UnitTest.py
+        """
       }
       post {
         always {
