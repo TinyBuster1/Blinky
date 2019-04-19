@@ -10,7 +10,7 @@ pipeline {
     }
     stage('build') {
       steps {
-        sh  pip install pyodbc-3.0.10-cp35-none-win32.whl
+        sh  'pip install pyodbc-3.0.10-cp35-none-win32.whl'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
