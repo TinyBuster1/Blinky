@@ -10,8 +10,8 @@ pipeline {
     }
     stage('build') {
       steps {    
-        sh 'pip install -U setuptools'
-        sh 'pip install -U wheel'
+        sh 'pip install --user setuptools'
+        sh 'pip install --user wheel'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
