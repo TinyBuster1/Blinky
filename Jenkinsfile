@@ -10,7 +10,8 @@ pipeline {
     }
     stage('build') {
       steps {
-        sh 'yum install --user gcc'
+        sh 'pip install gcc-c++'
+        sh 'install python-devel'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
