@@ -10,8 +10,8 @@ pipeline {
     }
     stage('build') {
       steps {
-        sh 'pip install gcc-c++'
-        sh 'install python-devel'
+        sh 'install --user unixodbc unixodbc-dev'
+        
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
