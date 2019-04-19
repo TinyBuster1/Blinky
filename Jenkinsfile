@@ -10,7 +10,7 @@ pipeline {
     }
     stage('build') {
       steps {
-        sh 'pip install python-jenkins'
+        sh 'pip install --user python-jenkins'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
