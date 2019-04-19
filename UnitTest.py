@@ -1,7 +1,7 @@
 import unittest
 import BlinkyDataBaseManagment
 import AdminPanel
-import pyodbc
+#import pyodbc
 import GUI
 import UserPanel
 import Tkinter as tk
@@ -104,12 +104,12 @@ class BlinkyTest(unittest.TestCase):
         print('tesing uploadTitle func')
         self.assertFalse(self.dataBase.uploadTitle('animal', '1213', '2e2232ds', 'sdsda', 'dsds'), 1)
 
-    def test_log(self):
-        print('tesing logSQLconnection() func')
+    #def test_log(self):
+    #    print('tesing logSQLconnection() func')
 
-        conn = pyodbc.connect(BlinkyDataBaseManagment.mySQLserver)
-        cursor = conn.cursor()
-        self.assertTrue(cursor)
+     #   conn = pyodbc.connect(BlinkyDataBaseManagment.mySQLserver)
+     #   cursor = conn.cursor()
+     #   self.assertTrue(cursor)
 
     def test_numOfAdmins(self):
         print('testing num of admins function')
