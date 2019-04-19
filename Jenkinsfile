@@ -9,9 +9,7 @@ pipeline {
         }
     }
     stage('build') {
-      steps {
-        sh 'install unixodbc unixodbc-dev'
-        
+      steps {    
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
