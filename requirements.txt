@@ -1,3 +1,2 @@
-Pyodbc == 4.0.26
 Pmw
 pandas
