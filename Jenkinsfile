@@ -13,7 +13,7 @@ pipeline {
     stage('build') {
       steps {
         sh' pip install --upgrade pip'
-        sh 'pip install -r requirements.txt -r dev-requirements.txt'
+        sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
     stage('test') {
