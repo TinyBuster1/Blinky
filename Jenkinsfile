@@ -1,7 +1,6 @@
 pipeline {
   agent { docker { image 'python:2.7.15' } }
   environment {HOME = '/tmp'
-               VIRTUAL_ENV = "${env.WORKSPACE}/venv"} 
   }
   stages {
     // First stage , get files from your GitHub repository.
@@ -12,7 +11,6 @@ pipeline {
     }
     stage('build') {
       steps {
-        sh' pip install --upgrade pip'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
