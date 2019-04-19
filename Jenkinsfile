@@ -12,6 +12,7 @@ pipeline {
       steps {    
         sh 'pip install --user setuptools'
         sh 'pip install --user wheel'
+        sh 'pip install Pyodbc'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
