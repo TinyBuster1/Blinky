@@ -3,7 +3,7 @@ import GUI
 import NewUserRegister
 import RegisterNewMentor
 import Infohelp
-import Tkinter as tk
+import tkinter as tk
 import FeedbackFrame
 import UserPanel
 import MentorPanel
@@ -11,12 +11,12 @@ import AdminPanel
 
 class LogicGui:
     @staticmethod
-    def returnToMainFromUser(self,top):
+    def returnToMainFromUser(self, top):
         self.PatientRegisterFrame.destroy()
         tk.Frame(GUI.vpReturnToMain(top))
 
     @staticmethod
-    def returnToMainFromMentor(self,top,flag):
+    def returnToMainFromMentor(self,top,flag=None):
         if flag is None:
             self.RegisterNewMentorFrame.destroy()
             tk.Frame(GUI.vpReturnToMain(top))
@@ -70,9 +70,9 @@ class LogicGui:
         tk.Frame(MentorPanel.MentorPanel().create_MentorPanelWin(MentorID,top))
 
     @staticmethod
-    def OpenAdminPanelWin(self, top):
+    def OpenAdminPanelWin(self,adminID,top):
         self.MainPageFrame.destroy()
-        tk.Frame(AdminPanel.AdminPanel().create_AdminPanelWin(top))
+        tk.Frame(AdminPanel.AdminPanel().create_AdminPanelWin(adminID,top))
 
     @staticmethod
     def LogoutfromUser(self, top):
