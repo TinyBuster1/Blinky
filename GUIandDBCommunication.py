@@ -1,22 +1,24 @@
 import GUI
+import tkinter
 import NewUserRegister
 import RegisterNewMentor
 import LogicGui
 import BlinkyDataBaseManagment
 import sys
 import os.path
-import tkMessageBox
+from tkinter import messagebox
+from tkinter import simpledialog
+
 #comment loginAuth if needed  DONT DELETE IT!
 import LoginAuth
-
-import Tkinter as tk
-import tkSimpleDialog
+import tkinter as tk
 import datetime
-
+import os
 global login_dict
 global count
 global prog_call
 global prog_location
+
 
 prog_call = sys.argv[0]
 prog_location = os.path.split(prog_call)[0]
@@ -57,13 +59,17 @@ class GUIandDB:
         if userType == 1:
             # here do the transfer to admin page
             #GUIandDB.adminMailVerifier(self,LoginList,top)
-            LogicGui.LogicGui.OpenAdminPanelWin(self, top)
+            LogicGui.LogicGui.OpenAdminPanelWin(self,LoginList["UserNameText"].get() ,top)
             print("Admin login success!")
         elif userType == 2:
             # here do the transfer to mentor page
             #GUIandDB.mentorMailVerifier(self, LoginList, top, email)
-            LogicGui.LogicGui.OpenMentorPanelWin(self,LoginList["UserNameText"].get(), top)
-            print("Mentor login success!")
+            mentorID = LoginList["UserNameText"].get()
+            LogicGui.LogicGui.OpenMentorPanelWin(self, LoginList["UserNameText"].get(), top)
+            if mentorID in GUI.msgDict:
+                adminName = GUI.msgDict[mentorID]
+                messagebox.showinfo("","you have a message from " + adminName[0] + ": " + adminName[1])
+                del GUI.msgDict[mentorID]
         elif userType == 3:
             
             PicAndPharases = {}
@@ -77,10 +83,15 @@ class GUIandDB:
             PicAndPharases["Phrase3Button"] = BlinkyDataBaseManagment.takePhrase(LoginList["UserNameText"].get(), "3")
             PicAndPharases["Phrase4Button"] = BlinkyDataBaseManagment.takePhrase(LoginList["UserNameText"].get(), "4")
             #GUIandDB.userMailVerifier(self, LoginList,top,PicAndPharases,"alexabo4@ac.sce.ac.il")
+            userID = LoginList["UserNameText"].get()
             LogicGui.LogicGui.OpenUserPanelWin(self, LoginList["UserNameText"].get(), PicAndPharases, top)
+            if userID in GUI.msgDict:
+                mentorName = GUI.msgDict[userID]
+                messagebox.showinfo("","you have a message from " + mentorName[0] + ": " + mentorName[1])
+                del GUI.msgDict[userID]
 
         else:
-            tkMessageBox.showinfo("error", "wrong id or password please try again!")
+            messagebox.showinfo("error", "wrong id or password please try again!")
             if LoginList["UserNameText"].get() not in login_dict:
                 count = 0
                 login_dict[LoginList["UserNameText"].get()] = count
@@ -98,14 +109,14 @@ class GUIandDB:
     @staticmethod
     def mentorMailVerifier(self, LoginList,top,email):
         a = LoginAuth.sendEmail(email)  # enter real email from user
-        answer = tkSimpleDialog.askinteger("Login Authentication", "Please enter your PIN:") or -1
+        answer = simpledialog.askinteger("Login Authentication", "Please enter your PIN:") or -1
         entrycount = 0
         while a != answer and answer != -1:
             print(a)  # real PIN code
             entrycount += 1
             entry = str(entrycount)
-            tkMessageBox.showinfo("error", "Wrong pin code! attempt number :" + entry)
-            answer = tkSimpleDialog.askinteger("Login Authentication", "Please enter your PIN:") or -1
+            messagebox.showinfo("error", "Wrong pin code! attempt number :" + entry)
+            answer = simpledialog.askinteger("Login Authentication", "Please enter your PIN:") or -1
         if answer == -1:
             print("")
         else:
@@ -114,14 +125,14 @@ class GUIandDB:
     @staticmethod
     def adminMailVerifier(self, LoginList,top,email):
         a = LoginAuth.sendEmail(email)  # enter real email from user
-        answer = tkSimpleDialog.askinteger("Login Authentication", "Please enter your PIN:") or -1
+        answer = simpledialog.askinteger("Login Authentication", "Please enter your PIN:") or -1
         entrycount = 0
         while a != answer and answer != -1:
             print(a)  # real PIN code
             entrycount += 1
             entry = str(entrycount)
-            tkMessageBox.showinfo("error", "Wrong pin code! attempt number :" + entry)
-            answer = tkSimpleDialog.askinteger("Login Authentication", "Please enter your PIN:") or -1
+            messagebox.showinfo("error", "Wrong pin code! attempt number :" + entry)
+            answer = simpledialog.askinteger("Login Authentication", "Please enter your PIN:") or -1
         if answer == -1:
             print("")
         else:
@@ -130,14 +141,14 @@ class GUIandDB:
     @staticmethod
     def userMailVerifier(self, LoginList,top,PicAndPharases,email):
         a = LoginAuth.sendEmail(email)  # enter real email from user
-        answer = tkSimpleDialog.askinteger("Login Authentication", "Please enter your PIN:") or -1
+        answer = simpledialog.askinteger("Login Authentication", "Please enter your PIN:") or -1
         entrycount = 0
         while a != answer and answer != -1:
             print(a)  # real PIN code
             entrycount += 1
             entry = str(entrycount)
-            tkMessageBox.showinfo("error", "Wrong pin code! attempt number :" + entry)
-            answer = tkSimpleDialog.askinteger("Login Authentication", "Please enter your PIN:") or -1
+            messagebox.showinfo("error", "Wrong pin code! attempt number :" + entry)
+            answer = simpledialog.askinteger("Login Authentication", "Please enter your PIN:") or -1
         if answer == -1:
             print("")
         else:
@@ -165,7 +176,7 @@ class GUIandDB:
     @staticmethod
     def RefreshUserPhrase(ChangeList,top):
         role = ChangeList["PhraseIDCombobox"].get()
-        phrase =ChangeList["NewPhrasesBox"].get()
+        phrase =ChangeList["NewPhraseEntry"].get()
         button = ChangeList["Phrase"+role+"Button"]
         button.configure(text=phrase)
         button.update()
