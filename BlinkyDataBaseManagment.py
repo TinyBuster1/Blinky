@@ -3,8 +3,8 @@ import os
 from shutil import copyfile
 import sys
 import GUIandDBCommunication
-import Tkinter as tk
-import tkMessageBox
+import tkinter as tk
+from tkinter import messagebox
 import datetime
 import Pmw
 
@@ -77,7 +77,7 @@ def loginUser(userid, password):
             print("login success!")
         else:
             print("wrong id or password please try again!")
-            tkMessageBox.showinfo("error", "wrong id or password please try again!")
+            messagebox.showinfo("error", "wrong id or password please try again!")
 
 def midCheck(mid):
     global conn
@@ -97,14 +97,14 @@ def midCheck(mid):
 
 def registerMentor(mid, password, conpassword, firstName, lastName, phone):
     if password != conpassword:
-        tkMessageBox.showinfo("error", 'password not match!, please repeat the password again.')
+        messagebox.showinfo("error", 'password not match!, please repeat the password again.')
         return 1
     if midCheck(mid):
         sql1 = '''INSERT INTO BlinkyDB.dbo.Mentor (mid, password, firstName, lastName, phone) VALUES (?,?,?,?,?)'''
         params = (mid, password, firstName, lastName, phone)  # tuple containing parameter values
         cursor.execute(sql1, params)
         conn.commit()
-        tkMessageBox.showinfo("", 'mentor register successfully!')
+        messagebox.showinfo("", 'mentor register successfully!')
         return 0
     else:
         tkMessageBox.showinfo("error", 'mid already used by other mentor, please choose a different one!')
@@ -137,12 +137,12 @@ def registerUser(uid, password, firstName, lastName, mid, age, gender, birthday,
         params = (uid, mid)  # tuple containing parameter values
         cursor.execute(sql2, params)
         conn.commit()
-        tkMessageBox.showinfo("",'user register successfully!')
+        messagebox.showinfo("",'user register successfully!')
         return 0
     elif(uidCheck(uid)==False):
-        tkMessageBox.showinfo("error",'user id already used by other user, please choose a different one!')
+        messagebox.showinfo("error",'user id already used by other user, please choose a different one!')
     elif(midCheck(mid)==True):
-        tkMessageBox.showinfo("error",'mentor id is not exist!, please provide a valid mentor.')
+        messagebox.showinfo("error",'mentor id is not exist!, please provide a valid mentor.')
 
 def patientsCheck(uid, mid):
     global cursor
@@ -272,7 +272,7 @@ def UpdateChosenPic(UserID,ChangeList,top):
 def UpdateChosenPhrase(UserID,ChangeList,top):
 
     role = ChangeList["PhraseIDCombobox"].get()
-    phrase = ChangeList["NewPhrasesBox"].get()
+    phrase = ChangeList["NewPhraseEntry"].get()
 
     params = (phrase,UserID,role)
     sql = '''UPDATE BlinkyDB.dbo.Titles set phrase=? WHERE uid=? AND role=?'''
@@ -397,7 +397,7 @@ def deleteMentor(mid):
     line += "/" + now.year.__str__() + " at: " + now.time().__str__()
     f.write(line + "%d\r\n" % (1))
     f.close()
-    tkMessageBox.showinfo("", "Mentor is deleted!")
+    messagebox.showinfo("", "Mentor is deleted!")
 
 def AdminAddImage(tempdir,AdminList):
     picDir = tempdir["tempdir"].split('/')
@@ -416,7 +416,7 @@ def AdminAddImage(tempdir,AdminList):
     cursor.execute(sql1, params)
     conn.commit()
     AdminList["RemoveImage"]['values'] = allImages()
-    tkMessageBox.showinfo("", "Image Added!")
+    messagebox.showinfo("", "Image Added!")
     
 def allImages(uid=None,MentorList=None):
     if uid is None:
@@ -452,7 +452,7 @@ def deleteImage(imgList):
     line += "/" + now.year.__str__() + " at: " + now.time().__str__()
     f.write(line + "%d\r\n" % (1))
     f.close()
-    tkMessageBox.showinfo("", "image is deleted!")
+    messagebox.showinfo("", "image is deleted!")
     
 def AdminAddPhrase(AdminList):
     maxPhraseID = -1
@@ -465,7 +465,7 @@ def AdminAddPhrase(AdminList):
     cursor.execute(sql1,params)
     conn.commit()
     AdminList["RemovePhrase"]['values'] = allPhrases()
-    tkMessageBox.showinfo("", "Phrase is added!")
+    messagebox.showinfo("", "Phrase is added!")
     
 def allPhrases(uid=None, MentorList=None):
     if uid is None:
@@ -502,7 +502,7 @@ def AdminRemovePhrase(AdminList):
     line += "/" + now.year.__str__() + " at: " + now.time().__str__()
     f.write(line)
     f.close()
-    tkMessageBox.showinfo("", "Phrase is deleted!")
+    messagebox.showinfo("", "Phrase is deleted!")
 
 def loadAllUsers(ID):
     global cursor
@@ -524,7 +524,7 @@ def MentorRemoveImagetoUser(MentorID,MentorList):
     MentorList["UserComboBox"].delete(0, 'end')
     MentorList["ImageComboBox"].delete(0,'end')
     MentorList["ImageComboBox"]['values'] = allImages(MentorID,MentorList)
-    tkMessageBox.showinfo("","the image has been removed.")
+    messagebox.showinfo("","the image has been removed.")
 
 def MentorRemovePhrasetoUser(MentorID,MentorList):
 
@@ -535,14 +535,14 @@ def MentorRemovePhrasetoUser(MentorID,MentorList):
     MentorList["UserComboBox"].delete(0, 'end')
     MentorList["titleCombobox"].delete(0, 'end')
     MentorList["titleCombobox"]['values'] = allPhrases(MentorID,MentorList)
-    tkMessageBox.showinfo("", "the phrase has been removed.")
+    messagebox.showinfo("", "the phrase has been removed.")
 
 def MentorAddPhrasetoUser(MentorID,MentorList):
     sql = '''UPDATE BlinkyDB.dbo.Titles set role=? WHERE uid=? AND role=? AND mid=?'''
     params = (0,MentorList["UserComboBox"].get(),MentorList["rolecombobox"].get(),MentorID)
     cursor.execute(sql, params)
     conn.commit()
-    tkMessageBox.showinfo("", "the phrase had been added.")
+    messagebox.showinfo("", "the phrase had been added.")
 
     maxPhraseID = -1
     sql1 = '''SELECT MAX(titleID) as titleID FROM BlinkyDB.dbo.Titles'''
@@ -589,7 +589,7 @@ def MentorAddImagetoUser(MentorID, tempdir ,MentorList):
         cursor.execute(sql1, params)
         conn.commit()
         MentorList["ImageComboBox"]['values'] = allImages(MentorID, MentorList)
-    tkMessageBox.showinfo("", "the image has been added.")
+    messagebox.showinfo("", "the image has been added.")
 
 def MentorRemoveUser(MentorID,MentorList):
     sql = '''UPDATE BlinkyDB.dbo.Titles set mid=? WHERE uid=? AND mid=?'''
@@ -613,7 +613,7 @@ def MentorRemoveUser(MentorID,MentorList):
     conn.commit()
 
     MentorList["UserComboBox"]['values'] = loadAllUsers(MentorID)
-    tkMessageBox.showinfo("", "the user has been removed.")
+    messagebox.showinfo("", "the user has been removed.")
 
 def MentorAddUser(MentorID,MentorList):
     sql = '''SELECT * FROM BlinkyDB.dbo.[User] WHERE uid=?'''
@@ -641,9 +641,9 @@ def MentorAddUser(MentorID,MentorList):
         conn.commit()
 
         MentorList["UserComboBox"]['values'] = loadAllUsers(MentorID)
-        tkMessageBox.showinfo("", "the user has been added.")
+        messagebox.showinfo("", "the user has been added.")
     else:
-        tkMessageBox.showinfo("", "invalid data input.")
+        messagebox.showinfo("", "invalid data input.")
 
 def closeSQLconnection():
     global cursor
