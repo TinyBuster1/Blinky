@@ -4,6 +4,8 @@ import smtplib
 import random
 
 def sendEmail(email):
+    if '@' not in email:
+        return False
     s = smtplib.SMTP('smtp.gmail.com', 587)
     s.starttls()
     s.login("blinkysendmsg@gmail.com", "sukablyat123")
@@ -13,3 +15,27 @@ def sendEmail(email):
     s.sendmail("blinkysendmsg@gmail.com", email, message)
     s.quit()
     return number
+
+
+def sendEMERGENCY(email, userid):
+    if '@' not in email:
+        return False
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+    s.starttls()
+    s.login("blinkysendmsg@gmail.com", "sukablyat123")
+
+    message = 'Subject: {}\n\n{}'.format('EMERGENCY','THE USER: '+ userid + " PRESSED THE EMERGENCY BUTTON!!!")
+    s.sendmail("blinkysendmsg@gmail.com", email, message)
+    s.quit()
+    return True
+
+def sendFeedbackToContact(email,userid,feedback):
+    if '@' not in email:
+        return False
+    s = smtplib.SMTP('smtp.gmail.com', 587)
+    s.starttls()
+    s.login("blinkysendmsg@gmail.com", "sukablyat123")
+    message = 'Subject: {}\n\n{}'.format('Feedback', 'feedback for user: ' + userid + " " + feedback)
+    s.sendmail("blinkysendmsg@gmail.com", email, message)
+    s.quit()
+    return True
