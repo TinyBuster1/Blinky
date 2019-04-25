@@ -12,7 +12,11 @@ from functools import partial
 import RegisterNewMentor
 import LogicGui
 import GUIandDBCommunication
-import tkMessageBox
+from tkinter import messagebox
+import os
+import keyboard
+from threading import Thread as thread
+import time
 
 try:
     import Tkinter as tk
@@ -28,6 +32,9 @@ except ImportError:
     
 global root
 root = None
+global msgDict
+msgDict = {}
+
 
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
@@ -46,7 +53,11 @@ def init(top, gui, *args, **kwargs):
     top_level = top
     root = top
     
+def call_keyboard(event):
 
+    ts = thread(target=os.system, args=("osk",))
+    ts.daemon = True
+    ts.start()
     
 w = None
 def create_MainPageContainer(root, *args, **kwargs):
@@ -64,10 +75,8 @@ def destroy_MainPageContainer():
     
 
 class MainPageContainer:
- 
 
     def __init__(self, top=None):
-
         '''This class configures and populates the toplevel window.
            top is the toplevel containing window.'''
         _bgcolor = '#d9d9d9'  # X11 color: 'gray85'
@@ -84,9 +93,8 @@ class MainPageContainer:
             top.configure(highlightcolor="black")
         self.LoginList = {}
 
-
-
         self.MainPageFrame = tk.Frame(top)
+
         self.MainPageFrame.place(relx=0.094, rely=0.027, relheight=0.857
                 , relwidth=0.832)
         self.MainPageFrame.configure(relief='groove')
@@ -199,6 +207,9 @@ class MainPageContainer:
         self.PassLabel.configure(text='''Password:''')
 
         self.UserNameText = tk.Entry(self.MainPageFrame)
+        self.UserNameText.bind("<FocusIn>",call_keyboard)
+        self.UserNameText.pack()
+
         self.UserNameText.place(relx=0.338, rely=0.571, height=24
                 , relwidth=0.255)
         self.UserNameText.configure(background="white")
