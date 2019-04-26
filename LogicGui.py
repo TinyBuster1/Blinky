@@ -8,6 +8,8 @@ import FeedbackFrame
 import UserPanel
 import MentorPanel
 import AdminPanel
+import GUIandDBCommunication
+import MouseCursorControl
 
 class LogicGui:
     @staticmethod
@@ -67,7 +69,7 @@ class LogicGui:
     @staticmethod
     def OpenMentorPanelWin(self,MentorID, top):
         self.MainPageFrame.destroy()
-        tk.Frame(MentorPanel.MentorPanel().create_MentorPanelWin(MentorID,top))
+        tk.Frame(MentorPanel.MentorPanel().create_MentorPanelWin(MentorID, top))
 
     @staticmethod
     def OpenAdminPanelWin(self,adminID,top):
@@ -78,6 +80,7 @@ class LogicGui:
     def LogoutfromUser(self, top):
         BlinkyDataBaseManagment.closeSQLconnection()
         self.LoginFrame.destroy()
+        MouseCursorControl.Destroy_eye_tracker()
         tk.Frame(GUI.vpReturnToMain(top))
 
     @staticmethod
