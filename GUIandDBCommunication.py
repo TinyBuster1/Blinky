@@ -6,8 +6,11 @@ import LogicGui
 import BlinkyDataBaseManagment
 import sys
 import os.path
+import MouseCursorControl
 from tkinter import messagebox
 from tkinter import simpledialog
+from threading import Thread as thread
+
 
 #comment loginAuth if needed  DONT DELETE IT!
 import LoginAuth
@@ -18,12 +21,23 @@ global login_dict
 global count
 global prog_call
 global prog_location
-
+global ts
 
 prog_call = sys.argv[0]
 prog_location = os.path.split(prog_call)[0]
 count = 0
 login_dict = {}
+
+
+def call_eye_tracker(event):
+    global ts
+    ts = thread(target=MouseCursorControl.start, args=())
+    ts.daemon = True
+    ts.start()
+
+
+
+
 
 class GUIandDB:
     @staticmethod
@@ -49,7 +63,7 @@ class GUIandDB:
 
         if value == 0:
             LogicGui.LogicGui.returnToMainFromMentor(self, top,flag)
-        
+
     @staticmethod
     def Logged(self, LoginList, top):
         global count
@@ -70,6 +84,7 @@ class GUIandDB:
                 adminName = GUI.msgDict[mentorID]
                 messagebox.showinfo("","you have a message from " + adminName[0] + ": " + adminName[1])
                 del GUI.msgDict[mentorID]
+
         elif userType == 3:
             
             PicAndPharases = {}
@@ -89,6 +104,7 @@ class GUIandDB:
                 mentorName = GUI.msgDict[userID]
                 messagebox.showinfo("","you have a message from " + mentorName[0] + ": " + mentorName[1])
                 del GUI.msgDict[userID]
+            call_eye_tracker("none")
 
         else:
             messagebox.showinfo("error", "wrong id or password please try again!")
@@ -176,7 +192,13 @@ class GUIandDB:
     @staticmethod
     def RefreshUserPhrase(ChangeList,top):
         role = ChangeList["PhraseIDCombobox"].get()
-        phrase =ChangeList["NewPhraseEntry"].get()
+        temp  = ChangeList["NewPhraseEntry"].get()
+        temp1 = ChangeList["NewPhrasesBox"].get()
+        phrase = ""
+        if(temp == ""):
+            phrase = temp1
+        else:
+            phrase = temp
         button = ChangeList["Phrase"+role+"Button"]
         button.configure(text=phrase)
         button.update()
