@@ -8,11 +8,13 @@ from tkinter import messagebox
 import datetime
 import Pmw
 
+
 global mySQLserver
 global conn
 global cursor
 global prog_call
 global prog_location
+
 
 prog_call = sys.argv[0]
 prog_location = os.path.split(prog_call)[0]
@@ -272,9 +274,14 @@ def UpdateChosenPic(UserID,ChangeList,top):
 def UpdateChosenPhrase(UserID,ChangeList,top):
 
     role = ChangeList["PhraseIDCombobox"].get()
-    phrase = ChangeList["NewPhraseEntry"].get()
-
-    params = (phrase,UserID,role)
+    temp = ChangeList["NewPhraseEntry"].get()
+    temp1 = ChangeList["NewPhrasesBox"].get()
+    phrase = ""
+    if(temp == ""):
+        phrase = temp1
+    else:
+        phrase = temp
+    params = (phrase, UserID, role)
     sql = '''UPDATE BlinkyDB.dbo.Titles set phrase=? WHERE uid=? AND role=?'''
     rows = cursor.execute(sql, params)
     conn.commit()
@@ -292,7 +299,7 @@ def UpdateChosenPhrase(UserID,ChangeList,top):
             if row.role == role:
                 titleID =row.titleID
         sql2= '''INSERT INTO BlinkyDB.dbo.Titles (titleID, phrase, uid, mid,role) VALUES (?,?,?,?,?)'''
-        params = (titleID,phrase,UserID,mid,role)  # tuple containing parameter values
+        params = (titleID, phrase, UserID, mid, role)  # tuple containing parameter values
         cursor.execute(sql2, params)
         conn.commit()
 
