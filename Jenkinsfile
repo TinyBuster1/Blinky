@@ -11,8 +11,7 @@ pipeline {
     }
     stage('build') {
       steps {
-        sh 'pip install turbodbc'
-        sh 'python -m pip install  --user --upgrade pip'
+        sh 'pip install --upgrade pip' 
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
