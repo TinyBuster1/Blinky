@@ -17,6 +17,8 @@ import os
 import keyboard
 from threading import Thread as thread
 import time
+import argparse
+import cv2
 
 try:
     import Tkinter as tk
@@ -34,6 +36,8 @@ global root
 root = None
 global msgDict
 msgDict = {}
+global flag
+flag = 0
 
 
 def vp_start_gui():
@@ -54,11 +58,10 @@ def init(top, gui, *args, **kwargs):
     root = top
     
 def call_keyboard(event):
-
     ts = thread(target=os.system, args=("osk",))
     ts.daemon = True
     ts.start()
-    
+
 w = None
 def create_MainPageContainer(root, *args, **kwargs):
     '''Starting point when module is imported by another program.'''
@@ -207,8 +210,7 @@ class MainPageContainer:
         self.PassLabel.configure(text='''Password:''')
 
         self.UserNameText = tk.Entry(self.MainPageFrame)
-        self.UserNameText.bind("<FocusIn>",call_keyboard)
-        self.UserNameText.pack()
+        self.UserNameText.bind("<1>", call_keyboard)
 
         self.UserNameText.place(relx=0.338, rely=0.571, height=24
                 , relwidth=0.255)
@@ -234,6 +236,7 @@ class MainPageContainer:
         self.PasswordText.configure(insertbackground="black")
         self.PasswordText.configure(selectbackground="#c4c4c4")
         self.PasswordText.configure(selectforeground="black")
+        self.PasswordText.bind("<1>", call_keyboard)
         
         action_with_args = partial(LogicGui.LogicGui.ShowInfo,self,top)
 
