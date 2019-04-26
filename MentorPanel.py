@@ -304,7 +304,7 @@ class MentorPanel:
         self.PswResetButton.configure(pady="0")
         self.PswResetButton.configure(text='''Reset''')
 
-        action_with_args = partial(LogicGui.LogicGui.LogoutfromMentor,self,top)
+        action_with_args = partial(LogicGui.LogicGui.LogoutfromMentor, self, top)
 
         self.LogOutMenBtn = tk.Button(self.MentorCntPnl,command=action_with_args)
         self.LogOutMenBtn.place(relx=0.85, rely=0.013, height=32, width=98)
