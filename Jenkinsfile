@@ -11,6 +11,7 @@ pipeline {
     }
     stage('build') {
       steps {
+        sh 'python -m pip install --upgrade pip'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
