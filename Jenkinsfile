@@ -1,5 +1,5 @@
 pipeline {
-  agent { docker { image 'python:2.7.15' } }
+  agent { docker { image 'python:3.7.2' } }
   environment {HOME = '/tmp'
   }
   stages {
