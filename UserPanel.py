@@ -144,7 +144,7 @@ class UserPanel:
 
 
         self.medicalORdiet = ttk.Entry(self.LoginFrame)
-        self.medicalORdiet.bind("<FocusIn>", GUI.call_keyboard)
+        self.medicalORdiet.bind("<1>", GUI.call_keyboard)
         self.medicalORdiet.place(relx=0.26, rely=0.031, relheight=0.029
                 , relwidth=0.166)
         self.medicalORdiet.configure(takefocus="")
@@ -388,6 +388,7 @@ class UserPanel:
         self.ChangePicButton.configure(width=106)
 
         action_with_args = partial(BlinkyDataBaseManagment.UpdateChosenPhrase, self.UserID, self.ChangeList, top)
+
         self.ChangePhraseButton = tk.Button(self.LoginFrame, command=action_with_args)
         self.ChangePhraseButton.place(relx=0.85, rely=0.211, height=63
                 , width=106)
@@ -411,7 +412,7 @@ class UserPanel:
         self.NewPhrasesBox['values'] = BlinkyDataBaseManagment.loadAllPhrases(self.UserID)
 
         self.NewPhraseEntry = ttk.Entry(self.LoginFrame)
-        self.NewPhraseEntry.bind("<FocusIn>", GUI.call_keyboard)
+        self.NewPhraseEntry.bind("<1>", GUI.call_keyboard)
         self.NewPhraseEntry.place(relx=0.61, rely=0.278, relheight=0.029
                 , relwidth=0.166)
         self.NewPhraseEntry.configure(takefocus="")
