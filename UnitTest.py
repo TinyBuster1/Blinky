@@ -230,6 +230,10 @@ class BlinkyTest(unittest.TestCase):
     def test_sendMsg4(self):
         print('sending msg to mentor from user')
         self.assertEqual(sendMsgs.sendMsgtoMentorFromUser("m", self.emptyList), False)
+        
+    def test_sendMsg5(self):
+        print('sending msg to user from mentor')
+        self.assertEqual(sendMsgs.sendMsgtoMentorFromAdmin("m", self.emptyList), False)
 
 
 if __name__ == '__main__':
