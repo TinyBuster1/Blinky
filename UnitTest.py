@@ -198,6 +198,38 @@ class BlinkyTest(unittest.TestCase):
     def test_user_medical_info7(self):
         print('test medical_info ')
         self.assertEqual(self.dataBase.medical_info(-1), False)
+        
+            def test_login_auth1(self):
+        print('testing email contains @ in feedback function')
+        self.assertEqual(LoginAuth.sendFeedbackToContact("a","u","str"), False)
+
+    def test_login_aut2(self):
+        print('testing email contains @ in emergency function')
+        self.assertEqual(LoginAuth.sendEMERGENCY("a","u"), False)
+
+    def test_login_aut3(self):
+        print('testing email contains @ in email function')
+        self.assertEqual(LoginAuth.sendEmail("a"), False)
+
+    def test_login_aut4(self):
+        print('testing that email returns int value')
+        self.assertEqual(type(LoginAuth.sendEmail("alexabo4@ac.sce.ac.il")), int)
+
+    def test_sendMsg1(self):
+        print('sending msg to user from mentor')
+        self.assertEqual(sendMsgs.sendMsgtoUserFromMentor("m", self.emptyList), False)
+
+    def test_sendMsg2(self):
+        print('sending emergency to  mentor')
+        self.assertEqual(sendMsgs.sendEMERGENCYtoMentorFromUser(""), False)
+
+    def test_sendMsg3(self):
+        print('sending msg to contacts')
+        self.assertEqual(sendMsgs.sendFeedbackToContacts("m", self.emptyList), False)
+
+    def test_sendMsg4(self):
+        print('sending msg to mentor from user')
+        self.assertEqual(sendMsgs.sendMsgtoMentorFromUser("m", self.emptyList), False)
 
 
 if __name__ == '__main__':
