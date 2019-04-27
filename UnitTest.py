@@ -4,8 +4,10 @@ import AdminPanel
 import pyodbc
 import GUI
 import UserPanel
-import Tkinter as tk
+import tkinter as tk
 import MentorPanel
+import LoginAuth
+import sendMsgs
 
 
 class BlinkyTest(unittest.TestCase):
