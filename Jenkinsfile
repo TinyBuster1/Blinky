@@ -1,5 +1,5 @@
 pipeline {
-  agent { docker { image 'python:3.7.2' } }
+  agent { docker { image 'zerogjoe/mssql-python3.6-pyodbc' } }
   environment {HOME = '/tmp'
   }
   stages {
@@ -20,7 +20,7 @@ pipeline {
       steps {
         sh """
           cd ${WORKSPACE}
-          /usr/local/bin/python UnitTest.py
+          /usr/bin/python3 UnitTest.py
         """
       }
       post {
