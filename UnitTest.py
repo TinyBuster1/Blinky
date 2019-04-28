@@ -201,7 +201,7 @@ class BlinkyTest(unittest.TestCase):
         print('test medical_info ')
         self.assertEqual(self.dataBase.medical_info(-1), False)
         
-            def test_login_auth1(self):
+    def test_login_auth1(self):
         print('testing email contains @ in feedback function')
         self.assertEqual(LoginAuth.sendFeedbackToContact("a","u","str"), False)
 
