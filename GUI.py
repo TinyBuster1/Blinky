@@ -6,19 +6,19 @@
 #    Mar 09, 2019 05:11:15 AM +0200  platform: Windows NT
 ##Alex
 # Jira test
-import sys
-import NewUserRegister
-from functools import partial
-import RegisterNewMentor
-import LogicGui
-import GUIandDBCommunication
-from tkinter import messagebox
+
+
 import os
-import keyboard
+from functools import partial
+##import keyboard
 from threading import Thread as thread
-import time
-import argparse
-import cv2
+
+import GUIandDBCommunication
+import LogicGui
+import Forgot_password
+import support
+
+##import cv2
 
 try:
     import Tkinter as tk
@@ -134,7 +134,10 @@ class MainPageContainer:
         self.Login.configure(pady="0")
         self.Login.configure(text='''Login''')
 
-        self.ForgotPassword = tk.Button(self.MainPageFrame)
+
+
+
+        self.ForgotPassword = tk.Button(self.MainPageFrame, command=Forgot_password.Forgot_password_U)
         self.ForgotPassword.place(relx=0.375, rely=0.873, height=63, width=146)
         self.ForgotPassword.configure(activebackground="#ececec")
         self.ForgotPassword.configure(activeforeground="#000000")
@@ -146,9 +149,8 @@ class MainPageContainer:
         self.ForgotPassword.configure(pady="0")
         self.ForgotPassword.configure(text='''Forgot password''')
 
-        
-        action_with_args = partial(LogicGui.LogicGui.RegNewUserWin,self, top)
-        
+
+        action_with_args = partial(LogicGui.LogicGui.RegNewUserWin, self, top)
         self.RegisterNewUser = tk.Button(self.MainPageFrame, command=action_with_args)
         self.RegisterNewUser.place(relx=0.575, rely=0.302, height=73, width=126)
         self.RegisterNewUser.configure(activebackground="#ececec")

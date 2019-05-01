@@ -7,6 +7,7 @@
 
 import sys
 import BlinkyDataBaseManagment
+import support
 
 try:
     import Tkinter as tk
@@ -178,7 +179,9 @@ class UserPanel:
         self.dietButton.configure(pady="0")
         self.dietButton.configure(text='''Add diet''')
 
-        self.Info = tk.Button(self.LoginFrame)
+        action_with_args = partial(support.support_U)
+
+        self.Info = tk.Button(self.LoginFrame,command=action_with_args)
         self.Info.place(relx=0.7, rely=0.022, height=33, width=155)
         self.Info.configure(activebackground="#ececec")
         self.Info.configure(activeforeground="#000000")

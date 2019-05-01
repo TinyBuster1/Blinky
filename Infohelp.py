@@ -127,8 +127,8 @@ class InfoFrame:
         self.blinky.configure(background="#d9d9d9")
         self.blinky.configure(disabledforeground="#a3a3a3")
         self.blinky.configure(foreground="#000000")
-        self.blinky.configure(text='''Easy to use, accurate. 
-Learn why the Bllinky is the eye-tracking device of choice''')
+        self.blinky.configure(text='''Easy to use, accurate.Learn why the Bllinky is the eye-tracking device of choice''')
+
         
         action_with_args = partial(LogicGui.LogicGui.InfoBackToMain,self,top)
 

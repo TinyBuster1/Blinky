@@ -10,7 +10,10 @@ import sys
 import Pmw
 
 import BlinkyDataBaseManagment
+import Forgot_password
+import Infohelp
 import sendMsgs
+import support
 
 try:
     import Tkinter as tk
@@ -242,7 +245,7 @@ class MentorPanel:
         self.ChooseUserLabel1.configure(text='''Choose User:''')
 
 #-------------------------------------------------------------------------------
-        ##### action_with_args = partial(myfunc, self, self.UserInput, top)
+        ##### action_with_args = partial(myfunc, self, self.UserInput, top) self.UserComboBox
         action_with_args = partial(BlinkyDataBaseManagment.user_info, MentorID)
         self.InfoBtn = tk.Button(self.MentorCntPnl,command=action_with_args)
         self.InfoBtn.place(relx=0.55, rely=0.788, height=42, width=108)
@@ -292,7 +295,9 @@ class MentorPanel:
         self.PswResetLabel.configure(highlightcolor="black")
         self.PswResetLabel.configure(text='''Password Reset:''')
 
-        self.PswResetButton = tk.Button(self.MentorCntPnl)
+        action_with_args = partial(Forgot_password.Forgot_password_M, MentorID)
+
+        self.PswResetButton = tk.Button(self.MentorCntPnl,command=action_with_args)
         self.PswResetButton.place(relx=0.563, rely=0.856, height=32, width=98)
         self.PswResetButton.configure(activebackground="#ececec")
         self.PswResetButton.configure(activeforeground="#000000")
@@ -329,7 +334,11 @@ class MentorPanel:
         self.TechLabel.configure(highlightcolor="black")
         self.TechLabel.configure(text='''Support:''')
 
-        self.getSuppoertBtn = tk.Button(self.MentorCntPnl)
+
+
+        action_with_args = partial(support.support_M)
+
+        self.getSuppoertBtn = tk.Button(self.MentorCntPnl,command=action_with_args)
         self.getSuppoertBtn.place(relx=0.213, rely=0.925, height=32, width=118)
         self.getSuppoertBtn.configure(activebackground="#ececec")
         self.getSuppoertBtn.configure(activeforeground="#000000")

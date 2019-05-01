@@ -18,13 +18,22 @@ global prog_location
 
 prog_call = sys.argv[0]
 prog_location = os.path.split(prog_call)[0]
-mySQLserver = 'Driver={SQL Server};''Server=DESKTOP-H3SCR5P\SQLEXPRESS;''Database=BlinkyDB;''Trusted_Connection=yes;'
+mySQLserver = 'Driver={ODBC Driver 13 for SQL Server};''SERVER=LAPTOP-L7B6A755;''Database=BlinkyDB;''Trusted_Connection=yes;'
+
+
+
 loginFlag = 0
 
 def createCursor():
-    global conn
-    conn = pyodbc.connect(mySQLserver)
     global cursor
+    global conn
+
+
+    #print([x for x in pyodbc.drivers() if x.endswith(' for SQL Server')])
+    conn=pyodbc.connect(mySQLserver)
+
+
+
     cursor = conn.cursor()
 
 def userChecker(id, password):
@@ -109,7 +118,10 @@ def registerMentor(mid, password, conpassword, firstName, lastName, phone):
         messagebox.showinfo("", 'mentor register successfully!')
         return 0
     else:
-        tkMessageBox.showinfo("error", 'mid already used by other mentor, please choose a different one!')
+        """
+        fix this
+        """
+        #tkMessageBox.showinfo("error", 'mid already used by other mentor, please choose a different one!')
 
 def uidCheck(uid):
 
