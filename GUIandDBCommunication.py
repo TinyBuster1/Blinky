@@ -6,7 +6,7 @@ import LogicGui
 import BlinkyDataBaseManagment
 import sys
 import os.path
-import MouseCursorControl
+##import MouseCursorControl
 from tkinter import messagebox
 from tkinter import simpledialog
 from threading import Thread as thread
@@ -28,12 +28,6 @@ prog_location = os.path.split(prog_call)[0]
 count = 0
 login_dict = {}
 
-
-def call_eye_tracker(event):
-    global ts
-    ts = thread(target=MouseCursorControl.start, args=())
-    ts.daemon = True
-    ts.start()
 
 
 
@@ -104,7 +98,7 @@ class GUIandDB:
                 mentorName = GUI.msgDict[userID]
                 messagebox.showinfo("","you have a message from " + mentorName[0] + ": " + mentorName[1])
                 del GUI.msgDict[userID]
-            call_eye_tracker("none")
+           # call_eye_tracker("none")
 
         else:
             messagebox.showinfo("error", "wrong id or password please try again!")

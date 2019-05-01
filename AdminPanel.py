@@ -10,6 +10,8 @@ import BlinkyDataBaseManagment
 from tkinter import filedialog
 
 import os
+
+import Forgot_password
 import sendMsgs
 from shutil import copyfile
 
@@ -70,7 +72,7 @@ tempdirList = {}
 
 
 def browse(entry):
-    tempdir = tkFileDialog.askopenfilename()
+    #tempdir = tkFileDialog.askopenfilename()
     entry.insert(0, tempdir)
     tempdirList["tempdir"] = tempdir
 
@@ -516,7 +518,13 @@ class AdminPanel:
         self.EntryChangePass.configure(foreground="#000000")
         self.EntryChangePass.configure(insertbackground="black")
 
-        self.UpdatePassBtn = tk.Button(self.AdminOptions)
+
+        '''
+            find 
+        '''
+        action_with_args = partial(Forgot_password.Forgot_password_A, self.EntryChangePass,self.ChooseUserIDBox)
+
+        self.UpdatePassBtn = tk.Button(self.AdminOptions,command=action_with_args)
         self.UpdatePassBtn.place(relx=0.756, rely=0.213, height=32, width=148)
         self.UpdatePassBtn.configure(activebackground="#ececec")
         self.UpdatePassBtn.configure(activeforeground="#000000")

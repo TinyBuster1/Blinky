@@ -61,6 +61,7 @@ def Forgot_password_U():
 
     root.mainloop()
 
+
 def Forgot_password_M(MentorID):
     root = tk.Tk()
     root.title("Forgot Password")
@@ -113,6 +114,7 @@ def Forgot_password_M(MentorID):
 
     root.mainloop()
 
+
 def Forgot_password_A(EntryChangePass,ChooseUserIDBox):
     password=EntryChangePass.get()
     ChoosseUser=ChooseUserIDBox.get()
@@ -138,6 +140,8 @@ def Forgot_password_A(EntryChangePass,ChooseUserIDBox):
         messagebox.showinfo("REST PASSWORD", "NEW PASSWORD UPDATE " + password)
     else:
         messagebox.showinfo("REST PASSWORD", "A problem has occurred")
+
+
 
 
 
