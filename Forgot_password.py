@@ -113,6 +113,32 @@ def Forgot_password_M(MentorID):
 
     root.mainloop()
 
+def Forgot_password_A(EntryChangePass,ChooseUserIDBox):
+    password=EntryChangePass.get()
+    ChoosseUser=ChooseUserIDBox.get()
+
+    conn = pyodbc.connect(BlinkyDataBaseManagment.mySQLserver)
+    cursor = conn.cursor()
+
+    sql=''' UPDATE BlinkyDB.dbo.Mentor
+            SET Mentor.password=?
+            WHERE Mentor.mid=?;'''
+
+    cursor.execute(sql, password, ChoosseUser)
+    conn.commit()
+
+    sql=''' SELECT password
+            FROM BlinkyDB.dbo.Mentor
+            WHERE Mentor.mid=?;'''
+    cursor.execute(sql, ChoosseUser)
+    row = cursor.fetchone()
+
+    if (row != None):
+
+        messagebox.showinfo("REST PASSWORD", "NEW PASSWORD UPDATE " + password)
+    else:
+        messagebox.showinfo("REST PASSWORD", "A problem has occurred")
+
 
 
 
