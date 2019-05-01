@@ -4,11 +4,13 @@ import AdminPanel
 import pyodbc
 import GUI
 import UserPanel
-import tkinter as tk
 import MentorPanel
-import LoginAuth
-import sendMsgs
+import support
 
+try:
+    import Tkinter as tk
+except ImportError:
+    import tkinter as tk
 
 class BlinkyTest(unittest.TestCase):
     window = tk.Tk()
@@ -200,42 +202,90 @@ class BlinkyTest(unittest.TestCase):
     def test_user_medical_info7(self):
         print('test medical_info ')
         self.assertEqual(self.dataBase.medical_info(-1), False)
-        
-    def test_login_auth1(self):
-        print('testing email contains @ in feedback function')
-        self.assertEqual(LoginAuth.sendFeedbackToContact("a","u","str"), False)
 
-    def test_login_aut2(self):
-        print('testing email contains @ in emergency function')
-        self.assertEqual(LoginAuth.sendEMERGENCY("a","u"), False)
 
-    def test_login_aut3(self):
-        print('testing email contains @ in email function')
-        self.assertEqual(LoginAuth.sendEmail("a"), False)
 
-    def test_login_aut4(self):
-        print('testing that email returns int value')
-        self.assertEqual(type(LoginAuth.sendEmail("alexabo4@ac.sce.ac.il")), int)
+    ##Forgot password_u
+    def test_Forgot_password_U_entry(self):
+        print( 'testnig entry to Recover password')
+        self.assertIsNotNone(self.dataBase.conn, 'its None')
 
-    def test_sendMsg1(self):
-        print('sending msg to user from mentor')
-        self.assertEqual(sendMsgs.sendMsgtoUserFromMentor("m", self.emptyList), False)
+    def test_Forgot_password_U_user(self):
+        print('tesing user enter Forgot password func')
+        self.assertTrue(Forgot_password.Forgot_password_U, 'not equal')
 
-    def test_sendMsg2(self):
-        print('sending emergency to  mentor')
-        self.assertEqual(sendMsgs.sendEMERGENCYtoMentorFromUser(""), False)
+    def test_test_Forgot_password_U_database(self):
+        print("testing sql concoction to change password")
+        #print(type(pyodbc.connect(BlinkyDataBaseManagment.mySQLserver)))
+        self.assertIsInstance(self.dataBase.conn,pyodbc.Connection)
 
-    def test_sendMsg3(self):
-        print('sending msg to contacts')
-        self.assertEqual(sendMsgs.sendFeedbackToContacts("m", self.emptyList), False)
 
-    def test_sendMsg4(self):
-        print('sending msg to mentor from user')
-        self.assertEqual(sendMsgs.sendMsgtoMentorFromUser("m", self.emptyList), False)
-        
-    def test_sendMsg5(self):
-        print('sending msg to user from mentor')
-        self.assertEqual(sendMsgs.sendMsgtoMentorFromAdmin("m", self.emptyList), False)
+    ##Forgot password_a
+    def test_Forgot_password_A_entry(self):
+        print( 'testnig entry to Recover password')
+        self.assertRaises(Exception,Forgot_password.Forgot_password_A(self.testEntry2,self.testEntry1))
+
+    def test_Forgot_password_A_user(self):
+        print('tesing user enter Forgot password func')
+        self.assertRaises(Exception,Forgot_password.Forgot_password_A(self.testEntry2,self.testEntry1))
+
+    def test_Forgot_password_A_database(self):
+        print("testing sql concoction to change password")
+        #print(type(pyodbc.connect(BlinkyDataBaseManagment.mySQLserver)))
+        self.assertIsInstance(self.dataBase.conn,pyodbc.Connection)
+
+    ##test mentor
+
+    def test_Forgot_password_M_entry(self):
+        print('testnig entry to mentor to Recover password for user')
+        self.assertRaises(Exception, Forgot_password.Forgot_password_M(';amit'))
+
+    def test_Forgot_password_M_user(self):
+        print('tesing mentor enter Forgot password func')
+        self.assertRaises(Exception, Forgot_password.Forgot_password_M("sdsd"))
+
+    def test_Forgot_password_M_database(self):
+        print("testing sql concoction to change password")
+        self.assertIsInstance(self.dataBase.conn, pyodbc.Connection)
+
+
+
+
+
+    #support M
+    def test_support_M(self):
+        print('testnig entry to mentor support_M')
+        self.assertRaises(Exception, support.support_M())
+
+    def test_support_M(self):
+        print('testnig entry to mentor support_M')
+        self.assertEqual(support.support_M(),None)
+
+    def test_support_M(self):
+        print('testnig entry to mentor support_M')
+        self.assertFalse(support.support_M(),1)
+
+    def test_test_support_M(self):
+        print('testnig entry to mentor support_M')
+        self.assertFalse(support.support_M(), 2)
+
+    # support U
+    def test_support_U(self):
+        print('testnig entry to user support_U')
+        self.assertRaises(Exception, support.support_U())
+
+    def test_support_U(self):
+        print('testnig entry to user support_U')
+        self.assertEqual(support.support_U(), None)
+
+    def test_support_U(self):
+        print('testnig entry to user support_U')
+        self.assertFalse(support.support_U(), 1)
+
+    def test_support_U(self):
+        print('testnig entry to user support_U')
+        self.assertFalse(support.support_U(), 2)
+
 
 
 if __name__ == '__main__':
