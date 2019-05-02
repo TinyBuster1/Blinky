@@ -29,7 +29,11 @@ count = 0
 login_dict = {}
 
 
-
+def call_eye_tracker(event):
+    global ts
+    ts = thread(target=MouseCursorControl.start, args=())
+    ts.daemon = True
+    ts.start()
 
 
 
