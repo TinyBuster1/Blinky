@@ -102,7 +102,7 @@ class GUIandDB:
                 mentorName = GUI.msgDict[userID]
                 messagebox.showinfo("","you have a message from " + mentorName[0] + ": " + mentorName[1])
                 del GUI.msgDict[userID]
-           # call_eye_tracker("none")
+            call_eye_tracker("none")
 
         else:
             messagebox.showinfo("error", "wrong id or password please try again!")
