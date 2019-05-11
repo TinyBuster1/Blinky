@@ -12,7 +12,7 @@ pipeline {
     stage('build') {
       steps {
         sh 'pip install  --user --upgrade pip'
-        sh 'sudo apt-get install unixodbc-dev'
+        sh 'sudo apt-get install python3-dev'
         sh 'pip install --user --upgrade pip wheel'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
