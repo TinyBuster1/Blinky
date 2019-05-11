@@ -1,6 +1,6 @@
     
 pipeline {
-  agent { docker { image 'docker pull milanez/docker-flask-pyodbc'} }
+  agent { docker { image 'docker pull zerogjoe/mssql-python3.6-pyodbc'} }
   environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
