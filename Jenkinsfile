@@ -1,7 +1,6 @@
     
 pipeline {
-  agent { docker { image 'python:3.7.2'
-                   image 'docker pull mysql'} }
+  agent { docker { image 'docker pull milanez/docker-flask-pyodbc'} }
   environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
