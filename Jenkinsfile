@@ -11,6 +11,7 @@ pipeline {
     }
     stage('build') {
       steps {
+        sh 'usermod -a -G sudo jenkins'
         sh 'sudo apt-get install unixodbc-dev'
         sh 'pip install pyodbc'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
