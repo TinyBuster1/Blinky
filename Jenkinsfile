@@ -11,7 +11,7 @@ pipeline {
     }
     stage('build') {
       steps {
-        sh 'sudo -H pip install pyodbc'
+        sh 'pip install pyodbc'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
