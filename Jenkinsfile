@@ -1,5 +1,5 @@
 pipeline {
-  agent { docker { image 'docker pull python' } }
+  agent { docker { image 'docker pull pypy' } }
   environment {HOME = '/tmp'
   }
   stages {
@@ -11,8 +11,6 @@ pipeline {
     }
     stage('build') {
       steps {
-        sh 'pip install  --user --upgrade pip'
-        sh 'pip install --user --upgrade pip wheel'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
