@@ -11,6 +11,8 @@ pipeline {
     }
     stage('build') {
       steps {
+        sh 'sudo apt-get install unixodbc-dev'
+        sh 'pip install pyodbc'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
