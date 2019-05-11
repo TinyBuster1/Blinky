@@ -1,6 +1,6 @@
     
 pipeline {
-  agent { docker { image 'python:docker pull python'} }
+  agent { docker { image 'python:3.7.2'} }
   environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
@@ -11,6 +11,7 @@ pipeline {
     }
     stage('build') {
       steps {
+        sh 'sudo -H pip install pyodbc'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
