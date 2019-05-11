@@ -1,7 +1,7 @@
+    
 pipeline {
-  agent { docker { image 'Python 3.7.2' } }
-  environment {HOME = '/tmp'
-  }
+  agent { docker { image 'python:3.7.2' } }
+  environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
     stage('Git'){
@@ -16,14 +16,11 @@ pipeline {
     }
     stage('test') {
       steps {
-        sh """
-          cd ${WORKSPACE}
-          /usr/local/bin/python UnitTest.py
-        """
+        sh 'python UnitTest.py'
       }
       post {
         always {
-           junit 'tests/results/*.xml'
+          junit 'test-reports/*.xml'
         }
       }
     }
