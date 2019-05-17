@@ -11,7 +11,6 @@ pipeline {
     }
     stage('build') {
       steps {
-        sh 'yum install unixODBC-devel'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
