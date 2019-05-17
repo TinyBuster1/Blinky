@@ -1,6 +1,6 @@
     
 pipeline {
-    agent { docker { image  'python' } }
+    agent { docker { image  'python, wawsinoss/pyodbcpython3.7' } }
   environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
