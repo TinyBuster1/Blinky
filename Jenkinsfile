@@ -1,6 +1,6 @@
     
 pipeline {
-  agent { docker { image 'docker pull laudio/airflow-mssql'} }
+  agent { docker { image 'connellblackett/uwsgi-nginx-flask-mssqll'} }
   environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
