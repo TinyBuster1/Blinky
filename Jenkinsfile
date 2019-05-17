@@ -1,6 +1,6 @@
     
 pipeline {
-  agent { docker { image 'python:3.7.2'} }
+  agent { docker { image 'laudio/airflow-mssql'} }
   environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
