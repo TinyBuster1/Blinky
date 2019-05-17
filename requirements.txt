@@ -1,3 +1,4 @@
+pyodbc
 adodbapi
 Pmw
 pandas
