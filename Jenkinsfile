@@ -10,9 +10,7 @@ pipeline {
         }
     }
     stage('build') {
-      steps {
-        sh  'sudo yum -y update'
-         sh 'sudo yum -y install python36u-tkinter'
+        steps {
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
