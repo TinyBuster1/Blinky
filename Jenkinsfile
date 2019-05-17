@@ -1,6 +1,6 @@
     
 pipeline {
-    agent { docker { image  'wawsinoss/pyodbcpython3.7' } }
+    agent { docker { image  'wawsinoss/pyodbcpython3.7' } {imgae 'tkinter/get-started'} }
   environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
@@ -11,7 +11,6 @@ pipeline {
     }
     stage('build') {
         steps {
-        sh 'apt install --user python3-tk'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
