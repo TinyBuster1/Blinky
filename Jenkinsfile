@@ -1,7 +1,7 @@
     
 pipeline {
     agent { docker { image  'wawsinoss/pyodbcpython3.7' } }
-     agent { docker { image  'tkinter/get-started' } }
+     agent { docker { image  'bigdavediode/pycharm_backtr' } }
   environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
