@@ -11,8 +11,8 @@ pipeline {
     }
     stage('build') {
       steps {
-        sh 'sudo apt-get update'
-        sh 'apt-get install python-tk ' 
+        sh  'sudo yum -y update'
+         sh 'sudo yum -y install python36u-tkinter'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
