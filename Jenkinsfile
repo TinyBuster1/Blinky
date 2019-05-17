@@ -11,6 +11,7 @@ pipeline {
     }
     stage('build') {
       steps {
+        sh 'sudo apt-get update'
         sh 'apt-get install python-tk ' 
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
