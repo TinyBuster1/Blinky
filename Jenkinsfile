@@ -11,6 +11,7 @@ pipeline {
     }
     stage('build') {
         steps {
+        sh 'apt install python3-tk'
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
