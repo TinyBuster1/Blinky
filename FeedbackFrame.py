@@ -21,6 +21,7 @@ except ImportError:
     
 import LogicGui
 from functools import partial
+import sendMsgs
 
 w = None
 def create_FeedBackFrame(root, *args, **kwargs):
@@ -57,6 +58,8 @@ class FeedBackFrame:
         top.geometry("1050x802+530+101")
         top.title("New Toplevel")
         top.configure(background="#d9d9d9")
+
+        self.feedBackDict = {}
 
         self.Feedback = tk.Frame(top)
         self.Feedback.place(relx=0.124, rely=0.137, relheight=0.748
@@ -101,7 +104,9 @@ class FeedBackFrame:
         self.Feedbackback.configure(text='''Back''')
         self.Feedbackback.configure(width=196)
 
-        self.SendFeedback = tk.Button(self.Feedback)
+        action_with_args = partial(sendMsgs.globalFeedBack,self.feedBackDict)
+
+        self.SendFeedback = tk.Button(self.Feedback, command=action_with_args)
         self.SendFeedback.place(relx=0.588, rely=0.767, height=83, width=206)
         self.SendFeedback.configure(activebackground="#ececec")
         self.SendFeedback.configure(activeforeground="#000000")
@@ -114,6 +119,8 @@ class FeedBackFrame:
         self.SendFeedback.configure(text='''Send''')
         self.SendFeedback.configure(width=206)
 
+
+        self.feedBackDict["FeedbackText"] = self.FeedbackText
 
 
 
