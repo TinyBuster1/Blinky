@@ -10,8 +10,7 @@ import MentorPanel
 import AdminPanel
 import Forgot_password
 import GUIandDBCommunication
-
-#import MouseCursorControl
+import MouseCursorControl
 
 class LogicGui:
     @staticmethod
@@ -82,7 +81,7 @@ class LogicGui:
     def LogoutfromUser(self, top):
         BlinkyDataBaseManagment.closeSQLconnection()
         self.LoginFrame.destroy()
-        #MouseCursorControl.Destroy_eye_tracker()
+        MouseCursorControl.Destroy_eye_tracker()
         tk.Frame(GUI.vpReturnToMain(top))
 
     @staticmethod
