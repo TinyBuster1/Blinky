@@ -23,6 +23,7 @@ except ImportError:
     import tkinter as tk
 import LogicGui
 from functools import partial
+from tkinter import filedialog
 
 try:
     import ttk
@@ -72,7 +73,7 @@ tempdirList = {}
 
 
 def browse(entry):
-    #tempdir = tkFileDialog.askopenfilename()
+    tempdir = filedialog.askopenfilename()
     entry.insert(0, tempdir)
     tempdirList["tempdir"] = tempdir
 
