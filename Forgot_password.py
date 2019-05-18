@@ -1,7 +1,7 @@
 import pyodbc
 import tkinter
 from tkinter import messagebox
-
+import LoginAuth
 import BlinkyDataBaseManagment
 from doctest import master
 from functools import partial
@@ -21,16 +21,16 @@ def Forgot_password_U():
     id_entry=tk.Entry(root,)
     id_entry.pack()
 
-    phone_label=tk.Label(root, text="enter phone number:").pack()
+    phone_label=tk.Label(root, text="email:").pack()
     phone_entry=tk.Entry(root)
     phone_entry.pack()
 
     def test(id_entry,phone_entry):
         id = id_entry.get()
-        phone = phone_entry.get()
-
+        email = phone_entry.get()
         print(id)
-        print(phone)
+        print(email)
+
 
         #start sql
         conn = pyodbc.connect(BlinkyDataBaseManagment.mySQLserver)
@@ -40,21 +40,21 @@ def Forgot_password_U():
 
         sql=''' SELECT password
                 FROM BlinkyDB.dbo.[User]
-                WHERE uid=? AND phone=?;'''
+                WHERE uid=? AND email=?;'''
 
-        cursor.execute(sql, id, phone)
+        cursor.execute(sql, id, email)
         row = cursor.fetchone()
         print(row)
         if(row!=None):
-            password=str(row)
-            messagebox.showinfo("RECOVER PASSWORD", "Your password is"+password)
+                LoginAuth.sendRecoveryPassword(id, email, row.password)
+                messagebox.showinfo("RECOVER PASSWORD", "your password is sent to your email")
         else:
             messagebox.showinfo("RECOVER PASSWORD", "Incorrect password")
 
 
 
     action_with_args = partial(test,id_entry,phone_entry)
-    B_recover_password=tk.Button(root,text="RECOVER PASWORD", command= action_with_args).pack()
+    B_recover_password=tk.Button(root,text="RECOVER PASSWORD", command= action_with_args).pack()
 
 
 
