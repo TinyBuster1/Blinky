@@ -4,8 +4,6 @@ import unittest
 
 
 class Hackathon(unittest.TestCase):
-
-    roottest = tk.Tk()
     testLabel = tk.Label()
     testLabel1 = tk.Label()
     
