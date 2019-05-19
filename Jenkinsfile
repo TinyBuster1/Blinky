@@ -19,5 +19,9 @@ pipeline {
         sh 'python hackathon.py'
       }
     }
+     post {
+        always {
+            junit 'hackathon-reports/*.xml'
+        }
   }
 }
