@@ -1,6 +1,6 @@
     
 pipeline {
-    agent { docker { image  'wawsinoss/pyodbcpython3.7' } }
+    agent { docker { image  'python' } }
   environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
@@ -14,13 +14,13 @@ pipeline {
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
-    stage('test') {
+     stage('hackathon') {
       steps {
-        sh 'python UnitTest.py'
+        sh 'python hackathon.py'
       }
       post {
         always {
-          junit 'test-reports/*.xml'
+          junit 'hackathon-reports/*.xml'
         }
       }
     }
