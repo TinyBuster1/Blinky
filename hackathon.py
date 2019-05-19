@@ -4,11 +4,10 @@ import unittest
 
 
 class Hackathon(unittest.TestCase):
-    testLabel = tk.Label()
-    testLabel1 = tk.Label()
+
     
-    def test_label(self):
-        print('testing label')
-        self.assertNotEqual(self.testLabel1, self.testLabel, 'not equal')
+    def test_numOfAdmins(self):
+        print('testing num of admins function')
+        self.assertEqual(self.dataBase.returnNumOfAdmins(), 1)
 if __name__ == '__main__':
     unittest.main()
