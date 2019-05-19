@@ -6,7 +6,7 @@ import LogicGui
 import BlinkyDataBaseManagment
 import sys
 import os.path
-##import MouseCursorControl
+import MouseCursorControl
 from tkinter import messagebox
 from tkinter import simpledialog
 from threading import Thread as thread
@@ -22,6 +22,7 @@ global count
 global prog_call
 global prog_location
 global ts
+
 
 prog_call = sys.argv[0]
 prog_location = os.path.split(prog_call)[0]
@@ -71,8 +72,12 @@ class GUIandDB:
         if userType == 1:
             # here do the transfer to admin page
             #GUIandDB.adminMailVerifier(self,LoginList,top)
-            LogicGui.LogicGui.OpenAdminPanelWin(self,LoginList["UserNameText"].get() ,top)
-            print("Admin login success!")
+            AdminID = LoginList["UserNameText"].get()
+            LogicGui.LogicGui.OpenAdminPanelWin(self, LoginList["UserNameText"].get() ,top)
+            if AdminID in GUI.msgDict:
+                adminName = GUI.msgDict[AdminID]
+                messagebox.showinfo("","you have a feedback : " + adminName[0] + ": " + adminName[1])
+                del GUI.msgDict[AdminID]
         elif userType == 2:
             # here do the transfer to mentor page
             #GUIandDB.mentorMailVerifier(self, LoginList, top, email)
