@@ -14,14 +14,14 @@ pipeline {
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
-     stage('hackathon') {
+    stage('hackathon') {
       steps {
         sh 'python hackathon.py'
       }
       post {
         always {
-          sh 'ln -s Existing-file tests/hackathon-unit.xml $WORKSPACE'
-          junit 'hackathon-reports/*.xml'
+             sh 'make check || true'
+             junit '**/target/*.xml' 
         }
       }
     }
