@@ -1,14 +1,13 @@
-import MentorPanel
 import tkinter as tk
 import unittest
-
+import datetime
 
 class Hackathon(unittest.TestCase):
+    now = datetime.datetime.now()
+    time  = + now.day.__str__() + "/" + now.month.__str__() + "/" + now.year.__str__() + " at: " + now.time().__str__()
 
-    
-    def test_Mentor_browse(self):
-        print('tesing Mentor browse func')
-        self.assertTrue(MentorPanel.browse, 'not equal')
+    def print(self):
+        print("Latest commit is done at: " + self.time)
 
 if __name__ == '__main__':
     unittest.main()
