@@ -17,8 +17,7 @@ import GUIandDBCommunication
 import LogicGui
 import Forgot_password
 import support
-
-##import cv2
+import cv2
 
 try:
     import Tkinter as tk
@@ -38,6 +37,12 @@ global msgDict
 msgDict = {}
 global flag
 flag = 0
+
+import adodbapi
+conn = adodbapi.connect("PROVIDER=SQLOLEDB;Data Source={0};Database={1}; \
+       trusted_connection=yes;UID={2};PWD={3};".format("DESKTOP-H3SCR5P\SQLEXPRESS","BlinkyDB","sa","1234"))
+cursor = conn.cursor()
+
 
 
 def vp_start_gui():
@@ -226,7 +231,7 @@ class MainPageContainer:
         self.UserNameText.configure(selectbackground="#c4c4c4")
         self.UserNameText.configure(selectforeground="black")
 
-        self.PasswordText = tk.Entry(self.MainPageFrame)
+        self.PasswordText = tk.Entry(self.MainPageFrame, show="*")
         self.PasswordText.place(relx=0.338, rely=0.667, height=24
                 , relwidth=0.255)
         self.PasswordText.configure(background="white")
