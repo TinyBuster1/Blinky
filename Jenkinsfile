@@ -23,5 +23,6 @@ pipeline {
         always {
             junit 'hackathon-reports/*.xml'
         }
+     }
   }
 }
