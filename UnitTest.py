@@ -1,16 +1,15 @@
 import unittest
 import BlinkyDataBaseManagment
 import AdminPanel
+import tkinter as tk
 import pyodbc
 import GUI
 import UserPanel
 import MentorPanel
 import support
-
-try:
-    import Tkinter as tk
-except ImportError:
-    import tkinter as tk
+import sendMsgs
+import LoginAuth
+import Forgot_password
 
 class BlinkyTest(unittest.TestCase):
     window = tk.Tk()
@@ -21,6 +20,7 @@ class BlinkyTest(unittest.TestCase):
     mainContainer = GUI
     mainContainerTest = GUI.MainPageContainer
     testLabel = tk.Label()
+    emptyList = []
 
     global val, w
     roottest = tk.Tk()
@@ -28,6 +28,9 @@ class BlinkyTest(unittest.TestCase):
     w = top
     top_level = top
     roottest = top
+    testEntry1 = tk.Entry()
+    testEntry1.insert(0,'a default value')
+    testEntry2=testEntry1
 
     def test_DbConnection_value(self):
         print('tesing DbConnection value ')
@@ -125,11 +128,11 @@ class BlinkyTest(unittest.TestCase):
 
     def test_numOfUsers(self):
         print('testing num of users function')
-        self.assertEqual(self.dataBase.returnNumOfUsers(), 3)
+        self.assertEqual(self.dataBase.returnNumOfUsers(), 2)
 
     def test_numOfMentors(self):
         print('testing num of mentors function')
-        self.assertEqual(self.dataBase.returnNumOfUsers(), 3)
+        self.assertEqual(self.dataBase.returnNumOfUsers(), 2)
 
     def test_numOfPhrases(self):
         print('testing num of phrases function')
@@ -231,7 +234,6 @@ class BlinkyTest(unittest.TestCase):
 
     def test_Forgot_password_A_database(self):
         print("testing sql concoction to change password")
-        #print(type(pyodbc.connect(BlinkyDataBaseManagment.mySQLserver)))
         self.assertIsInstance(self.dataBase.conn,pyodbc.Connection)
 
     ##test mentor
@@ -253,15 +255,15 @@ class BlinkyTest(unittest.TestCase):
 
 
     #support M
-    def test_support_M(self):
+    def test_support_M1(self):
         print('testnig entry to mentor support_M')
         self.assertRaises(Exception, support.support_M())
 
-    def test_support_M(self):
+    def test_support_M2(self):
         print('testnig entry to mentor support_M')
         self.assertEqual(support.support_M(),None)
 
-    def test_support_M(self):
+    def test_support_M3(self):
         print('testnig entry to mentor support_M')
         self.assertFalse(support.support_M(),1)
 
@@ -270,19 +272,19 @@ class BlinkyTest(unittest.TestCase):
         self.assertFalse(support.support_M(), 2)
 
     # support U
-    def test_support_U(self):
+    def test_support_U1(self):
         print('testnig entry to user support_U')
         self.assertRaises(Exception, support.support_U())
 
-    def test_support_U(self):
+    def test_support_U2(self):
         print('testnig entry to user support_U')
         self.assertEqual(support.support_U(), None)
 
-    def test_support_U(self):
+    def test_support_U3(self):
         print('testnig entry to user support_U')
         self.assertFalse(support.support_U(), 1)
 
-    def test_support_U(self):
+    def test_support_U4(self):
         print('testnig entry to user support_U')
         self.assertFalse(support.support_U(), 2)
         
