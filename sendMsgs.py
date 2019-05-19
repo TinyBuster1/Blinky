@@ -8,6 +8,20 @@ import BlinkyDataBaseManagment
 import LoginAuth
 
 
+
+def globalFeedBack(feedBackList):
+    msg = feedBackList["FeedbackText"].get()
+    if len(msg) > 0:
+        messagebox.showinfo("", "your feedback have been sent!")
+    else:
+        messagebox.showinfo("", "cant send an empty feedback!")
+        return False
+    BlinkyDataBaseManagment.createCursor()
+    allAdmins = BlinkyDataBaseManagment.allAdmins()
+    for admin in allAdmins:
+        GUI.msgDict[admin] = (admin, msg)
+    return True
+
 def sendMsgtoMentorFromAdmin(adminID,adminList):
     if len(adminList) == 0:
         return False
