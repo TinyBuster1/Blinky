@@ -6,8 +6,9 @@ import unittest
 class Hackathon(unittest.TestCase):
 
     
-    def test_numOfAdmins(self):
-        print('testing num of admins function')
-        self.assertEqual(self.dataBase.returnNumOfAdmins(), 1)
+    def test_Mentor_browse(self):
+        print('tesing Mentor browse func')
+        self.assertTrue(MentorPanel.browse, 'not equal')
+
 if __name__ == '__main__':
     unittest.main()
