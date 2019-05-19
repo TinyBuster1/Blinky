@@ -19,9 +19,7 @@ pipeline {
         sh 'python hackathon.py'
       }
       post {
-        always {
-             sh 'make check || true'
-             junit '**/target/*.xml' 
+        always { 
         }
       }
     }
