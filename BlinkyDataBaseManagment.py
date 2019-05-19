@@ -18,11 +18,13 @@ global prog_location
 
 prog_call = sys.argv[0]
 prog_location = os.path.split(prog_call)[0]
-mySQLserver = 'Driver={ODBC Driver 13 for SQL Server};''SERVER=LAPTOP-L7B6A755;''Database=BlinkyDB;''Trusted_Connection=yes;'
+mySQLserver = 'Driver={SQL Server};''Server=DESKTOP-H3SCR5P\SQLEXPRESS;''Database=BlinkyDB;''Trusted_Connection=yes;'
 
 
 
 loginFlag = 0
+
+
 
 def createCursor():
     global cursor
@@ -742,6 +744,7 @@ def user_info(Mid):
         return False
     global conn
     global cursor
+    global prog_location
     conn = pyodbc.connect(mySQLserver)
     cursor = conn.cursor()
     sql = '''SELECT DISTINCT COUNT(*) FROM BlinkyDB.dbo.Mentor,BlinkyDB.dbo.[User]
@@ -809,6 +812,7 @@ def user_info(Mid):
 
 def medical_info(mid):
     global conn
+    global prog_location
     if (mid == None):
         return False
     if (type(mid) != str):
@@ -824,7 +828,8 @@ def medical_info(mid):
     row = cursor.fetchone()
     if(row==None):
         return False
-    fpath = os.path.join(prog_location+'/Reports', 'medical_info_Report.txt')
+    fpath = os.path.join(prog_location+'\Reports', 'medical_info_Report.txt')
+
     file = open(fpath, 'w')
     file.write('medical info Report:')
     file.write('\n')
