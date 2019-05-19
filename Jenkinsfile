@@ -15,8 +15,10 @@ pipeline {
       }
     }
     stage('hackathon') {
-      steps {
+        steps {
+        sh 'export DISPLAY=:0'
         sh 'python hackathon.py'
+        
       }
     }
   }
