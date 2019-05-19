@@ -12,3 +12,5 @@ class Hackathon(unittest.TestCase):
     def test_label(self):
         print('testing label')
         self.assertNotEqual(self.testLabel1, self.testLabel, 'not equal')
+if __name__ == '__main__':
+    unittest.main()
