@@ -18,10 +18,6 @@ pipeline {
       steps {
         sh 'python hackathon.py'
       }
-      post {
-        always { 
-        }
-      }
     }
   }
 }
