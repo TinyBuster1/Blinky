@@ -1,4 +1,4 @@
-from imutils import face_utils
+"""from imutils import face_utils
 from utils import *
 import numpy as np
 import pyautogui as pag
@@ -226,3 +226,4 @@ def Destroy_eye_tracker():
     cv2.destroyAllWindows()
     vid.release()
     flag = 1
+"""
