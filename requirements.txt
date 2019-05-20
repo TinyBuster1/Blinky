@@ -3,5 +3,6 @@ Pandas
 numpy
 imutils
 opencv-python
+xvfb
 pyautogui
 python3-xlib
