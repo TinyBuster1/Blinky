@@ -19,7 +19,7 @@ def send_Mails(emailList,time1):
         s.login("blinkysendmsg@gmail.com", "sukablyat123")
 
         message = 'Subject: {}\n\n{}'.format('new code commit! at', time1)
-        s.sendmail("blinkysendmsg@gmail.com", mail1, message)
+        s.sendmail("blinkysendmsg@gmail.com", mail, message)
         s.quit()
 
 send_Mails(emailList,time1)
