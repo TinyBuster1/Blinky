@@ -16,25 +16,25 @@ pipeline {
     }
     stage('Commits') {
         steps {
-        sh 'python Hackaton_2019/Commits.py'
+        sh 'python Hackaton_2019\Commits.py'
         
       }
     }
     stage('transperent') {
         steps {
-        sh 'python Hackaton_2019/transperent.py'
+        sh 'python Hackaton_2019\transperent.py'
         
       }
     }
     stage('Benchmark') {
         steps {
-        sh 'python Hackaton_2019/Benchmark.py'
+        sh 'python Hackaton_2019\Benchmark.py'
         
       }
     }
     stage('Evaluation') {
         steps {
-        sh 'python Hackaton_2019/Evaluation.py'
+        sh 'python Hackaton_2019\Evaluation.py'
         
       }
     }
