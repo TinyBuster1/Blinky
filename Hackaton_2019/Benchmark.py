@@ -20,3 +20,4 @@ def benchmark(numOfRuns):
     endTime = now.time()
     total = time.time() - start_time
     print("total time of benchmark: " + str(total))
+benchmark(numOfRuns)
