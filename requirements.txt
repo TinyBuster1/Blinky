@@ -2,3 +2,4 @@ Pmw
 Pandas
 numpy
 imutils
+cv2
