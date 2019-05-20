@@ -1,3 +1,5 @@
+import matplotlib
+matplotlib.use('Agg')
 import unittest
 import BlinkyDataBaseManagment
 import AdminPanel
