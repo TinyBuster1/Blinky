@@ -16,13 +16,17 @@ pipeline {
     }
     stage('Commits') {
         steps {
-        sh 'python Commits.py'
+        dir("Hackaton_2019") {
+            sh 'python Commits.py'
+        }
         
       }
     }
     stage('transperent') {
         steps {
-        sh 'python transperent.py'
+            dir("Hackaton_2019") {
+                 sh 'python transperent.py'
+            }
         
       }
     }
