@@ -6,3 +6,4 @@ opencv-python
 pytest-xvfb
 pyautogui
 python3-xlib
+matplotlib
