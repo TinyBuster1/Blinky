@@ -14,10 +14,27 @@ pipeline {
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
-    stage('hackathon') {
+    stage('Commits') {
         steps {
-        sh 'export DISPLAY=:0'
-        sh 'python hackathon.py'
+        sh 'python Commits.py'
+        
+      }
+    }
+    stage('transperent') {
+        steps {
+        sh 'python transperent.py'
+        
+      }
+    }
+    stage('Benchmark') {
+        steps {
+        sh 'python Benchmark.py'
+        
+      }
+    }
+    stage('Evaluation') {
+        steps {
+        sh 'python Evaluation.py'
         
       }
     }
