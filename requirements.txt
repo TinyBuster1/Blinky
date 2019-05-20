@@ -3,3 +3,4 @@ Pandas
 numpy
 imutils
 opencv-python
+pyautogui
