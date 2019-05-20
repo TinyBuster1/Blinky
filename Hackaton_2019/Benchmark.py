@@ -4,6 +4,10 @@ import time
 import sys
 import os
 
+myCommit = "test"
+now = datetime.datetime.now()
+time1 =  now.day.__str__() + "/" + now.month.__str__() + "/" + now.year.__str__() + " at: " + now.time().__str__()
+
 def GUI():
     print(" calling GUI window , testing benchmark.")
 	
