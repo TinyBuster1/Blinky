@@ -1,6 +1,6 @@
     
 pipeline {
-    agent { docker { image  'shurikg/python-pyodbc' } }
+    agent { docker { image 'docker pull shurikg/python-pyodbc' } }
   environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
