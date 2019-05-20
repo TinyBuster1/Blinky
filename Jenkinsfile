@@ -32,13 +32,17 @@ pipeline {
     }
     stage('Benchmark') {
         steps {
-        sh 'python Benchmark.py'
+        dir("Hackaton_2019") {
+            sh 'python Benchmark.py'
+        }
         
       }
     }
     stage('Evaluation') {
         steps {
-        sh 'python Evaluation.py'
+        dir("Hackaton_2019") {
+            sh 'python Evaluation.py'
+        }
         
       }
     }
