@@ -4,7 +4,6 @@ import AdminPanel
 import tkinter as tk
 import pyodbc
 import GUI
-import UserPanel
 import MentorPanel
 import support
 import sendMsgs
