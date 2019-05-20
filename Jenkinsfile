@@ -1,6 +1,6 @@
     
 pipeline {
-    agent { docker { image  'python' } }
+    agent { docker { image  'shurikg/python-pyodbc' } }
   environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
@@ -14,6 +14,13 @@ pipeline {
         sh 'pip install --user --no-cache-dir -r requirements.txt'
       }
     }
+    stage('test') {
+        steps {
+            sh 'python UnitTest.py'
+        
+      }
+    }
+/*
     stage('Commits') {
         steps {
         dir("Hackaton_2019") {
@@ -22,6 +29,7 @@ pipeline {
         
       }
     }
+ 
     stage('transperent') {
         steps {
             dir("Hackaton_2019") {
@@ -46,5 +54,6 @@ pipeline {
         
       }
     }
+      */
   }
 }
