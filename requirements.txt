@@ -4,4 +4,4 @@ numpy
 imutils
 opencv-python
 pyautogui
-python-xlib
+python3-xlib
