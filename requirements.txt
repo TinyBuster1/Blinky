@@ -2,4 +2,4 @@ Pmw
 Pandas
 numpy
 imutils
-cv2
+opencv-python
