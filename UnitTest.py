@@ -13,37 +13,17 @@ import LoginAuth
 import Forgot_password
 
 class BlinkyTest(unittest.TestCase):
-    window = tk.Tk()
-    testButton = tk.Button()
     BlinkyDataBaseManagment.createCursor()
-
     dataBase = BlinkyDataBaseManagment
     mainContainer = GUI
     mainContainerTest = GUI.MainPageContainer
-    testLabel = tk.Label()
     emptyList = []
-
-    global val, w
-    roottest = tk.Tk()
-    top = mainContainerTest(roottest)
-    w = top
-    top_level = top
-    roottest = top
-    testEntry1 = tk.Entry()
-    testEntry1.insert(0,'a default value')
-    testEntry2=testEntry1
 
     def test_DbConnection_value(self):
         print('tesing DbConnection value ')
         self.assertIsNotNone(self.dataBase.conn, 'its None')
 
-    def test_Loginbutton(self):
-        print('testing Login button')
-        self.assertNotEqual(self.top.Login, self.testButton, 'not equal')
-
-    def test_label(self):
-        print('testing label')
-        self.assertNotEqual(self.top.Label1, self.testLabel, 'not equal')
+ 
 
     def test_Loginflag(self):
         print('tesing login flag value')
@@ -52,10 +32,6 @@ class BlinkyTest(unittest.TestCase):
     def test_Mentor_browse(self):
         print('tesing Mentor browse func')
         self.assertTrue(MentorPanel.browse, 'not equal')
-
-    def test_GUI(self):
-        print('testing main GUI window')
-        self.assertNotEqual(self.mainContainer.root, self.window, 'not equal')
 
     def test_allMentors(self):
         print('tesing allMentors func')
