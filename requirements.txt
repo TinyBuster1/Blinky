@@ -1,9 +1,1 @@
-Pmw
-Pandas
-numpy
-imutils
-opencv-python
-pytest-xvfb
-pyautogui
-python3-xlib
-matplotlib
+
