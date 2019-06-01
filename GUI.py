@@ -12,12 +12,12 @@ import os
 from functools import partial
 ##import keyboard
 from threading import Thread as thread
-
 import GUIandDBCommunication
 import LogicGui
 import Forgot_password
 import support
 import cv2
+
 
 try:
     import Tkinter as tk
@@ -38,6 +38,11 @@ msgDict = {}
 global flag
 flag = 0
 
+import adodbapi
+conn = adodbapi.connect("PROVIDER=SQLOLEDB;Data Source={0};Database={1}; \
+       trusted_connection=yes;UID={2};PWD={3};".format("DESKTOP-H3SCR5P\SQLEXPRESS","BlinkyDB","sa","1234"))
+cursor = conn.cursor()
+
 
 
 def vp_start_gui():
@@ -51,6 +56,7 @@ def vpReturnToMain(a):
     global val, w
     top = MainPageContainer (a)
     init(a, top)
+
 def init(top, gui, *args, **kwargs):
     global w, top_level, root
     w = gui
@@ -283,8 +289,7 @@ class MainPageContainer:
         
     
 if __name__ == '__main__':
-    vp_start_gui()
-
+        vp_start_gui()
 
 
 
