@@ -1,6 +1,6 @@
     
 pipeline {
-    agent { docker { image 'shurikg/python-pyodbc:3.7.3' } }
+    agent { docker { image 'python' } }
   environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
@@ -47,11 +47,9 @@ pipeline {
         
       }
     }
-      """"
     stage('test') {
         steps {
-            sh 'python UnitTest.py'
-        """
+            sh 'python UnitTest.py
       }
     }
   }
