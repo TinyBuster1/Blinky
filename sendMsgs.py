@@ -6,6 +6,8 @@ from tkinter import simpledialog
 import pyodbc
 import BlinkyDataBaseManagment
 import LoginAuth
+import hashlib
+import RSA
 
 
 
@@ -25,14 +27,35 @@ def globalFeedBack(feedBackList):
 def sendMsgtoMentorFromAdmin(adminID,adminList):
     if len(adminList) == 0:
         return False
-    GUI.msgDict[adminList["MentorIDBox"].get()] = (adminID, adminList["EntryMsgToMentors"].get())
+    #GUI.msgDict[adminList["MentorIDBox"].get()] = (adminID, adminList["EntryMsgToMentors"].get())
+    #messagebox.showinfo("", "your message have been sent!")
+
+
+    #######################################
+    msgList = []
+    originalMsg = adminList["EntryMsgToMentors"].get()
+    key = b' \x0b' * 20
+    #hashing the message
+    result = hmac_sha1(key, originalMsg.encode('utf-8'))
+    #building the msglist => KEY,ORIGINAL MSG, ENCRYPTED MSG, SENDER NAME.
+    msgList.append(key)
+    msgList.append(originalMsg)
+    msgList.append(result.hex())
+    msgList.append(adminID)
+    GUI.msgDict[adminList["MentorIDBox"].get()] = (msgList) # sending the msg
     messagebox.showinfo("", "your message have been sent!")
+
+
     return True
 
 def sendMsgtoUserFromMentor(mentorID,mentorList):
     if len(mentorList) == 0:
         return False
-    GUI.msgDict[mentorList["UserComboBox"].get()] = (mentorID, mentorList["EntryMessageUser"].get())
+    msgList = []
+    RSAlist = RSA.runRSA(mentorList["EntryMessageUser"].get())
+    msgList.append(mentorID)
+    msgList.append(RSAlist)
+    GUI.msgDict[mentorList["UserComboBox"].get()] = msgList
     messagebox.showinfo("", "your message have been sent!")
     return True
 
@@ -41,7 +64,6 @@ def sendMsgtoMentorFromUser(userID,userList):
         return False
     global conn
     global cursor
-
 
     sql = '''SELECT mid FROM BlinkyDB.dbo.[User] WHERE uid=?'''
     conn = pyodbc.connect(BlinkyDataBaseManagment.mySQLserver)
@@ -112,3 +134,22 @@ def sendFeedbackToContacts(mentorID, mentorList):
     for i in contactList:
         LoginAuth.sendFeedbackToContact(i, userID, feedBackMSG)
     return True
+
+import hashlib
+
+# XOR function
+def xor(x, y):
+    return bytes(x[i] ^ y[i] for i in range(min(len(x), len(y))))
+
+#HMAC function with hashing
+def hmac_sha1(key_K, data):
+    if len(key_K) > 64:
+        raise ValueError('The key must be <= 64 bytes in length')
+    padded_K = key_K + b'\x00' * (64 - len(key_K))
+    ipad = b'\x36' * 64
+    opad = b'\x5c' * 64
+    h_inner = hashlib.sha1(xor(padded_K, ipad))
+    h_inner.update(data)
+    h_outer = hashlib.sha1(xor(padded_K, opad))
+    h_outer.update(h_inner.digest())
+    return h_outer.digest()
