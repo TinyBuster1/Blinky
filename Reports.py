@@ -42,6 +42,8 @@ def exceptionReport():
     root = tk.Tk()
     root.title("Exception report")
     root.geometry("500x500")
+    root.geometry("600x600")
+
     reports = prog_location + "\Reports" + "\\" + "exceptionReport.txt"
     with open(reports, "r") as f:
         tk.Label(root, text=f.read()).pack()
