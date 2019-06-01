@@ -51,9 +51,9 @@ def Forgot_password_U():
         else:
             messagebox.showinfo("RECOVER MY PASSWORD", "Incorrect password")
 
-
     ##ADD BUTTON
     action_with_args = partial(test,id_entry,phone_entry)
+    #B_recover_password=tk.Button(root,text="RECOVER PASSWORD", command= action_with_args,height = 5, width =28).pack()
     B_recover_password=tk.Button(root,text="RECOVER PASSWORD", command= action_with_args,height = 5, width =28).pack()
 
 
