@@ -78,7 +78,7 @@ def statisticsReport():
 def onlineUsers():
     root = tk.Tk()
     root.title("Online users")
-    root.geometry("500x500")
+    root.geometry("600x600")
     allUsers = BlinkyDataBaseManagment.allUsers()
     allMentors = BlinkyDataBaseManagment.allMentors()
     allAdmins = BlinkyDataBaseManagment.allAdmins()
