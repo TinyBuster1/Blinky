@@ -10,6 +10,7 @@ import MouseCursorControl
 from tkinter import messagebox
 from tkinter import simpledialog
 from threading import Thread as thread
+import sendMsgs
 
 
 #comment loginAuth if needed  DONT DELETE IT!
@@ -22,6 +23,7 @@ global count
 global prog_call
 global prog_location
 global ts
+import RSA
 
 
 prog_call = sys.argv[0]
@@ -81,11 +83,23 @@ class GUIandDB:
         elif userType == 2:
             # here do the transfer to mentor page
             #GUIandDB.mentorMailVerifier(self, LoginList, top, email)
+            #checking if the user is correct type, then we check if we have a messages for
+            #current user
             mentorID = LoginList["UserNameText"].get()
             LogicGui.LogicGui.OpenMentorPanelWin(self, LoginList["UserNameText"].get(), top)
             if mentorID in GUI.msgDict:
-                adminName = GUI.msgDict[mentorID]
-                messagebox.showinfo("","you have a message from " + adminName[0] + ": " + adminName[1])
+                #we a have a message wating for us
+                mentorList = GUI.msgDict[mentorID]
+                key = mentorList[0] # we getting key from the message
+                originalMsg = mentorList[1] # we getting the original msg
+                result = mentorList[2] # get the encrypted msg
+                newecrypt = sendMsgs.hmac_sha1(key, originalMsg.encode('utf-8')) # user encrtpyt
+                #the original msg
+                adminName = mentorList[3]
+                if result == newecrypt.hex(): # if the encrption is equal, show msg.
+                    messagebox.showinfo("","you have a message from " + adminName + ": " + originalMsg)
+                else: # wrong encryption
+                    messagebox.showinfo("", "Invalid decipher!")
                 del GUI.msgDict[mentorID]
 
         elif userType == 3:
@@ -103,9 +117,12 @@ class GUIandDB:
             #GUIandDB.userMailVerifier(self, LoginList,top,PicAndPharases,"alexabo4@ac.sce.ac.il")
             userID = LoginList["UserNameText"].get()
             LogicGui.LogicGui.OpenUserPanelWin(self, LoginList["UserNameText"].get(), PicAndPharases, top)
+
+            ##### R S A #####
             if userID in GUI.msgDict:
-                mentorName = GUI.msgDict[userID]
-                messagebox.showinfo("","you have a message from " + mentorName[0] + ": " + mentorName[1])
+                msgList = GUI.msgDict[userID]
+                decryptedMsg = RSA.decryptedRSA(msgList[1][0],msgList[1][1])
+                messagebox.showinfo("","you have a message from " + msgList[0] + ": " + decryptedMsg)
                 del GUI.msgDict[userID]
             call_eye_tracker("none")
 
