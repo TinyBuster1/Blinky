@@ -8,13 +8,11 @@ from tkinter import messagebox
 import datetime
 import Pmw
 
-
 global mySQLserver
 global conn
 global cursor
 global prog_call
 global prog_location
-
 
 prog_call = sys.argv[0]
 prog_location = os.path.split(prog_call)[0]
