@@ -52,7 +52,8 @@ def statisticsReport():
     global prog_location
     root = tk.Tk()
     root.title("Statistics report")
-    root.geometry("500x500")
+    #root.geometry("500x500")
+    root.geometry("600x600")
     reports = prog_location + "\Reports" + "\\" + "statisticsReport.txt"
     tk.Label(root, text="Deleted:").pack()
     with open(reports, "r") as f:
