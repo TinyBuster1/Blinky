@@ -49,12 +49,14 @@ def Forgot_password_U():
                 LoginAuth.sendRecoveryPassword(id, email, row.password)
                 messagebox.showinfo("RECOVER PASSWORD", "your password is sent to your email")
         else:
-            messagebox.showinfo("RECOVER PASSWORD", "Incorrect password")
+            messagebox.showinfo("RECOVER MY PASSWORD", "Incorrect password")
 
 
-
+    ##ADD BUTTON
     action_with_args = partial(test,id_entry,phone_entry)
-    B_recover_password=tk.Button(root,text="RECOVER PASSWORD", command= action_with_args).pack()
+    B_recover_password=tk.Button(root,text="RECOVER PASSWORD", command= action_with_args,height = 5, width = 29).pack()
+
+
 
 
 
