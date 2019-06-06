@@ -1,6 +1,6 @@
     
 pipeline {
-    agent { docker { image 'python 3.7.2' } }
+    agent { docker { image  'python' } }
   environment {HOME = '/tmp'} 
   stages {
     // First stage , get files from your GitHub repository.
@@ -16,41 +16,29 @@ pipeline {
     }
     stage('Commits') {
         steps {
-        dir("Hackaton_2019") {
-            sh 'python Commits.py'
-        }
-        
+        sh 'python Commits.py'
+        sh 'python Hackaton_2019/Commits.py'
+
       }
     }
- 
     stage('transperent') {
         steps {
-            dir("Hackaton_2019") {
-                 sh 'python transperent.py'
-            }
-        
+        sh 'python transperent.py'
+        sh 'python Hackaton_2019/transperent.py'
+
       }
     }
     stage('Benchmark') {
         steps {
-        dir("Hackaton_2019") {
-            sh 'python Benchmark.py'
-        }
-        
+        sh 'python Benchmark.py'
+        sh 'python Hackaton_2019/Benchmark.py'
+
       }
     }
     stage('Evaluation') {
         steps {
-        dir("Hackaton_2019") {
-            sh 'python Evaluation.py'
-        }
-        
+        sh 'python Evaluation.py'
+        sh 'python Hackaton_2019/Evaluation.py'
+
       }
     }
-    stage('test') {
-        steps {
-            sh 'python UnitTest.py
-      }
-    }
-  }
-}
