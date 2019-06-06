@@ -13,7 +13,7 @@ time1 =  now.day.__str__() + "/" + now.month.__str__() + "/" + now.year.__str__(
 
 def GUI():
     print(" calling GUI window , testing benchmark.")
-	
+'''	
 	
 ### 4 Evaluation and vision ###
 precent = 1.1
@@ -36,5 +36,5 @@ def Evaluation(precent):
     with open(reports, "w") as f:
         f.write(str(total))
         f.close()
-
+'''
 Evaluation(precent)
