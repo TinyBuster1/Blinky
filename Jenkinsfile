@@ -1,3 +1,4 @@
+    
 pipeline {
     agent { docker { image  'python' } }
   environment {HOME = '/tmp'} 
@@ -15,29 +16,35 @@ pipeline {
     }
     stage('Commits') {
         steps {
-        sh 'python Commits.py'
-        sh 'python Hackaton_2019/Commits.py'
-
+        dir("Hackaton_2019") {
+            sh 'python Commits.py'
+        }
+        
       }
     }
     stage('transperent') {
         steps {
-        sh 'python transperent.py'
-        sh 'python Hackaton_2019/transperent.py'
-
+            dir("Hackaton_2019") {
+                 sh 'python transperent.py'
+            }
+        
       }
     }
     stage('Benchmark') {
         steps {
         sh 'python Benchmark.py'
-        sh 'python Hackaton_2019/Benchmark.py'
+        dir("Hackaton_2019") {
+            sh 'python Benchmark.py'
+        }
 
       }
     }
     stage('Evaluation') {
         steps {
         sh 'python Evaluation.py'
-        sh 'python Hackaton_2019/Evaluation.py'
+        dir("Hackaton_2019") {
+            sh 'python Evaluation.py'
+        }
 
       }
     }
