@@ -20,7 +20,7 @@ precent = 1.1
 def Evaluation(precent):
     prog_call = sys.argv[0]
     prog_location = os.path.split(prog_call)[0]
-    reports = prog_location + "\Reports" + "\" + "Evaluation.txt"
+    reports = prog_location + "\\" + "Evaluation.txt"
     with open(reports, "r") as f:
         eval = f.read()
         print(eval)
