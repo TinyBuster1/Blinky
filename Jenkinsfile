@@ -1,4 +1,3 @@
-    
 pipeline {
     agent { docker { image  'python' } }
   environment {HOME = '/tmp'} 
@@ -43,3 +42,4 @@ pipeline {
       }
     }
   }
+}
