@@ -37,4 +37,4 @@ def Evaluation(precent):
         f.write(str(total))
         f.close()
 '''
-Evaluation(precent)
+GUI()
