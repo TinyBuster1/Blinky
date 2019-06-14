@@ -72,7 +72,10 @@ def sendMsgtoMentorFromUser(userID,userList):
     cursor.execute(sql, userID)
     for row in cursor:
         mentorID = row.mid
-    GUI.msgDict[mentorID] = (userID, userList["MedicalOrDiet"].get())
+    msgList = []
+    msgList.append(userID)
+    msgList.append(userList["MedicalOrDiet"].get())
+    GUI.msgDict[mentorID] = (msgList)
     messagebox.showinfo("", "your message have been sent!")
     return True
 
