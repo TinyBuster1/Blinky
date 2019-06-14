@@ -90,16 +90,21 @@ class GUIandDB:
             if mentorID in GUI.msgDict:
                 #we a have a message wating for us
                 mentorList = GUI.msgDict[mentorID]
-                key = mentorList[0] # we getting key from the message
-                originalMsg = mentorList[1] # we getting the original msg
-                result = mentorList[2] # get the encrypted msg
-                newecrypt = sendMsgs.hmac_sha1(key, originalMsg.encode('utf-8')) # user encrtpyt
-                #the original msg
-                adminName = mentorList[3]
-                if result == newecrypt.hex(): # if the encrption is equal, show msg.
-                    messagebox.showinfo("","you have a message from " + adminName + ": " + originalMsg)
-                else: # wrong encryption
-                    messagebox.showinfo("", "Invalid decipher!")
+                if len(mentorList) > 2: # admin msg
+                    key = mentorList[0] # we getting key from the message
+                    originalMsg = mentorList[1] # we getting the original msg
+                    result = mentorList[2] # get the encrypted msg
+                    newecrypt = sendMsgs.hmac_sha1(key, originalMsg.encode('utf-8')) # user encrtpyt
+                    #the original msg
+                    adminName = mentorList[3]
+                    if result == newecrypt.hex(): # if the encrption is equal, show msg.
+                        messagebox.showinfo("","you have a message from " + adminName + ": " + originalMsg)
+                    else: # wrong encryption
+                        messagebox.showinfo("", "Invalid decipher!")
+                else:
+                    user = mentorList[0]
+                    msg = mentorList[1]
+                    messagebox.showinfo("", "you have a message from " + user + ": " + msg)
                 del GUI.msgDict[mentorID]
 
         elif userType == 3:
