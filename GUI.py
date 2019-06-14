@@ -38,13 +38,6 @@ msgDict = {}
 global flag
 flag = 0
 
-import adodbapi
-conn = adodbapi.connect("PROVIDER=SQLOLEDB;Data Source={0};Database={1}; \
-       trusted_connection=yes;UID={2};PWD={3};".format("DESKTOP-H3SCR5P\SQLEXPRESS","BlinkyDB","sa","1234"))
-cursor = conn.cursor()
-
-
-
 def vp_start_gui():
     '''Starting point when module is the main routine.'''
     global val, w
