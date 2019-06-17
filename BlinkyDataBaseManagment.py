@@ -7,7 +7,7 @@ import tkinter as tk
 from tkinter import messagebox
 import datetime
 import Pmw
-
+import DataBaseEncryption
 global mySQLserver
 global conn
 global cursor
@@ -18,11 +18,7 @@ prog_call = sys.argv[0]
 prog_location = os.path.split(prog_call)[0]
 mySQLserver = 'Driver={SQL Server};''Server=DESKTOP-H3SCR5P\SQLEXPRESS;''Database=BlinkyDB;''Trusted_Connection=yes;'
 
-
-
 loginFlag = 0
-
-
 
 def createCursor():
     global cursor
@@ -52,10 +48,13 @@ def userChecker(id, password):
             print('Hello Mentor ' + row.mid)
             return 2
     sql = '''SELECT * FROM BlinkyDB.dbo.[User] WHERE uid=? AND password=?'''
+    id = DataBaseEncryption.getTranslatedMessage('e', id, 3)
+    password = DataBaseEncryption.getTranslatedMessage('e', password, 3)
+    params = (id,password)
     cursor.execute(sql, params)
     for row in cursor:
         if row.uid == id and row.password == password:
-            print('Wellcome ' + row.uid)
+            print('Wellcome' + row.uid)
             return 3
     return 0
 
@@ -144,6 +143,21 @@ def registerUser(uid, password, firstName, lastName, mid, age, gender, birthday,
     global cursor
     if uidCheck(uid) and not midCheck(mid):
         sql1 = '''INSERT INTO BlinkyDB.dbo.[User] (uid, password, firstName, lastName, mid, age, gender, birthday, phone, address, contact1, contact2, medical, diet) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)'''
+
+        uid = DataBaseEncryption.getTranslatedMessage('e', uid, 3)
+        password = DataBaseEncryption.getTranslatedMessage('e', password, 3)
+        firstName = DataBaseEncryption.getTranslatedMessage('e', firstName, 3)
+        lastName = DataBaseEncryption.getTranslatedMessage('e', lastName, 3)
+        mid = DataBaseEncryption.getTranslatedMessage('e', mid, 3)
+        age = DataBaseEncryption.getTranslatedMessage('e', age, 3)
+        gender = DataBaseEncryption.getTranslatedMessage('e', gender, 3)
+        birthday = DataBaseEncryption.getTranslatedMessage('e', birthday, 3)
+        phone =DataBaseEncryption.getTranslatedMessage('e', phone, 3)
+        address = DataBaseEncryption.getTranslatedMessage('e', address, 3)
+        contact1 = DataBaseEncryption.getTranslatedMessage('e', contact1, 3)
+        contact2 = DataBaseEncryption.getTranslatedMessage('e', contact2, 3)
+        medical = DataBaseEncryption.getTranslatedMessage('e', medical, 3)
+        diet = DataBaseEncryption.getTranslatedMessage('e', diet, 3)
         params = (uid, password, firstName, lastName, mid, age, gender, birthday, phone, address, contact1, contact2, medical, diet)  # tuple containing parameter values
         cursor.execute(sql1, params)
         conn.commit()
@@ -306,7 +320,7 @@ def UpdateChosenPhrase(UserID,ChangeList,top):
             if row.uid == UserID:
                 mid = row.mid
         sql1 = '''SELECT * FROM BlinkyDB.dbo.Titles WHERE uid is NULL and role=?'''
-        cursor.execute(sql1,role)
+        cursor.execute(sql1, role)
         for row in cursor:
             if row.role == role:
                 titleID =row.titleID
@@ -323,12 +337,12 @@ def takePhrase(uid,role):
     cursor.execute(sql, params)
     for row in cursor:
         if row.uid == uid and row.role == role:
-            return row.phrase
+            return DataBaseEncryption.getTranslatedMessage('d', row.phrase, 3)
     sql = '''SELECT * FROM BlinkyDB.dbo.Titles WHERE TitleID=? AND role=?'''
     cursor.execute(sql,(role, role))
     for row in cursor:
         if row.role == role:
-            return row.phrase
+            return DataBaseEncryption.getTranslatedMessage('d', row.phrase, 3)
 
 def loadAllPhrases(UserID):
     AllPhrases = []
@@ -336,12 +350,12 @@ def loadAllPhrases(UserID):
     cursor.execute(sql, UserID)
     for row in cursor:
         if row.uid == UserID:
-            AllPhrases.append(row.phrase)
+            AllPhrases.append(DataBaseEncryption.getTranslatedMessage('d',row.phrase,3))
 
     sql = '''SELECT * FROM BlinkyDB.dbo.Titles WHERE uid is NULL'''
     cursor.execute(sql)
     for row in cursor:
-        AllPhrases.append(row.phrase)
+        AllPhrases.append(DataBaseEncryption.getTranslatedMessage('d', row.phrase, 3))
     return AllPhrases
 
 def loadAllPic(UserID):
@@ -479,22 +493,27 @@ def AdminAddPhrase(AdminList):
     cursor.execute(sql)
     for row in cursor:
         maxPhraseID = row.titleID
-    sql1= '''INSERT INTO BlinkyDB.dbo.Titles (titleID, phrase, role) VALUES (?,?,?)'''
-    params = (maxPhraseID+1,AdminList["PhraseEntry"].get(),0)
-    cursor.execute(sql1,params)
+    sql1 = '''INSERT INTO BlinkyDB.dbo.Titles (titleID, phrase, role) VALUES (?,?,?)'''
+    titleID = getTranslatedMessage('e', AdminList["PhraseEntry"].get(), 3)
+    # titleID = encryptDate(key, AdminList["PhraseEntry"].get())
+    #    print(titleID)
+    params = (maxPhraseID + 1, titleID, 0)
+    cursor.execute(sql1, params)
     conn.commit()
     AdminList["RemovePhrase"]['values'] = allPhrases()
     messagebox.showinfo("", "Phrase is added!")
-    
+
+
+
 def allPhrases(uid=None, MentorList=None):
     if uid is None:
         PhraseList = []
         sql = '''SELECT DISTINCT phrase FROM BlinkyDB.dbo.Titles'''
         cursor.execute(sql)
         for row in cursor:
-            PhraseList.append(row.phrase)
-        return PhraseList
 
+            PhraseList.append(DataBaseEncryption.getTranslatedMessage('d',row.phrase, 3 ))
+        return PhraseList
     if uid == "":
         return ""
     else:
@@ -502,10 +521,12 @@ def allPhrases(uid=None, MentorList=None):
         sql = '''SELECT DISTINCT phrase FROM BlinkyDB.dbo.Titles WHERE uid=?'''
         cursor.execute(sql, uid)
         for row in cursor:
-            PhraseList.append(row.phrase)
+            PhraseList.append(DataBaseEncryption.getTranslatedMessage('d', row.phrase, 3))
         if MentorList is not None:
             MentorList["titleCombobox"]['values'] = PhraseList
         return PhraseList
+
+    
 
 def AdminRemovePhrase(AdminList):
     sql = '''DELETE FROM BlinkyDB.dbo.Titles WHERE phrase=?'''
@@ -530,7 +551,7 @@ def loadAllUsers(ID):
     cursor.execute(sql,ID)
     for row in cursor:
         if row.mid == ID:
-            UserList.append(row.uid)
+            UserList.append(DataBaseEncryption.getTranslatedMessage('d',row.uid,3))
 
     return UserList
 
@@ -722,7 +743,7 @@ def getAllImages():
     sql = '''SELECT DISTINCT * FROM BlinkyDB.dbo.[Images]'''
     cursor.execute(sql)
     for row in cursor:
-        imageList.append(row.name)
+        imageList.append(DataBaseEncryption.getTranslatedMessage('d', row.name, 3))
     return imageList
 
 
@@ -732,7 +753,7 @@ def getAllTitles():
     sql = '''SELECT DISTINCT * FROM BlinkyDB.dbo.[Titles]'''
     cursor.execute(sql)
     for row in cursor:
-        titleList.append(row.phrase)
+        titleList.append(DataBaseEncryption.getTranslatedMessage('d',row.phrase,3))
     return titleList
 
 def user_info(Mid):
