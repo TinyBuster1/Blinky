@@ -868,3 +868,13 @@ def updateDiet(userid,changeList):
     params = (updateString,userid)
     cursor.execute(sql, params)
     conn.commit()
+
+def getMail(ID):
+    global cursor
+    titleList = []
+    sql = '''SELECT DISTINCT * FROM BlinkyDB.dbo.[Admins] WHERE id=?'''
+    params = ID
+    cursor.execute(sql, params)
+    for row in cursor:
+        titleList.append(row.email)
+    return titleList
