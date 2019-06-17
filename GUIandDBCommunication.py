@@ -42,7 +42,7 @@ def call_eye_tracker(event):
 
 class GUIandDB:
     @staticmethod
-    def checkUserInput(self,UserList,top):
+    def checkUserInput(self, UserList, top):
 
 
         value = BlinkyDataBaseManagment.registerUser(UserList["UserID"].get(),UserList["UserPassword1"].get(),
@@ -70,12 +70,15 @@ class GUIandDB:
         global count
         BlinkyDataBaseManagment.createCursor()
         userType = BlinkyDataBaseManagment.userChecker(LoginList["UserNameText"].get(), LoginList["PasswordText"].get())
-        
         if userType == 1:
             # here do the transfer to admin page
-            #GUIandDB.adminMailVerifier(self,LoginList,top)
             AdminID = LoginList["UserNameText"].get()
-            LogicGui.LogicGui.OpenAdminPanelWin(self, LoginList["UserNameText"].get() ,top)
+            mail = BlinkyDataBaseManagment.getMail(AdminID)
+            paramList = []
+            paramList.append(AdminID)
+            paramList.append(mail[0])
+            GUIandDB.adminMailVerifier(self, paramList, top)
+            #LogicGui.LogicGui.OpenAdminPanelWin(self, LoginList["UserNameText"].get() ,top)
             if AdminID in GUI.msgDict:
                 adminName = GUI.msgDict[AdminID]
                 messagebox.showinfo("","you have a feedback : " + adminName[0] + ": " + adminName[1])
@@ -164,8 +167,8 @@ class GUIandDB:
             LogicGui.LogicGui.OpenMentorPanelWin(self,LoginList["UserNameText"].get(), top)
 
     @staticmethod
-    def adminMailVerifier(self, LoginList,top,email):
-        a = LoginAuth.sendEmail(email)  # enter real email from user
+    def adminMailVerifier(self, paramList, top):
+        a = LoginAuth.sendEmail(paramList[1])  # enter real email from user
         answer = simpledialog.askinteger("Login Authentication", "Please enter your PIN:") or -1
         entrycount = 0
         while a != answer and answer != -1:
@@ -177,7 +180,7 @@ class GUIandDB:
         if answer == -1:
             print("")
         else:
-            LogicGui.LogicGui.OpenAdminPanelWin(self, top)
+            LogicGui.LogicGui.OpenAdminPanelWin(self,paramList[0],top)
 
     @staticmethod
     def userMailVerifier(self, LoginList,top,PicAndPharases,email):
